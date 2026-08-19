@@ -1,4 +1,4 @@
 # Alumnos:
 Kevin Alemanno
-Alejandro Decurguez
+Alejandro Decurgez
 Daiana Diaz
