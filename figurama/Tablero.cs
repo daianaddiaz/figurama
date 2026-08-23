@@ -10,23 +10,29 @@ public partial class Tablero : Node3D
 
     private Ficha[,] _grilla = new Ficha[Filas, Columnas];
 
+    [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
+    
+    [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
+
     private CartaMovimiento _movimiento = new MovimientoLateralContiguo();
     private bool _hayFichaSeleccionada = false;
+    private Ficha _fichaSeleccionada;
     private int _filaSeleccionada;
     private int _columnaSeleccionada;
 
     public override void _Ready()
     {
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
-
         for (int fila = 0; fila < Filas; fila++)
-        {
+        {   
             for (int columna = 0; columna < Columnas; columna++)
             {
                 Ficha ficha = FichaScene.Instantiate<Ficha>();
                 AddChild(ficha);
                 ficha.SetearColor(colores[GD.Randi() % colores.Length]);
                 ficha.Clickeada += OnFichaClickeada;
+                this.Connect(SignalName.Desclickeada, new Callable(ficha, "_on_ficha_desclickeada"));
+                this.Connect(SignalName.Seleccionada, new Callable(ficha, "_on_ficha_seleccionada"));
                 ColocarFicha(ficha, fila, columna);
             }
         }
@@ -36,9 +42,11 @@ public partial class Tablero : Node3D
     {
         if (!_hayFichaSeleccionada)
         {
+            _fichaSeleccionada = ficha;
             _filaSeleccionada = ficha.Fila;
             _columnaSeleccionada = ficha.Columna;
             _hayFichaSeleccionada = true;
+            EmitSignal(SignalName.Seleccionada, ficha);
             return;
         }
 
@@ -46,8 +54,10 @@ public partial class Tablero : Node3D
         {
             _movimiento.Ejecutar(this, _filaSeleccionada, _columnaSeleccionada, ficha.Fila, ficha.Columna);
         }
-
+        EmitSignal(SignalName.Desclickeada, ficha);
+        EmitSignal(SignalName.Desclickeada, _fichaSeleccionada);
         _hayFichaSeleccionada = false;
+
     }
 
     public void ColocarFicha(Ficha ficha, int fila, int columna)

@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://dkmnblo603ilc"]
 
 [ext_resource type="Script" uid="uid://ibq67gufwybo" path="res://Ficha.cs" id="1_dcclv"]
+[ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://StateMachine.cs" id="2_laaii"]
+[ext_resource type="Script" uid="uid://bjlxbkmoyfurs" path="res://FichaNeutral.cs" id="3_eesfy"]
+[ext_resource type="Script" uid="uid://cdtn5376lxn6b" path="res://FichaSeleccionada.cs" id="4_1jsyo"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
 size = Vector3(0.8, 0.2, 0.8)
@@ -17,3 +20,17 @@ mesh = SubResource("BoxMesh_dcclv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1997989842]
 shape = SubResource("BoxShape3D_tn3ss")
+
+[node name="FSM" type="Node" parent="." unique_id=1690941267]
+script = ExtResource("2_laaii")
+InitialState = NodePath("Neutral")
+
+[node name="Neutral" type="Node" parent="FSM" unique_id=1533200481]
+script = ExtResource("3_eesfy")
+
+[node name="Seleccionada" type="Node" parent="FSM" unique_id=706623458]
+script = ExtResource("4_1jsyo")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=671901448]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5122638, -0.017372847)
+visible = false

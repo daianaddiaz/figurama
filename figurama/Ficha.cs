@@ -9,10 +9,12 @@ public partial class Ficha : Node3D
     public int Columna;
 
     private MeshInstance3D _visual;
+    private SpotLight3D _luz;
 
     public override void _Ready()
     {
         _visual = GetNode<MeshInstance3D>("MeshInstance3D");
+        _luz = GetNode<SpotLight3D>("SpotLight3D");
 
         Area3D areaDeClick = GetNode<Area3D>("Area3D");
         areaDeClick.InputEvent += OnInputEvent;
@@ -23,7 +25,7 @@ public partial class Ficha : Node3D
         if (evento is InputEventMouseButton mouseEvento &&
             mouseEvento.Pressed &&
             mouseEvento.ButtonIndex == MouseButton.Left)
-        {
+        {   
             EmitSignal(SignalName.Clickeada, this);
         }
     }
@@ -33,5 +35,23 @@ public partial class Ficha : Node3D
         var material = new StandardMaterial3D();
         material.AlbedoColor = color;
         _visual.MaterialOverride = material;
+        _luz.LightColor = color;
     }
+
+    public void _on_ficha_desclickeada(Ficha ficha)
+    {   
+        if(ficha == this)
+        {
+            GetNode<StateMachine>("FSM").ChangeState("Neutral");
+        }
+    }
+
+    public void _on_ficha_seleccionada(Ficha ficha)
+    {   
+        if(ficha == this)
+        {   
+            GetNode<StateMachine>("FSM").ChangeState("Seleccionada");
+        }
+    }
+
 }
