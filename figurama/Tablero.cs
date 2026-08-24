@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Tablero : Node3D
 {
@@ -10,11 +9,10 @@ public partial class Tablero : Node3D
 
     private Ficha[,] _grilla = new Ficha[Filas, Columnas];
 
-    [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
-    
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
+    [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
 
-    private CartaMovimiento _movimiento = new MovimientoLateralContiguo();
+    private CartaMovimiento _movimiento;
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
     private int _filaSeleccionada;
@@ -23,23 +21,48 @@ public partial class Tablero : Node3D
     public override void _Ready()
     {
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
+
         for (int fila = 0; fila < Filas; fila++)
-        {   
+        {
             for (int columna = 0; columna < Columnas; columna++)
             {
                 Ficha ficha = FichaScene.Instantiate<Ficha>();
                 AddChild(ficha);
                 ficha.SetearColor(colores[GD.Randi() % colores.Length]);
                 ficha.Clickeada += OnFichaClickeada;
-                this.Connect(SignalName.Desclickeada, new Callable(ficha, "_on_ficha_desclickeada"));
                 this.Connect(SignalName.Seleccionada, new Callable(ficha, "_on_ficha_seleccionada"));
+                this.Connect(SignalName.Desclickeada, new Callable(ficha, "_on_ficha_desclickeada"));
                 ColocarFicha(ficha, fila, columna);
             }
         }
+
+        GetNode<Button>("UITemporal/BotonesMovimientos/BotonLateralContiguo").Pressed += SeleccionarLateralContiguo;
+        GetNode<Button>("UITemporal/BotonesMovimientos/BotonLateralConEspacio").Pressed += SeleccionarLateralConEspacio;
+        GetNode<Button>("UITemporal/BotonesMovimientos/BotonEnL").Pressed += SeleccionarEnL;
     }
 
-     private void OnFichaClickeada(Ficha ficha)
+    private void SeleccionarLateralContiguo()
     {
+        _movimiento = new MovimientoLateralContiguo();
+    }
+
+    private void SeleccionarLateralConEspacio()
+    {
+        _movimiento = new MovimientoLateralConEspacio();
+    }
+
+    private void SeleccionarEnL()
+    {
+        _movimiento = new MovimientoEnL();
+    }
+
+    private void OnFichaClickeada(Ficha ficha)
+    {
+        if (_movimiento == null)
+        {
+            return;
+        }
+
         if (!_hayFichaSeleccionada)
         {
             _fichaSeleccionada = ficha;
@@ -54,10 +77,10 @@ public partial class Tablero : Node3D
         {
             _movimiento.Ejecutar(this, _filaSeleccionada, _columnaSeleccionada, ficha.Fila, ficha.Columna);
         }
+
         EmitSignal(SignalName.Desclickeada, ficha);
         EmitSignal(SignalName.Desclickeada, _fichaSeleccionada);
         _hayFichaSeleccionada = false;
-
     }
 
     public void ColocarFicha(Ficha ficha, int fila, int columna)
@@ -68,7 +91,7 @@ public partial class Tablero : Node3D
         ficha.Position = new Vector3(columna * SizeCelda, 0, fila * SizeCelda);
     }
 
-     public Ficha ObtenerFicha(int fila, int columna)
+    public Ficha ObtenerFicha(int fila, int columna)
     {
         return _grilla[fila, columna];
     }
@@ -81,6 +104,4 @@ public partial class Tablero : Node3D
         ColocarFicha(fichaA, filaB, columnaB);
         ColocarFicha(fichaB, filaA, columnaA);
     }
-
-
 }
