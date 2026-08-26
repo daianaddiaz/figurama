@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dykxb4ems6lkq"]
 
-[ext_resource type="Script" uid="uid://du1xvdn8v3jqn" path="res://Tablero.cs" id="1_adh7g"]
-[ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://ficha.tscn" id="2_laj61"]
+[ext_resource type="Script" uid="uid://du1xvdn8v3jqn" path="res://Clases/Reglas/Tablero.cs" id="1_adh7g"]
+[ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_laj61"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
