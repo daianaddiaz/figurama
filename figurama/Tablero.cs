@@ -17,18 +17,22 @@ public partial class Tablero : Node3D
     private Ficha _fichaSeleccionada;
     private int _filaSeleccionada;
     private int _columnaSeleccionada;
+    private int cantidadColores = 9;
 
     public override void _Ready()
     {
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
+        int[] contadorColores = { cantidadColores, cantidadColores, cantidadColores, cantidadColores };
 
         for (int fila = 0; fila < Filas; fila++)
         {
             for (int columna = 0; columna < Columnas; columna++)
             {
+                Color colorElegido = colores[GD.Randi() % colores.Length];
+                colorElegido = VerificarCantidadDeFichas(colorElegido, colores, contadorColores);
                 Ficha ficha = FichaScene.Instantiate<Ficha>();
                 AddChild(ficha);
-                ficha.SetearColor(colores[GD.Randi() % colores.Length]);
+                ficha.SetearColor(colorElegido);
                 ficha.Clickeada += OnFichaClickeada;
                 this.Connect(SignalName.Seleccionada, new Callable(ficha, "_on_ficha_seleccionada"));
                 this.Connect(SignalName.Desclickeada, new Callable(ficha, "_on_ficha_desclickeada"));
@@ -39,6 +43,29 @@ public partial class Tablero : Node3D
         GetNode<Button>("UITemporal/BotonesMovimientos/BotonLateralContiguo").Pressed += SeleccionarLateralContiguo;
         GetNode<Button>("UITemporal/BotonesMovimientos/BotonLateralConEspacio").Pressed += SeleccionarLateralConEspacio;
         GetNode<Button>("UITemporal/BotonesMovimientos/BotonEnL").Pressed += SeleccionarEnL;
+    }
+
+    private Color VerificarCantidadDeFichas(Color color, Color[] colores, int[] contadorColores)
+    {
+        int colorIndice = System.Array.IndexOf(colores, color);
+        if(contadorColores[colorIndice] > 0)
+        {
+            contadorColores[colorIndice]--;
+            return color;
+        }
+        else
+        {
+            Color nuevoColor;
+            do
+            {
+                nuevoColor = colores[GD.Randi() % colores.Length];
+                colorIndice = System.Array.IndexOf(colores, nuevoColor);
+            } while (contadorColores[colorIndice] <= 0);
+
+            contadorColores[colorIndice]--;
+            color = nuevoColor;
+            return color;
+        }
     }
 
     private void SeleccionarLateralContiguo()

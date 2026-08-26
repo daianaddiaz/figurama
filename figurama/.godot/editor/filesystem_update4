@@ -1,8 +1,6 @@
-res://ficha.tscn
 res://State.cs
-res://StateMachine.cs
-res://Tablero.cs
-res://Ficha.cs
-res://FichaNeutral.cs
 res://FichaSeleccionada.cs
-res://tablero.tscn
+res://FichaNeutral.cs
+res://StateMachine.cs
+res://Ficha.cs
+res://Tablero.cs
