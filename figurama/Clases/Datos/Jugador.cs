@@ -7,7 +7,7 @@ public partial class Jugador
 
     public Jugador()
     {
-        inputNombre();
+        //inputNombre();
     }
 
     public void inputNombre()

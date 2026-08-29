@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dkmnblo603ilc"]
 
-[ext_resource type="Script" uid="uid://ibq67gufwybo" path="res://Clases/Reglas/Ficha.cs" id="1_dcclv"]
-[ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://Clases/Reglas/StateMachine.cs" id="2_laaii"]
-[ext_resource type="Script" uid="uid://bjlxbkmoyfurs" path="res://Clases/Reglas/FichaNeutral.cs" id="3_eesfy"]
-[ext_resource type="Script" uid="uid://cdtn5376lxn6b" path="res://Clases/Reglas/FichaSeleccionada.cs" id="4_1jsyo"]
+[ext_resource type="Script" uid="uid://ibq67gufwybo" path="res://Clases/Visual/Ficha.cs" id="1_dcclv"]
+[ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://Clases/Visual/StateMachine.cs" id="2_laaii"]
+[ext_resource type="Script" uid="uid://bjlxbkmoyfurs" path="res://Clases/Visual/FichaNeutral.cs" id="3_eesfy"]
+[ext_resource type="Script" uid="uid://cdtn5376lxn6b" path="res://Clases/Visual/FichaSeleccionada.cs" id="4_1jsyo"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
 size = Vector3(0.8, 0.2, 0.8)

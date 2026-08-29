@@ -1,3 +1,8 @@
+LineEdit
+VBoxContainer
+Button
+Label
+Control
 Node
 SpotLight3D
 AreaLight3D

@@ -5,8 +5,7 @@ public partial class Ficha : Node3D
     [Signal]
     public delegate void ClickeadaEventHandler(Ficha ficha);
 
-    public int Fila;
-    public int Columna;
+    public FichaData Datos;
 
     private MeshInstance3D _visual;
     private SpotLight3D _luz;

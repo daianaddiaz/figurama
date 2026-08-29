@@ -1,6 +1,6 @@
-using Godot;
 using System;
+using Godot;
 
-public partial class MazoMovimiento : Node
+public partial class MazoMovimiento: Node
 {
 }

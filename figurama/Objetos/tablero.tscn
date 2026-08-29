@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dykxb4ems6lkq"]
 
-[ext_resource type="Script" uid="uid://du1xvdn8v3jqn" path="res://Clases/Reglas/Tablero.cs" id="1_adh7g"]
+[ext_resource type="Script" uid="uid://du1xvdn8v3jqn" path="res://Clases/Visual/Tablero.cs" id="1_adh7g"]
 [ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_laj61"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
@@ -34,3 +34,7 @@ text = "Lateral Con Espacio"
 [node name="BotonEnL" type="Button" parent="UITemporal/BotonesMovimientos" unique_id=1478999487]
 layout_mode = 2
 text = "En \"L\""
+
+[node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
+offset_right = 40.0
+offset_bottom = 23.0

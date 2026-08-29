@@ -16,3 +16,21 @@ C:\Users\BANGHO\Documents\GitHub\figurama\figurama\.godot\mono\temp\obj\Debug\re
 C:\Users\BANGHO\Documents\GitHub\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.pdb
 C:\Users\BANGHO\Documents\GitHub\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.genruntimeconfig.cache
 C:\Users\BANGHO\Documents\GitHub\figurama\figurama\.godot\mono\temp\obj\Debug\ref\Figurama.dll
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.deps.json
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.runtimeconfig.json
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.dll
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.pdb
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\bin\Debug\GodotSharp.dll
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.csproj.AssemblyReference.cache
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.GeneratedMSBuildEditorConfig.editorconfig
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.AssemblyInfoInputs.cache
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.AssemblyInfo.cs
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.csproj.CoreCompileInputs.cache
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.sourcelink.json
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.csproj.Up2Date
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.dll
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\refint\Figurama.dll
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.pdb
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.genruntimeconfig.cache
+D:\KEVIN\Game Developing\Figurama\figurama\figurama\.godot\mono\temp\obj\Debug\ref\Figurama.dll

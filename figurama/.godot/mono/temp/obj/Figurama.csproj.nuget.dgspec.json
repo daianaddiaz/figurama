@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj": {}
+    "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj": {}
   },
   "projects": {
-    "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj": {
+    "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
+        "projectUniqueName": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
         "projectName": "Figurama",
-        "projectPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
-        "packagesPath": "C:\\Users\\BANGHO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
+        "projectPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
+        "packagesPath": "C:\\Users\\alema\\.nuget\\packages\\",
+        "outputPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\BANGHO\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\alema\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -39,7 +39,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.400"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -49,17 +49,17 @@
             "Godot.SourceGenerators": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[4.7.2, )",
+              "version": "[4.7.1, )",
               "autoReferenced": true
             },
             "GodotSharp": {
               "target": "Package",
-              "version": "[4.7.2, )",
+              "version": "[4.7.1, )",
               "autoReferenced": true
             },
             "GodotSharpEditor": {
               "target": "Package",
-              "version": "[4.7.2, )",
+              "version": "[4.7.1, )",
               "autoReferenced": true
             }
           },
@@ -77,15 +77,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.30, 8.0.30]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.30, 8.0.30]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.30, 8.0.30]"
+              "version": "[8.0.29, 8.0.29]"
             }
           ],
           "frameworkReferences": {
@@ -93,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
