@@ -1,6 +1,6 @@
 using Godot;
 using System;
 
-public partial class CartaFigura : CartaFigura
+public class CartaFigura
 {
 }

@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Figurama"
-run/main_scene="uid://bjon48bstjjm6"
+run/main_scene="uid://lxpsfc57k8ui"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Controller="*uid://bap338sw5g2g1"
 
 [display]
 

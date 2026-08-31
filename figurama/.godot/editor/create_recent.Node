@@ -1,6 +1,7 @@
-LineEdit
-VBoxContainer
+ColorRect
 Button
+VBoxContainer
+LineEdit
 Label
 Control
 Node

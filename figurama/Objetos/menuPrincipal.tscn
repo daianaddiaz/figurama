@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://lxpsfc57k8ui"]
+
+[ext_resource type="Script" uid="uid://bdwojuql4m35f" path="res://Clases/Visual/MenuPrincipal.cs" id="1_jp0jl"]
+
+[node name="MenuPrincipal" type="Control" unique_id=797061947]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jp0jl")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1101166298]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.27034798, 0.42194095, 0.567067, 1)
+
+[node name="PanelPrincipal" type="VBoxContainer" parent="." unique_id=1122169587]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -50.5
+offset_right = 40.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="PanelPrincipal" unique_id=653953292]
+layout_mode = 2
+text = "Jugar"
+
+[node name="OptionButton" type="Button" parent="PanelPrincipal" unique_id=242750258]
+layout_mode = 2
+text = "Opciones"
+
+[node name="ExitButton" type="Button" parent="PanelPrincipal" unique_id=1484798604]
+layout_mode = 2
+text = "Salir"
+
+[node name="ContadorJugadores" type="VBoxContainer" parent="." unique_id=1836219642]
+visible = false
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -68.0
+offset_right = 49.5
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Opcion2JugButton" type="Button" parent="ContadorJugadores" unique_id=1575687358]
+layout_mode = 2
+text = "2 Jugadores"
+
+[node name="Opcion3JugButton" type="Button" parent="ContadorJugadores" unique_id=607311033]
+layout_mode = 2
+text = "3 Jugadores"
+
+[node name="Opcion4JugButton" type="Button" parent="ContadorJugadores" unique_id=1233219426]
+layout_mode = 2
+text = "4 Jugadores"
+
+[node name="BackButtonCount" type="Button" parent="ContadorJugadores" unique_id=1530411369]
+layout_mode = 2
+text = "Volver"
+
+[node name="PanelNombres" type="VBoxContainer" parent="." unique_id=1385670577]
+visible = false
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -35.0
+offset_right = 52.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InputContainer" type="VBoxContainer" parent="PanelNombres" unique_id=902151959]
+layout_mode = 2
+
+[node name="StartGameButton" type="Button" parent="PanelNombres" unique_id=180207116]
+layout_mode = 2
+text = "Iniciar Juego"
+
+[node name="BackButtonNames" type="Button" parent="PanelNombres" unique_id=1688326855]
+layout_mode = 2
+text = "Volver"
