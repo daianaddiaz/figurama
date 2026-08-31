@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj": {}
+    "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj": {
+    "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj",
+        "projectUniqueName": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
         "projectName": "Figurama",
-        "projectPath": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj",
-        "packagesPath": "C:\\Users\\Daian\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
+        "projectPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
+        "packagesPath": "C:\\Users\\BANGHO\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Daian\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\BANGHO\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -37,10 +38,12 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Godot.SourceGenerators": {
@@ -71,12 +74,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.30, 8.0.30]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

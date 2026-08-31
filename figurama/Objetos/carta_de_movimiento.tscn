@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dg6uhtxrlj18m"]
+
+[ext_resource type="Script" uid="uid://crqxjycehku6g" path="res://Clases/Visual/CartaMovimientoView.cs" id="1_aqdti"]
+
+[node name="CartaDeMovimiento" type="Button" unique_id=377832846]
+offset_left = -52.0
+offset_bottom = 31.0
+text = "Texto"
+script = ExtResource("1_aqdti")

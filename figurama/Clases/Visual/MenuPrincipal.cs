@@ -125,8 +125,8 @@ public partial class MenuPrincipal : Control
         }
 
         // Guardar los nombres en un Autoload/Singleton global antes de cambiar de escena
-        Controller.Instance.NombresJugadores = playerNames;
-        Controller.Instance.InicializarJugadores();
+        Controller.GetInstance().NombresJugadores = playerNames;
+        Controller.GetInstance().InicializarJugadores();
 
         // Cambiar a la escena principal del juego
         GetTree().ChangeSceneToFile("res://Objetos/tablero.tscn");

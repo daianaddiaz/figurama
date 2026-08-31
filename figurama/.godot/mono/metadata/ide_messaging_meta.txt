@@ -1,2 +1,2 @@
-﻿55484
-D:/Godot_v4.7.2-stable_mono_win64 (1)/Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe
+﻿64372
+C:/Users/BANGHO/Downloads/Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe

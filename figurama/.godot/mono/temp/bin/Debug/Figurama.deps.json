@@ -8,7 +8,6 @@
     ".NETCoreApp,Version=v8.0": {
       "Figurama/1.0.0": {
         "dependencies": {
-          "Godot.SourceGenerators": "4.7.2",
           "GodotSharp": "4.7.2",
           "GodotSharpEditor": "4.7.2"
         },
@@ -16,7 +15,6 @@
           "Figurama.dll": {}
         }
       },
-      "Godot.SourceGenerators/4.7.2": {},
       "GodotSharp/4.7.2": {
         "runtime": {
           "lib/net8.0/GodotSharp.dll": {
@@ -43,13 +41,6 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
-    },
-    "Godot.SourceGenerators/4.7.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-PeYESFlRxlmeClrPhlMINhVvt2HiKnx2Ux/FYA10rimDevHljji3/jmRZOMo9XDNQsZzPH4uQmDyPgQgzTFvAg==",
-      "path": "godot.sourcegenerators/4.7.2",
-      "hashPath": "godot.sourcegenerators.4.7.2.nupkg.sha512"
     },
     "GodotSharp/4.7.2": {
       "type": "package",

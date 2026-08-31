@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 public partial class Tablero : Node3D
@@ -11,9 +12,10 @@ public partial class Tablero : Node3D
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
 
-    private CartaMovimiento _movimiento;
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
+    
+    private List<Node3D> Manos = new List<Node3D>();
 
     public override void _Ready()
     {
@@ -42,12 +44,11 @@ public partial class Tablero : Node3D
             }
         }
 
-        GetNode<Button>("UITemporal/BotonesMovimientos/BotonLateralContiguo").Pressed += SeleccionarLateralContiguo;
-        GetNode<Button>("UITemporal/BotonesMovimientos/BotonLateralConEspacio").Pressed += SeleccionarLateralConEspacio;
-        GetNode<Button>("UITemporal/BotonesMovimientos/BotonEnL").Pressed += SeleccionarEnL;
+        CrearManos();
+        Manos[0].Show();
 
-        Controller.Instance.TurnoCambiado += OnTurnoCambiado;
-        ActualizarLabelTurno(Controller.Instance.JugadorActual);
+        Controller.GetInstance().TurnoCambiado += OnTurnoCambiado;
+        ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
     }
 
     private Color VerificarCantidadDeFichas(Color color, Color[] colores, int[] contadorColores)
@@ -73,13 +74,21 @@ public partial class Tablero : Node3D
         }
     }
 
-    private void SeleccionarLateralContiguo() => _movimiento = new MovimientoLateralContiguo();
-    private void SeleccionarLateralConEspacio() => _movimiento = new MovimientoLateralConEspacio();
-    private void SeleccionarEnL() => _movimiento = new MovimientoEnL();
+    private void CrearManos()
+    {
+        for (int i = 0; i < Controller.GetInstance().Jugadores().Length; i++)
+        {
+            var mano = new ManoCartasView();
+            GetNode<Node>("UITemporal/Manos").AddChild(mano);
+            mano.Hide();
+            mano.crearMano(Controller.GetInstance().Jugadores()[i].manoCartas);
+            Manos.Add(mano);
+        }
+    }
 
     private void OnFichaClickeada(Ficha ficha)
     {
-        if (_movimiento == null) return;
+        if (Controller.GetInstance().MovimientoActual() == null) return;
 
         if (!_hayFichaSeleccionada)
         {
@@ -89,14 +98,14 @@ public partial class Tablero : Node3D
             return;
         }
 
-        if (_movimiento.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        if (Controller.GetInstance().MovimientoActual().EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
         {
-            _movimiento.Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
+            Controller.GetInstance().MovimientoActual().Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
 
             ActualizarPosicionVisual(_fichaSeleccionada);
             ActualizarPosicionVisual(ficha);
 
-            Controller.Instance.TerminarTurno();
+            Controller.GetInstance().TerminarTurno();
         }
 
         EmitSignal(SignalName.Desclickeada, ficha);
@@ -111,11 +120,15 @@ public partial class Tablero : Node3D
 
     private void OnTurnoCambiado(int jugadorActual)
     {
+        int jugadorAnterior = (jugadorActual - 1 + Manos.Count) % Manos.Count;
+        Manos[jugadorAnterior].Hide();
+        Manos[jugadorActual].Show();
         ActualizarLabelTurno(jugadorActual);
     }
 
     private void ActualizarLabelTurno(int jugadorActual)
     {
-        GetNode<Label>("UITemporal/LabelTurno").Text = $"Turno: Jugador {Controller.Instance.NombreJugadorActual()}";
+        GetNode<Label>("UITemporal/LabelTurno").Text = $"Turno: Jugador {Controller.GetInstance().NombreJugadorActual()}";
+        GD.Print($"mano del jugador actual: {string.Join(", ", Controller.GetInstance().ManoJugadorActual())}");
     }
 }

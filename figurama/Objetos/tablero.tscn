@@ -15,26 +15,8 @@ size = 7.0
 
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
 
-[node name="BotonesMovimientos" type="VBoxContainer" parent="UITemporal" unique_id=2001798004]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -159.0
-offset_bottom = 101.0
-grow_horizontal = 0
-
-[node name="BotonLateralContiguo" type="Button" parent="UITemporal/BotonesMovimientos" unique_id=147881921]
-layout_mode = 2
-text = "Lateral Contiguo"
-
-[node name="BotonLateralConEspacio" type="Button" parent="UITemporal/BotonesMovimientos" unique_id=905667352]
-layout_mode = 2
-text = "Lateral Con Espacio"
-
-[node name="BotonEnL" type="Button" parent="UITemporal/BotonesMovimientos" unique_id=1478999487]
-layout_mode = 2
-text = "En \"L\""
-
 [node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Manos" type="Node" parent="UITemporal" unique_id=510582804]
