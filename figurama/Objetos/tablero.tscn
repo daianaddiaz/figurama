@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://du1xvdn8v3jqn" path="res://Clases/Visual/Tablero.cs" id="1_adh7g"]
 [ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_laj61"]
+[ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="3_iud63"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
 FichaScene = ExtResource("2_laj61")
+ManoCartasScene = ExtResource("3_iud63")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2.5, 10, 2.5)

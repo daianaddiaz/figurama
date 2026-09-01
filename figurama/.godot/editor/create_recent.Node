@@ -1,3 +1,4 @@
+Control
 Node
 Node3D
 ColorRect
@@ -5,7 +6,6 @@ Button
 VBoxContainer
 LineEdit
 Label
-Control
 SpotLight3D
 AreaLight3D
 Decal

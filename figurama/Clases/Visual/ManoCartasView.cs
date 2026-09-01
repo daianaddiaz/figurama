@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 
-public partial class ManoCartasView : Node3D
+public partial class ManoCartasView : Control
 {
 
     [Export] public PackedScene CartaDeMovimientoScene;

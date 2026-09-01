@@ -4,6 +4,8 @@ using Godot;
 public partial class Tablero : Node3D
 {
     [Export] public PackedScene FichaScene;
+    [Export] public PackedScene ManoCartasScene;
+
     private const float SizeCelda = 1.0f;
     private const int cantidadColores = 9;
 
@@ -15,7 +17,7 @@ public partial class Tablero : Node3D
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
     
-    private List<Node3D> Manos = new List<Node3D>();
+    private List<Control> Manos = new List<Control>();
 
     public override void _Ready()
     {
@@ -78,8 +80,10 @@ public partial class Tablero : Node3D
     {
         for (int i = 0; i < Controller.GetInstance().Jugadores().Length; i++)
         {
-            var mano = new ManoCartasView();
+            var mano = ManoCartasScene.Instantiate<ManoCartasView>();
             GetNode<Node>("UITemporal/Manos").AddChild(mano);
+            mano.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect); 
+            mano.MouseFilter = Control.MouseFilterEnum.Ignore;
             mano.Hide();
             mano.crearMano(Controller.GetInstance().Jugadores()[i].manoCartas);
             Manos.Add(mano);

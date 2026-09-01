@@ -3,11 +3,14 @@
 [ext_resource type="Script" uid="uid://1n82r0e66f4b" path="res://Clases/Visual/ManoCartasView.cs" id="1_eavyo"]
 [ext_resource type="PackedScene" uid="uid://dg6uhtxrlj18m" path="res://Objetos/carta_de_movimiento.tscn" id="2_jj060"]
 
-[node name="ManoDeCartas" type="Node3D" unique_id=801691590]
+[node name="ManoDeCartas" type="Control" unique_id=737516228]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_eavyo")
 CartaDeMovimientoScene = ExtResource("2_jj060")
 
 [node name="BotonesMovimientos" type="VBoxContainer" parent="." unique_id=1314739409]
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
