@@ -8,14 +8,40 @@ public partial class ManoCartasView : Control
 
     [Export] public PackedScene CartaDeMovimientoScene;
 
-    public void crearMano(List<CartaMovimiento> cartas)
+    private Jugador _jugador;
+
+    public void crearMano(Jugador jugador)
     {
-        for (int i = 0; i < cartas.Count; i++)
+        _jugador = jugador;
+
+        RefrescarCartas();
+
+        GetNode<Button>("BotonReroll").Pressed += OnRerollPresionado;
+    }
+
+    private void RefrescarCartas()
+    {
+        var contenedor = GetNode<VBoxContainer>("BotonesMovimientos");
+
+        foreach (Node hijo in contenedor.GetChildren())
+        {
+            hijo.QueueFree();
+        }
+
+        foreach (CartaMovimiento carta in _jugador.manoCartas)
         {
             var cartaView = CartaDeMovimientoScene.Instantiate<CartaMovimientoView>();
-            cartaView.SetCarta(cartas[i]);
-            GetNode<VBoxContainer>("BotonesMovimientos").AddChild(cartaView);
+            cartaView.SetCarta(carta);
+            contenedor.AddChild(cartaView);
         }
     }
 
+    private void OnRerollPresionado()
+    {
+        if (Controller.GetInstance().RerollearManoActual())
+        {
+            RefrescarCartas();
+        }
+    }
 }
+

@@ -1,13 +1,12 @@
-res://Objetos/mano_de_cartas.tscn
-res://Clases/Visual/Tablero.cs
+res://Clases/Visual/ManoCartasView.cs
 res://Clases/Visual/MenuPrincipal.cs
 res://Clases/Visual/CartaMovimientoView.cs
-res://Clases/Visual/ManoCartasView.cs
 res://Clases/Visual/State.cs
 res://Clases/Visual/FichaSeleccionada.cs
 res://Clases/Visual/FichaNeutral.cs
 res://Clases/Visual/StateMachine.cs
 res://Clases/Visual/Ficha.cs
+res://Clases/Visual/Tablero.cs
 res://Clases/Reglas/MazoFiguras.cs
 res://Clases/Reglas/Timer.cs
 res://Clases/Visual/TimerView.cs

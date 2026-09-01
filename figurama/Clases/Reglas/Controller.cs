@@ -38,6 +38,19 @@ public partial class Controller
         InicializarJugadores();
     }
 
+    public bool RerollearManoActual()
+    {
+        Jugador jugador = jugadores[JugadorActual];
+        if (!jugador.RerollDisponible) return false;
+
+        jugador.manoCartas = MazoMovimiento.GetInstance().generarMano();
+        jugador.RerollDisponible = false;
+        CartaSeleccionada = null;
+
+        TerminarTurno();
+        return true;
+    }
+
     public void InicializarJugadores()
     {
         int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
@@ -69,6 +82,7 @@ public partial class Controller
 
         int JugadorAnterior = JugadorActual;
         JugadorActual = (JugadorActual + 1) % jugadores.Length;
+        jugadores[JugadorActual].RerollDisponible = true;
         TurnoCambiado?.Invoke(JugadorActual);
     }
 }

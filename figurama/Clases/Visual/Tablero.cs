@@ -85,7 +85,7 @@ public partial class Tablero : Node3D
             mano.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect); 
             mano.MouseFilter = Control.MouseFilterEnum.Ignore;
             mano.Hide();
-            mano.crearMano(Controller.GetInstance().Jugadores()[i].manoCartas);
+            mano.crearMano(Controller.GetInstance().Jugadores()[i]);
             Manos.Add(mano);
         }
     }
