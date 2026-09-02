@@ -67,7 +67,10 @@ public partial class MenuPrincipal : Control
 
         _startGameBtn = GetNode<Button>("PanelNombres/StartGameButton");
         _backButtonNames = GetNode<Button>("PanelNombres/BackButtonNames");
+        
+        // Referencia a labels
 
+        _labelDificultadActual = GetNode<Label>("PanelPrincipal/LabelDificultadActual");
 
         // Conectar eventos
         _playButton.Pressed += OnPlayButtonPressed;
@@ -179,9 +182,9 @@ public partial class MenuPrincipal : Control
 
     string textoDificultad = cantidadCartas switch
     {
-        4 => "Fácil (4 cartas)",
-        3 => "Medio (3 cartas)",
-        2 => "Difícil (2 cartas)",
+        4 => "Fácil",
+        3 => "Normal",
+        2 => "Difícil",
         _ => "Medio"
     };
 
