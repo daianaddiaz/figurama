@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://du1xvdn8v3jqn" path="res://Clases/Visual/Tablero.cs" id="1_adh7g"]
 [ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_laj61"]
+[ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="3_iud63"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
 FichaScene = ExtResource("2_laj61")
+ManoCartasScene = ExtResource("3_iud63")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2.5, 10, 2.5)
@@ -15,26 +17,8 @@ size = 7.0
 
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
 
-[node name="BotonesMovimientos" type="VBoxContainer" parent="UITemporal" unique_id=2001798004]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -159.0
-offset_bottom = 101.0
-grow_horizontal = 0
-
-[node name="BotonLateralContiguo" type="Button" parent="UITemporal/BotonesMovimientos" unique_id=147881921]
-layout_mode = 2
-text = "Lateral Contiguo"
-
-[node name="BotonLateralConEspacio" type="Button" parent="UITemporal/BotonesMovimientos" unique_id=905667352]
-layout_mode = 2
-text = "Lateral Con Espacio"
-
-[node name="BotonEnL" type="Button" parent="UITemporal/BotonesMovimientos" unique_id=1478999487]
-layout_mode = 2
-text = "En \"L\""
-
 [node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Manos" type="Node" parent="UITemporal" unique_id=510582804]

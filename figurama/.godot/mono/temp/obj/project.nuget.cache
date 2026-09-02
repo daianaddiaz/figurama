@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "bICcD09Ifg8=",
+  "dgSpecHash": "tQbXRpL+u4o=",
   "success": true,
   "projectFilePath": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Daian\\.nuget\\packages\\godot.sourcegenerators\\4.7.2\\godot.sourcegenerators.4.7.2.nupkg.sha512",
-    "C:\\Users\\Daian\\.nuget\\packages\\godotsharp\\4.7.2\\godotsharp.4.7.2.nupkg.sha512",
-    "C:\\Users\\Daian\\.nuget\\packages\\godotsharpeditor\\4.7.2\\godotsharpeditor.4.7.2.nupkg.sha512"
+    "C:\\Users\\Daian\\.nuget\\packages\\godot.sourcegenerators\\4.7.1\\godot.sourcegenerators.4.7.1.nupkg.sha512",
+    "C:\\Users\\Daian\\.nuget\\packages\\godotsharp\\4.7.1\\godotsharp.4.7.1.nupkg.sha512",
+    "C:\\Users\\Daian\\.nuget\\packages\\godotsharpeditor\\4.7.1\\godotsharpeditor.4.7.1.nupkg.sha512"
   ],
   "logs": []
 }
