@@ -13,6 +13,7 @@ public partial class MenuPrincipal : Control
     // Botones
     private Button _playButton;
     private Button _optionsButton;
+    private Button _tutorialButton;
     private Button _exitButton;
     private Button _players2Btn;
     private Button _players3Btn;
@@ -36,6 +37,7 @@ public partial class MenuPrincipal : Control
         // Referencias a botones
         _playButton = GetNode<Button>("PanelPrincipal/PlayButton");
         _optionsButton = GetNode<Button>("PanelPrincipal/OptionButton");
+        _tutorialButton = GetNode<Button>("PanelPrincipal/TutorialButton");
         _exitButton = GetNode<Button>("PanelPrincipal/ExitButton");
 
         _players2Btn = GetNode<Button>("ContadorJugadores/Opcion2JugButton");
@@ -49,6 +51,7 @@ public partial class MenuPrincipal : Control
         // Conectar eventos
         _playButton.Pressed += OnPlayButtonPressed;
         _optionsButton.Pressed += OnOptionsButtonPressed;
+        _tutorialButton.Pressed += OnTutorialButtonPressed;
         _exitButton.Pressed += OnExitButtonPressed;
 
         _players2Btn.Pressed += () => OnPlayerCountSelected(2);
@@ -79,6 +82,11 @@ public partial class MenuPrincipal : Control
     {
         // Queda vacío por el momento para agregar opciones más adelante
         GD.Print("Configuración seleccionada (vacío por ahora)");
+    }
+
+    private void OnTutorialButtonPressed()
+    {
+        GetTree().ChangeSceneToFile("res://Objetos/tutorial.tscn");
     }
 
     private void OnExitButtonPressed()

@@ -44,6 +44,10 @@ text = "Jugar"
 layout_mode = 2
 text = "Opciones"
 
+[node name="TutorialButton" type="Button" parent="PanelPrincipal" unique_id=2045566243]
+layout_mode = 2
+text = "Como Jugar"
+
 [node name="ExitButton" type="Button" parent="PanelPrincipal" unique_id=1484798604]
 layout_mode = 2
 text = "Salir"
