@@ -36,9 +36,21 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="LabelDificultadActual" type="Label" parent="PanelPrincipal" unique_id=1825126351]
+modulate = Color(0.55142826, 0.8153972, 0.4977485, 1)
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+text = "Dificultad: Normal"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="PlayButton" type="Button" parent="PanelPrincipal" unique_id=653953292]
 layout_mode = 2
 text = "Jugar"
+
+[node name="DificultadButton" type="Button" parent="PanelPrincipal" unique_id=1498739192]
+layout_mode = 2
+text = "Modo de Juego"
 
 [node name="OptionButton" type="Button" parent="PanelPrincipal" unique_id=242750258]
 layout_mode = 2
@@ -108,5 +120,38 @@ layout_mode = 2
 text = "Iniciar Juego"
 
 [node name="BackButtonNames" type="Button" parent="PanelNombres" unique_id=1688326855]
+layout_mode = 2
+text = "Volver"
+
+[node name="PanelDificultad" type="VBoxContainer" parent="." unique_id=1723729666]
+visible = false
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="FacilButton" type="Button" parent="PanelDificultad" unique_id=992815728]
+layout_mode = 2
+text = "Facil"
+
+[node name="MedioButton" type="Button" parent="PanelDificultad" unique_id=276353493]
+layout_mode = 2
+text = "Normal"
+
+[node name="DificilButton" type="Button" parent="PanelDificultad" unique_id=1172729114]
+layout_mode = 2
+text = "Dificil"
+
+[node name="BackButtonDificultad" type="Button" parent="PanelDificultad" unique_id=1053002511]
 layout_mode = 2
 text = "Volver"

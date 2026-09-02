@@ -8,19 +8,31 @@ public partial class MenuPrincipal : Control
     private VBoxContainer _panelPrincipal;
     private VBoxContainer _contadorJugadores;
     private VBoxContainer _panelNombres;
+    private VBoxContainer _panelDificultad;
     private VBoxContainer _inputContainer;
 
     // Botones
     private Button _playButton;
     private Button _optionsButton;
+    private Button _dificultadButton;
     private Button _tutorialButton;
     private Button _exitButton;
+
+    private Button _facilBtn;    
+    private Button _medioBtn;   
+    private Button _dificilBtn; 
+    private Button _backButtonDificultad; 
+
     private Button _players2Btn;
     private Button _players3Btn;
     private Button _players4Btn;
     private Button _backButtonCount;
+
     private Button _startGameBtn;
     private Button _backButtonNames;
+
+    private Label _labelDificultadActual;
+
 
     // Datos del juego
     private int _selectedPlayerCount = 2;
@@ -31,14 +43,22 @@ public partial class MenuPrincipal : Control
         // Referencias a los paneles
         _panelPrincipal = GetNode<VBoxContainer>("PanelPrincipal");
         _contadorJugadores = GetNode<VBoxContainer>("ContadorJugadores");
+        _panelDificultad = GetNode<VBoxContainer>("PanelDificultad");
         _panelNombres = GetNode<VBoxContainer>("PanelNombres");
         _inputContainer = GetNode<VBoxContainer>("PanelNombres/InputContainer");
+        
 
         // Referencias a botones
         _playButton = GetNode<Button>("PanelPrincipal/PlayButton");
+        _dificultadButton = GetNode<Button>("PanelPrincipal/DificultadButton");
         _optionsButton = GetNode<Button>("PanelPrincipal/OptionButton");
         _tutorialButton = GetNode<Button>("PanelPrincipal/TutorialButton");
         _exitButton = GetNode<Button>("PanelPrincipal/ExitButton");
+
+        _facilBtn = GetNode<Button>("PanelDificultad/FacilButton");
+        _medioBtn = GetNode<Button>("PanelDificultad/MedioButton");
+        _dificilBtn = GetNode<Button>("PanelDificultad/DificilButton");
+        _backButtonDificultad = GetNode<Button>("PanelDificultad/BackButtonDificultad");
 
         _players2Btn = GetNode<Button>("ContadorJugadores/Opcion2JugButton");
         _players3Btn = GetNode<Button>("ContadorJugadores/Opcion3JugButton");
@@ -48,11 +68,18 @@ public partial class MenuPrincipal : Control
         _startGameBtn = GetNode<Button>("PanelNombres/StartGameButton");
         _backButtonNames = GetNode<Button>("PanelNombres/BackButtonNames");
 
+
         // Conectar eventos
         _playButton.Pressed += OnPlayButtonPressed;
         _optionsButton.Pressed += OnOptionsButtonPressed;
         _tutorialButton.Pressed += OnTutorialButtonPressed;
         _exitButton.Pressed += OnExitButtonPressed;
+        _dificultadButton.Pressed += () => ShowPanel(_panelDificultad);
+
+        _facilBtn.Pressed += () => OnDificultadSelected(4);
+        _medioBtn.Pressed += () => OnDificultadSelected(3);
+        _dificilBtn.Pressed += () => OnDificultadSelected(2);
+        _backButtonDificultad.Pressed += () => ShowPanel(_panelPrincipal);
 
         _players2Btn.Pressed += () => OnPlayerCountSelected(2);
         _players3Btn.Pressed += () => OnPlayerCountSelected(3);
@@ -71,7 +98,9 @@ public partial class MenuPrincipal : Control
         _panelPrincipal.Visible = (panelToShow == _panelPrincipal);
         _contadorJugadores.Visible = (panelToShow == _contadorJugadores);
         _panelNombres.Visible = (panelToShow == _panelNombres);
+        _panelDificultad.Visible = (panelToShow == _panelDificultad);
     }
+
 
     private void OnPlayButtonPressed()
     {
@@ -139,4 +168,30 @@ public partial class MenuPrincipal : Control
         // Cambiar a la escena principal del juego
         GetTree().ChangeSceneToFile("res://Objetos/tablero.tscn");
     }
+
+    private void OnDificultadSelected(int cantidadCartas)
+    {
+    Controller controller = Controller.GetInstance();
+    if (controller != null)
+    {
+        controller.CantidadCartasMovimiento = cantidadCartas;
+    }
+
+    string textoDificultad = cantidadCartas switch
+    {
+        4 => "Fácil (4 cartas)",
+        3 => "Medio (3 cartas)",
+        2 => "Difícil (2 cartas)",
+        _ => "Medio"
+    };
+
+    if (_labelDificultadActual != null)
+    {
+        _labelDificultadActual.Text = $"Modo: {textoDificultad}";
+    }
+
+    GD.Print($"Dificultad configurada en: {textoDificultad}");
+
+    ShowPanel(_contadorJugadores);
+}
 }

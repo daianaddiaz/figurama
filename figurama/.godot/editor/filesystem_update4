@@ -14,3 +14,4 @@ res://Clases/Reglas/Timer.cs
 res://Clases/Visual/TableroView.cs
 res://Clases/Visual/FigurasObjetivoView.cs
 res://Clases/Reglas/MazoFiguras.cs
+res://Clases/Visual/CartaMovimientoView.cs

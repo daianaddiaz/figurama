@@ -31,7 +31,12 @@ public partial class MazoMovimiento
     {
         List<CartaMovimiento> mano = new List<CartaMovimiento>();
         Random rand = new Random();
-        int cantidadCartas = 3; // Número de cartas en la mano
+
+        int cantidadCartas = 3;
+            if (Controller._instance != null)
+            {
+             cantidadCartas = Controller._instance.CantidadCartasMovimiento;
+            }
 
         for (int i = 0; i < cantidadCartas; i++)
         {

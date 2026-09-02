@@ -1,14 +1,11 @@
+Label
 Button
-<<<<<<< HEAD
-=======
+VBoxContainer
 Control
 Node
 Node3D
->>>>>>> 28e46da243177d15400c24a7171d22633a99e1f8
 ColorRect
-VBoxContainer
 LineEdit
-Label
 SpotLight3D
 AreaLight3D
 Decal

@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 
-
 public partial class Controller
 {
-    // Constructor de Singleton
-    private Controller() {InicializarController();}
-
     public static Controller _instance;
 
     // Nombres desde el Menu
     public List<string> NombresJugadores { get; set; } = new List<string>();
 
-    //Estados del Juego
+    // Propiedad por defecto dificultad "Normal".
+    public int CantidadCartasMovimiento { get; set; } = 3; 
+
+    // Estados del Juego
     private TableroReglas tablero;
     private Jugador[] jugadores;
     private Juego juego;
@@ -22,11 +21,18 @@ public partial class Controller
     public CartaMovimiento CartaSeleccionada { get; set; } = null;
     public event System.Action<int> TurnoCambiado;
 
+    // Constructor privado SIMPLE 
+    private Controller() 
+    {
+    }
+
     public static Controller GetInstance()
     {
         if (_instance == null)
         {
             _instance = new Controller();
+            // Se asigna la instancia PRIMERO y LUEGO se inicializa
+            _instance.InicializarController();
         }
         return _instance;
     }
@@ -35,11 +41,12 @@ public partial class Controller
     {
         tablero = new TableroReglas();
         juego = new Juego();
-        InicializarJugadores();
     }
 
     public bool RerollearManoActual()
     {
+        if (jugadores == null || jugadores.Length == 0) return false;
+        
         Jugador jugador = jugadores[JugadorActual];
         if (!jugador.RerollDisponible) return false;
 
@@ -70,9 +77,9 @@ public partial class Controller
 
     public Jugador[] Jugadores() => jugadores;
 
-    public string NombreJugadorActual() => jugadores[JugadorActual].nombre;
+    public string NombreJugadorActual() => jugadores != null && jugadores.Length > JugadorActual ? jugadores[JugadorActual].nombre : "";
 
-    public List<CartaMovimiento> ManoJugadorActual() => jugadores[JugadorActual].manoCartas;
+    public List<CartaMovimiento> ManoJugadorActual() => jugadores != null && jugadores.Length > JugadorActual ? jugadores[JugadorActual].manoCartas : new List<CartaMovimiento>();
 
     public CartaMovimiento MovimientoActual() => CartaSeleccionada;
 
@@ -86,3 +93,6 @@ public partial class Controller
         TurnoCambiado?.Invoke(JugadorActual);
     }
 }
+
+// Habia problema de bucle infinito en instancias
+// Corregido
