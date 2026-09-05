@@ -1,5 +1,7 @@
-Label
 Button
+Label
+Panel
+RichTextLabel
 VBoxContainer
 Control
 Node

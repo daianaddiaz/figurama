@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
+
 public partial class Jugador
 {
-
     public string nombre { get; set; }
     public List<CartaMovimiento> manoCartas { get; set; } = new List<CartaMovimiento>();
+    public List<FiguraAsignada> figurasAArmar { get; set; } = new List<FiguraAsignada>();
     public bool RerollDisponible { get; set; } = true;
+    public int Puntuacion { get; set; } = 0;
 
-
-    public Jugador()
-    {
-        //inputNombre();
-    }
+    public Jugador() { }
 
     public void inputNombre()
     {

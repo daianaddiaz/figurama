@@ -5,13 +5,10 @@ public partial class Controller
 {
     public static Controller _instance;
 
-    // Nombres desde el Menu
     public List<string> NombresJugadores { get; set; } = new List<string>();
+    public int CantidadCartasMovimiento { get; set; } = 3;
+    public int CantidadFigurasPorJugador { get; set; } = 3;
 
-    // Propiedad por defecto dificultad "Normal".
-    public int CantidadCartasMovimiento { get; set; } = 3; 
-
-    // Estados del Juego
     private TableroReglas tablero;
     private Jugador[] jugadores;
     private Juego juego;
@@ -20,18 +17,17 @@ public partial class Controller
     public int JugadorActual { get; private set; } = 0;
     public CartaMovimiento CartaSeleccionada { get; set; } = null;
     public event System.Action<int> TurnoCambiado;
+    public event System.Action<string> Victoria;
 
-    // Constructor privado SIMPLE 
-    private Controller() 
-    {
-    }
+    public bool JuegoTerminado => condicionDeVictoria;
+
+    private Controller() { }
 
     public static Controller GetInstance()
     {
         if (_instance == null)
         {
             _instance = new Controller();
-            // Se asigna la instancia PRIMERO y LUEGO se inicializa
             _instance.InicializarController();
         }
         return _instance;
@@ -45,8 +41,9 @@ public partial class Controller
 
     public bool RerollearManoActual()
     {
+        if (condicionDeVictoria) return false;
         if (jugadores == null || jugadores.Length == 0) return false;
-        
+
         Jugador jugador = jugadores[JugadorActual];
         if (!jugador.RerollDisponible) return false;
 
@@ -60,14 +57,32 @@ public partial class Controller
 
     public void InicializarJugadores()
     {
+        TurnoCambiado = null;
+        Victoria = null;
+
         int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
         jugadores = new Jugador[cantidad];
 
         for (int i = 0; i < cantidad; i++)
         {
             string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
-            jugadores[i] = new Jugador { nombre = nombre, manoCartas = MazoMovimiento.GetInstance().generarMano() };
+
+            var figuras = new List<FiguraAsignada>();
+            foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
+            {
+                figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
+            }
+
+            jugadores[i] = new Jugador
+            {
+                nombre = nombre,
+                manoCartas = MazoMovimiento.GetInstance().generarMano(),
+                figurasAArmar = figuras
+            };
         }
+
+        JugadorActual = 0;
+        condicionDeVictoria = false;
     }
 
     public void CambiarCartaSeleccionada(CartaMovimiento carta)
@@ -81,18 +96,42 @@ public partial class Controller
 
     public List<CartaMovimiento> ManoJugadorActual() => jugadores != null && jugadores.Length > JugadorActual ? jugadores[JugadorActual].manoCartas : new List<CartaMovimiento>();
 
+    public List<FiguraAsignada> FigurasJugadorActual() => jugadores != null && jugadores.Length > JugadorActual ? jugadores[JugadorActual].figurasAArmar : new List<FiguraAsignada>();
+
     public CartaMovimiento MovimientoActual() => CartaSeleccionada;
+
+    public List<CartaFigura> ChequearFigurasCompletadas(TableroReglas tableroVisual, HashSet<(int fila, int columna)> celdasMovidas)
+    {
+        var completadasAhora = new List<CartaFigura>();
+        Jugador jugador = jugadores[JugadorActual];
+
+        foreach (FiguraAsignada asignada in jugador.figurasAArmar)
+        {
+            if (asignada.Completada) continue;
+
+            if (tableroVisual.BuscarFigura(asignada.Figura, celdasMovidas) != null)
+            {
+                asignada.Completada = true;
+                jugador.Puntuacion += asignada.Figura.CantidadFichas;
+                completadasAhora.Add(asignada.Figura);
+            }
+        }
+
+        if (jugador.figurasAArmar.TrueForAll(f => f.Completada))
+        {
+            condicionDeVictoria = true;
+            Victoria?.Invoke(jugador.nombre);
+        }
+
+        return completadasAhora;
+    }
 
     public void TerminarTurno()
     {
         if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
 
-        int JugadorAnterior = JugadorActual;
         JugadorActual = (JugadorActual + 1) % jugadores.Length;
         jugadores[JugadorActual].RerollDisponible = true;
         TurnoCambiado?.Invoke(JugadorActual);
     }
 }
-
-// Habia problema de bucle infinito en instancias
-// Corregido

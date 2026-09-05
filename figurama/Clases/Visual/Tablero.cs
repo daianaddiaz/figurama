@@ -16,12 +16,13 @@ public partial class Tablero : Node3D
 
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
-    
+
     private List<Control> Manos = new List<Control>();
 
     public override void _Ready()
     {
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
+        ColorFicha[] coloresLogicos = { ColorFicha.Rojo, ColorFicha.Azul, ColorFicha.Amarillo, ColorFicha.Verde };
         int[] contadorColores = { cantidadColores, cantidadColores, cantidadColores, cantidadColores };
 
         for (int fila = 0; fila < TableroReglas.Filas; fila++)
@@ -36,6 +37,7 @@ public partial class Tablero : Node3D
                 nodoFicha.SetearColor(colorElegido);
 
                 var datos = new FichaData();
+                datos.Color = coloresLogicos[System.Array.IndexOf(colores, colorElegido)];
                 nodoFicha.Datos = datos;
                 _reglas.ColocarFicha(datos, fila, columna);
                 ActualizarPosicionVisual(nodoFicha);
@@ -50,7 +52,12 @@ public partial class Tablero : Node3D
         Manos[0].Show();
 
         Controller.GetInstance().TurnoCambiado += OnTurnoCambiado;
+        Controller.GetInstance().Victoria += MostrarVictoria;
+
+        GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
+
         ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
+        ActualizarLabelFiguras();
     }
 
     private Color VerificarCantidadDeFichas(Color color, Color[] colores, int[] contadorColores)
@@ -82,7 +89,7 @@ public partial class Tablero : Node3D
         {
             var mano = ManoCartasScene.Instantiate<ManoCartasView>();
             GetNode<Node>("UITemporal/Manos").AddChild(mano);
-            mano.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect); 
+            mano.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
             mano.MouseFilter = Control.MouseFilterEnum.Ignore;
             mano.Hide();
             mano.crearMano(Controller.GetInstance().Jugadores()[i]);
@@ -92,6 +99,7 @@ public partial class Tablero : Node3D
 
     private void OnFichaClickeada(Ficha ficha)
     {
+        if (Controller.GetInstance().JuegoTerminado) return;
         if (Controller.GetInstance().MovimientoActual() == null) return;
 
         if (!_hayFichaSeleccionada)
@@ -108,6 +116,19 @@ public partial class Tablero : Node3D
 
             ActualizarPosicionVisual(_fichaSeleccionada);
             ActualizarPosicionVisual(ficha);
+
+            var celdasMovidas = new HashSet<(int fila, int columna)>
+            {
+                (_fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna),
+                (ficha.Datos.Fila, ficha.Datos.Columna)
+            };
+
+            var figurasCompletadas = Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdasMovidas);
+            foreach (CartaFigura figura in figurasCompletadas)
+            {
+                GD.Print($"{Controller.GetInstance().NombreJugadorActual()} completó la figura: {figura.Nombre}");
+            }
+            ActualizarLabelFiguras();
 
             Controller.GetInstance().TerminarTurno();
         }
@@ -128,11 +149,35 @@ public partial class Tablero : Node3D
         Manos[jugadorAnterior].Hide();
         Manos[jugadorActual].Show();
         ActualizarLabelTurno(jugadorActual);
+        ActualizarLabelFiguras();
     }
 
     private void ActualizarLabelTurno(int jugadorActual)
     {
         GetNode<Label>("UITemporal/LabelTurno").Text = $"Turno: Jugador {Controller.GetInstance().NombreJugadorActual()}";
-        GD.Print($"mano del jugador actual: {string.Join(", ", Controller.GetInstance().ManoJugadorActual())}");
+    }
+
+    private void ActualizarLabelFiguras()
+    {
+        var figuras = Controller.GetInstance().FigurasJugadorActual();
+        string texto = "Figuras a armar:\n";
+
+        foreach (var asignada in figuras)
+        {
+            texto += asignada.Completada ? $"[s]{asignada.Figura.Nombre}[/s]\n" : $"{asignada.Figura.Nombre}\n";
+        }
+
+        GetNode<RichTextLabel>("UITemporal/LabelFiguras").Text = texto;
+    }
+
+    private void MostrarVictoria(string nombreGanador)
+    {
+        GetNode<Label>("UITemporal/PanelVictoria/LabelGanador").Text = $"¡{nombreGanador} ganó la partida!";
+        GetNode<Control>("UITemporal/PanelVictoria").Show();
+    }
+
+    private void OnVolverMenuPresionado()
+    {
+        GetTree().ChangeSceneToFile("res://Objetos/menuPrincipal.tscn");
     }
 }

@@ -25,6 +25,8 @@ public partial class MazoMovimiento
         cartas.Add(new MovimientoEnL{});
         cartas.Add(new MovimientoLateralConEspacio{});
         cartas.Add(new MovimientoLateralContiguo{});
+        cartas.Add(new MovimientoDiagonalContiguo{});
+        cartas.Add(new MovimientoDiagonalConEspacio{});
     }
 
     public List<CartaMovimiento> generarMano()

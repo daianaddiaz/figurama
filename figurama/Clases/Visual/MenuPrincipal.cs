@@ -174,27 +174,27 @@ public partial class MenuPrincipal : Control
 
     private void OnDificultadSelected(int cantidadCartas)
     {
-    Controller controller = Controller.GetInstance();
-    if (controller != null)
-    {
-        controller.CantidadCartasMovimiento = cantidadCartas;
+        Controller controller = Controller.GetInstance();
+        if (controller != null)
+        {
+            controller.CantidadCartasMovimiento = cantidadCartas;
+        }
+
+        string textoDificultad = cantidadCartas switch
+        {
+            4 => "Fácil",
+            3 => "Normal",
+            2 => "Difícil",
+            _ => "Medio"
+        };
+
+        if (_labelDificultadActual != null)
+        {
+            _labelDificultadActual.Text = $"Modo: {textoDificultad}";
+        }
+
+        GD.Print($"Dificultad configurada en: {textoDificultad}");
+
+        ShowPanel(_contadorJugadores);
     }
-
-    string textoDificultad = cantidadCartas switch
-    {
-        4 => "Fácil",
-        3 => "Normal",
-        2 => "Difícil",
-        _ => "Medio"
-    };
-
-    if (_labelDificultadActual != null)
-    {
-        _labelDificultadActual.Text = $"Modo: {textoDificultad}";
-    }
-
-    GD.Print($"Dificultad configurada en: {textoDificultad}");
-
-    ShowPanel(_contadorJugadores);
-}
 }

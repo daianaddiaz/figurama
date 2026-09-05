@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "tQbXRpL+u4o=",
+  "dgSpecHash": "+Jrd/k0zIKI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj",
+  "projectFilePath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Daian\\.nuget\\packages\\godot.sourcegenerators\\4.7.1\\godot.sourcegenerators.4.7.1.nupkg.sha512",
-    "C:\\Users\\Daian\\.nuget\\packages\\godotsharp\\4.7.1\\godotsharp.4.7.1.nupkg.sha512",
-    "C:\\Users\\Daian\\.nuget\\packages\\godotsharpeditor\\4.7.1\\godotsharpeditor.4.7.1.nupkg.sha512"
+    "C:\\Users\\alema\\.nuget\\packages\\godot.sourcegenerators\\4.7.1\\godot.sourcegenerators.4.7.1.nupkg.sha512",
+    "C:\\Users\\alema\\.nuget\\packages\\godotsharp\\4.7.1\\godotsharp.4.7.1.nupkg.sha512",
+    "C:\\Users\\alema\\.nuget\\packages\\godotsharpeditor\\4.7.1\\godotsharpeditor.4.7.1.nupkg.sha512",
+    "C:\\Users\\alema\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.29\\microsoft.netcore.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\alema\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.29\\microsoft.windowsdesktop.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\alema\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.29\\microsoft.aspnetcore.app.ref.8.0.29.nupkg.sha512"
   ],
   "logs": []
 }
