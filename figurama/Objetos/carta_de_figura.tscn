@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cy60q2d8wprnb"]
+
+[ext_resource type="Script" uid="uid://bikr8i5p4eaw1" path="res://Clases/Visual/CartaDeFiguraView.cs" id="1_30o57"]
+
+[node name="CartaDeFigura" type="Label" unique_id=1590875350]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Texto"
+script = ExtResource("1_30o57")

@@ -13,11 +13,12 @@ public partial class Tablero : Node3D
 
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
+    [Signal] public delegate void DisponibleEventHandler(Ficha ficha);
 
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
 
-    private List<Control> Manos = new List<Control>();
+    private List<ManoCartasView> Manos = new List<ManoCartasView>();
 
     public override void _Ready()
     {
@@ -45,6 +46,7 @@ public partial class Tablero : Node3D
                 nodoFicha.Clickeada += OnFichaClickeada;
                 this.Connect(SignalName.Seleccionada, new Callable(nodoFicha, "_on_ficha_seleccionada"));
                 this.Connect(SignalName.Desclickeada, new Callable(nodoFicha, "_on_ficha_desclickeada"));
+                this.Connect(SignalName.Disponible, new Callable(nodoFicha, "_on_ficha_disponible"));
             }
         }
 
@@ -57,7 +59,7 @@ public partial class Tablero : Node3D
         GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
 
         ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
-        ActualizarLabelFiguras();
+        //ActualizarLabelFiguras();
     }
 
     private Color VerificarCantidadDeFichas(Color color, Color[] colores, int[] contadorColores)
@@ -107,6 +109,7 @@ public partial class Tablero : Node3D
             _fichaSeleccionada = ficha;
             _hayFichaSeleccionada = true;
             EmitSignal(SignalName.Seleccionada, ficha);
+            AlumbrarFichasDisponibles();
             return;
         }
 
@@ -128,14 +131,65 @@ public partial class Tablero : Node3D
             {
                 GD.Print($"{Controller.GetInstance().NombreJugadorActual()} completó la figura: {figura.Nombre}");
             }
-            ActualizarLabelFiguras();
 
             Controller.GetInstance().TerminarTurno();
         }
 
-        EmitSignal(SignalName.Desclickeada, ficha);
-        EmitSignal(SignalName.Desclickeada, _fichaSeleccionada);
-        _hayFichaSeleccionada = false;
+        DesclickearFichas();
+    }
+
+    private void DesclickearFichas()
+    {
+        if (_fichaSeleccionada != null)
+        {
+            for (int fila = 0; fila < TableroReglas.Filas; fila++)
+            {
+                for (int columna = 0; columna < TableroReglas.Columnas; columna++)
+                {
+                    Ficha ficha = GetFichaEnPosicion(fila, columna);
+                    EmitSignal(SignalName.Desclickeada, ficha);
+                }
+            }
+            _fichaSeleccionada = null;
+            _hayFichaSeleccionada = false;
+        }
+    }
+
+    private void AlumbrarFichasDisponibles()
+    {
+        if (Controller.GetInstance().MovimientoActual() == null) return;
+
+        for (int fila = 0; fila < TableroReglas.Filas; fila++)
+        {
+            for (int columna = 0; columna < TableroReglas.Columnas; columna++)
+            {
+                Ficha ficha = GetFichaEnPosicion(fila, columna);
+                if (ficha != null && _fichaSeleccionada != null && ficha != _fichaSeleccionada)
+                {
+                    AlumbrarSiEsValida(ficha);
+                }
+            }
+        }
+    }
+
+    private Ficha GetFichaEnPosicion(int fila, int columna)
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is Ficha ficha && ficha.Datos.Fila == fila && ficha.Datos.Columna == columna)
+            {
+                return ficha;
+            }
+        }
+        return null;
+    }
+
+    private void AlumbrarSiEsValida(Ficha ficha)
+    {
+        if(Controller.GetInstance().MovimientoActual().EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        {
+            EmitSignal(SignalName.Disponible, ficha);
+        }
     }
 
     private void ActualizarPosicionVisual(Ficha nodoFicha)
@@ -148,8 +202,9 @@ public partial class Tablero : Node3D
         int jugadorAnterior = (jugadorActual - 1 + Manos.Count) % Manos.Count;
         Manos[jugadorAnterior].Hide();
         Manos[jugadorActual].Show();
+        Manos.ForEach(man => man.ActualizarMano());
         ActualizarLabelTurno(jugadorActual);
-        ActualizarLabelFiguras();
+
     }
 
     private void ActualizarLabelTurno(int jugadorActual)

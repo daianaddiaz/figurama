@@ -1,10 +1,10 @@
-Button
+Node
 Label
+Control
+Button
 Panel
 RichTextLabel
 VBoxContainer
-Control
-Node
 Node3D
 ColorRect
 LineEdit

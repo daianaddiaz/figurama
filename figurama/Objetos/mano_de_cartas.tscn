@@ -2,12 +2,14 @@
 
 [ext_resource type="Script" uid="uid://1n82r0e66f4b" path="res://Clases/Visual/ManoCartasView.cs" id="1_eavyo"]
 [ext_resource type="PackedScene" uid="uid://dg6uhtxrlj18m" path="res://Objetos/carta_de_movimiento.tscn" id="2_jj060"]
+[ext_resource type="PackedScene" uid="uid://cy60q2d8wprnb" path="res://Objetos/carta_de_figura.tscn" id="3_jj060"]
 
 [node name="ManoDeCartas" type="Control" unique_id=737516228]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_eavyo")
 CartaDeMovimientoScene = ExtResource("2_jj060")
+CartaDeFiguraScene = ExtResource("3_jj060")
 
 [node name="BotonesMovimientos" type="VBoxContainer" parent="." unique_id=1314739409]
 layout_mode = 1
@@ -25,3 +27,8 @@ offset_top = 611.0
 offset_right = 1148.0
 offset_bottom = 642.0
 text = "Rerollear Mano de Movimientos"
+
+[node name="CartasFiguras" type="Control" parent="." unique_id=1158141738]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

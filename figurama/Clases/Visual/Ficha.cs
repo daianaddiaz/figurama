@@ -53,4 +53,12 @@ public partial class Ficha : Node3D
         }
     }
 
+    public void _on_ficha_disponible(Ficha ficha)
+    {   
+        if(ficha == this)
+        {   
+            GetNode<StateMachine>("FSM").ChangeState("Disponible");
+        }
+    }
+
 }
