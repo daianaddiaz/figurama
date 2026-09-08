@@ -23,12 +23,19 @@ public partial class Tablero : Node3D
     public override void _Ready()
     {
         if (Controller.GetInstance().Jugadores() == null || Controller.GetInstance().Jugadores().Length == 0)
-    {
-        Controller.GetInstance().InicializarJugadores();
-    }
+        {
+            Controller.GetInstance().InicializarJugadores();
+        }
+
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
         ColorFicha[] coloresLogicos = { ColorFicha.Rojo, ColorFicha.Azul, ColorFicha.Amarillo, ColorFicha.Verde };
         int[] contadorColores = { cantidadColores, cantidadColores, cantidadColores, cantidadColores };
+
+        var botonFinTurno = GetNodeOrNull<Button>("UITemporal/BotonFinTurno");
+        if (botonFinTurno != null)
+        {
+            botonFinTurno.Pressed += OnFinTurnoPresionado;
+        }
 
         for (int fila = 0; fila < TableroReglas.Filas; fila++)
         {
@@ -63,7 +70,11 @@ public partial class Tablero : Node3D
         GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
 
         ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
-        //ActualizarLabelFiguras();
+    }
+
+    private void OnFinTurnoPresionado()
+    {
+        Controller.GetInstance().TerminarTurno();
     }
 
     private Color VerificarCantidadDeFichas(Color color, Color[] colores, int[] contadorColores)
@@ -106,7 +117,8 @@ public partial class Tablero : Node3D
     private void OnFichaClickeada(Ficha ficha)
     {
         if (Controller.GetInstance().JuegoTerminado) return;
-        if (Controller.GetInstance().MovimientoActual() == null) return;
+        var movimientoActual = Controller.GetInstance().MovimientoActual();
+        if (movimientoActual == null) return;
 
         if (!_hayFichaSeleccionada)
         {
@@ -117,9 +129,9 @@ public partial class Tablero : Node3D
             return;
         }
 
-        if (Controller.GetInstance().MovimientoActual().EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        if (movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
         {
-            Controller.GetInstance().MovimientoActual().Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
+            movimientoActual.Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
 
             ActualizarPosicionVisual(_fichaSeleccionada);
             ActualizarPosicionVisual(ficha);
@@ -130,13 +142,17 @@ public partial class Tablero : Node3D
                 (ficha.Datos.Fila, ficha.Datos.Columna)
             };
 
-            var figurasCompletadas = Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdasMovidas);
-            foreach (CartaFigura figura in figurasCompletadas)
-            {
-                GD.Print($"{Controller.GetInstance().NombreJugadorActual()} completó la figura: {figura.Nombre}");
-            }
+            // 1. Si completó una figura, se repone
+            Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdasMovidas);
 
-            Controller.GetInstance().TerminarTurno();
+            // 2. Descuenta el movimiento utilizado
+            Controller.GetInstance().RegistrarMovimientoRealizado(movimientoActual);
+
+            // 3. Resetea la carta seleccionada
+            Controller.GetInstance().CambiarCartaSeleccionada(null);
+
+            // 4. Refresca la mano visualmente para deshabilitar el botón de movimiento y actualizar figuras
+            Manos[Controller.GetInstance().JugadorActual].ActualizarMano();
         }
 
         DesclickearFichas();
@@ -190,7 +206,7 @@ public partial class Tablero : Node3D
 
     private void AlumbrarSiEsValida(Ficha ficha)
     {
-        if(Controller.GetInstance().MovimientoActual().EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        if (Controller.GetInstance().MovimientoActual().EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
         {
             EmitSignal(SignalName.Disponible, ficha);
         }
@@ -208,25 +224,11 @@ public partial class Tablero : Node3D
         Manos[jugadorActual].Show();
         Manos.ForEach(man => man.ActualizarMano());
         ActualizarLabelTurno(jugadorActual);
-
     }
 
     private void ActualizarLabelTurno(int jugadorActual)
     {
         GetNode<Label>("UITemporal/LabelTurno").Text = $"Turno: {Controller.GetInstance().NombreJugadorActual()}";
-    }
-
-    private void ActualizarLabelFiguras()
-    {
-        var figuras = Controller.GetInstance().FigurasJugadorActual();
-        string texto = "Figuras a armar:\n";
-
-        foreach (var asignada in figuras)
-        {
-            texto += asignada.Completada ? $"[s]{asignada.Figura.Nombre}[/s]\n" : $"{asignada.Figura.Nombre}\n";
-        }
-
-        GetNode<RichTextLabel>("UITemporal/LabelFiguras").Text = texto;
     }
 
     private void MostrarVictoria(string nombreGanador)

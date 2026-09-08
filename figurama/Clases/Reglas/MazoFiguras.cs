@@ -18,6 +18,23 @@ public partial class MazoFiguras
         return _instance;
     }
 
+    public CartaFigura ObtenerSiguienteCarta()
+    {
+        if (cartas.Count == 0)
+        {
+            // Si el mazo se vacía, volvemos a generar cartas
+            InicializarMazo();
+        }
+
+        Random rand = new Random();
+        int indiceAleatorio = rand.Next(cartas.Count);
+        
+        CartaFigura cartaExtraida = cartas[indiceAleatorio];
+        cartas.RemoveAt(indiceAleatorio);
+
+        return cartaExtraida;
+    }
+
     public void InicializarMazo()
     {
         cartas.Add(new FiguraCruz());
@@ -39,4 +56,5 @@ public partial class MazoFiguras
 
         return mano;
     }
+
 }

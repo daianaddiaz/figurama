@@ -16,6 +16,7 @@ public partial class Controller
     private bool condicionDeVictoria = false;
 
     public int JugadorActual { get; private set; } = 0;
+
     public CartaMovimiento CartaSeleccionada { get; set; } = null;
     public event System.Action<int> TurnoCambiado;
     public event System.Action<string> Victoria;
@@ -23,7 +24,10 @@ public partial class Controller
 
     public event System.Action TiempoAgotado; // Aviso a UI
     private bool enPausa = false; // Pausa el juego
-    
+
+    public int MovimientosUsadosEnTurno { get; private set; } = 0;
+    public const int MAX_MOVIMIENTOS_POR_TURNO = 3;
+
     // Temporizador
 
     private const float TIEMPO_MAXIMO_TURNO = 120.0f; // 2 minutos
@@ -67,39 +71,35 @@ public partial class Controller
     }
 
     public void InicializarJugadores()
-{
-    //TurnoCambiado = null; OJO si lo sacan probablemente se rompa todo 
-    //Victoria = null;
-    //TemporizadorActualizado = null;
+    {   
+            int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
+            jugadores = new Jugador[cantidad];
 
-    int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
-    jugadores = new Jugador[cantidad];
+            for (int i = 0; i < cantidad; i++)
+            {
+                string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
 
-    for (int i = 0; i < cantidad; i++)
-    {
-        string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
+                var figuras = new List<FiguraAsignada>();
+                foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
+                {
+                    figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
+                }
 
-        var figuras = new List<FiguraAsignada>();
-        foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
-        {
-            figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
-        }
+                jugadores[i] = new Jugador
+                {
+                    nombre = nombre,
+                    manoCartas = MazoMovimiento.GetInstance().generarMano(), // Trae 3 cartas iniciales
+                    figurasAArmar = figuras
+                };
+            }
 
-        jugadores[i] = new Jugador
-        {
-            nombre = nombre,
-            manoCartas = MazoMovimiento.GetInstance().generarMano(),
-            figurasAArmar = figuras
-        };
+            JugadorActual = 0;
+            condicionDeVictoria = false;
+            enPausa = false; 
+            MovimientosUsadosEnTurno = 0;
+            ReiniciarTemporizador();
     }
 
-    JugadorActual = 0;
-    condicionDeVictoria = false;
-    enPausa = false; 
-    
-    TiempoRestante = TIEMPO_MAXIMO_TURNO;
-    temporizadorActivo = true; 
-}
     // Metodo para descontar tiempo
 
 private float _tiempoEsperaPausa = 0.0f;
@@ -164,41 +164,75 @@ private void ReiniciarTemporizador()
     public CartaMovimiento MovimientoActual() => CartaSeleccionada;
 
     public List<CartaFigura> ChequearFigurasCompletadas(TableroReglas tableroVisual, HashSet<(int fila, int columna)> celdasMovidas)
+{
+    var completadasAhora = new List<CartaFigura>();
+    Jugador jugador = jugadores[JugadorActual];
+
+    for (int i = 0; i < jugador.figurasAArmar.Count; i++)
     {
-        var completadasAhora = new List<CartaFigura>();
-        Jugador jugador = jugadores[JugadorActual];
+        FiguraAsignada asignada = jugador.figurasAArmar[i];
+        if (asignada.Completada) continue;
 
-        foreach (FiguraAsignada asignada in jugador.figurasAArmar)
+        if (tableroVisual.BuscarFigura(asignada.Figura, celdasMovidas) != null)
         {
-            if (asignada.Completada) continue;
+            asignada.Completada = true;
+            jugador.Puntuacion += asignada.Figura.CantidadFichas;
+            completadasAhora.Add(asignada.Figura);
 
-            if (tableroVisual.BuscarFigura(asignada.Figura, celdasMovidas) != null)
+            // Reemplaza la figura completada por una carta nueva del mazo
+            CartaFigura nuevaFigura = MazoFiguras.GetInstance().ObtenerSiguienteCarta();
+            if (nuevaFigura != null)
             {
-                asignada.Completada = true;
-                jugador.Puntuacion += asignada.Figura.CantidadFichas;
-                completadasAhora.Add(asignada.Figura);
+                jugador.figurasAArmar[i] = new FiguraAsignada { Figura = nuevaFigura, Completada = false };
             }
+            break; 
         }
-
-        if (jugador.figurasAArmar.TrueForAll(f => f.Completada))
-        {
-            condicionDeVictoria = true;
-            temporizadorActivo = false;
-            Victoria?.Invoke(jugador.nombre);
-        }
-
-        return completadasAhora;
     }
+
+    if (jugador.figurasAArmar.TrueForAll(f => f.Completada))
+    {
+        condicionDeVictoria = true;
+        temporizadorActivo = false;
+        Victoria?.Invoke(jugador.nombre);
+    }
+
+    return completadasAhora;
+}
+
+   public void RegistrarMovimientoRealizado(CartaMovimiento cartaUsada)
+    {
+        Jugador jugador = jugadores[JugadorActual];
+        
+        // Remarcamos la carta como ejecutada en la mano actual
+        int index = jugador.manoCartas.IndexOf(cartaUsada);
+        if (index != -1)
+        {
+        // No puede ser seleccionada esa carta en este turno
+            jugador.manoCartas[index] = null; 
+        }
+
+        MovimientosUsadosEnTurno++;
+
+        // Si consumió las 3 cartas de su turno, se finaliza automáticamente
+        if (MovimientosUsadosEnTurno >= MAX_MOVIMIENTOS_POR_TURNO)
+        {
+            TerminarTurno();
+        }
+}
 
     public void TerminarTurno()
-    {
-        if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
+{
+    CartaSeleccionada = null;
+    if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
 
-        JugadorActual = (JugadorActual + 1) % jugadores.Length;
-        jugadores[JugadorActual].RerollDisponible = true;
+    MovimientosUsadosEnTurno = 0;
+    
+    // El jugador que termina el turno o el nuevo roba 3 cartas completas
+    JugadorActual = (JugadorActual + 1) % jugadores.Length;
+    jugadores[JugadorActual].manoCartas = MazoMovimiento.GetInstance().generarMano();
+    jugadores[JugadorActual].RerollDisponible = true;
 
-        ReiniciarTemporizador();
-
-        TurnoCambiado?.Invoke(JugadorActual);
-    }
+    ReiniciarTemporizador();
+    TurnoCambiado?.Invoke(JugadorActual);
+}
 }

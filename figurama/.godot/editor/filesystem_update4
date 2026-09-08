@@ -1,7 +1,6 @@
-res://Clases/Visual/TimerView.cs
-res://Objetos/labeltimer.tscn
-res://Clases/Reglas/Controller.cs
+res://Objetos/tablero.tscn
 res://Clases/Visual/MenuPrincipal.cs
+res://Clases/Visual/TimerView.cs
 res://Clases/Visual/CartaDeFiguraView.cs
 res://Clases/Visual/CartaMovimientoView.cs
 res://Clases/Visual/ManoCartasView.cs
@@ -14,4 +13,4 @@ res://Clases/Visual/Ficha.cs
 res://Clases/Visual/Tablero.cs
 res://Clases/Visual/TableroView.cs
 res://Clases/Visual/FigurasObjetivoView.cs
-res://Objetos/tablero.tscn
+res://Clases/Reglas/Controller.cs

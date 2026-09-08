@@ -37,38 +37,46 @@ public partial class ManoCartasView : Control
         }
     }
 
-    public void ActualizarMano()
+   public void ActualizarMano()
+{
+    var contenedor = GetNode<Control>("CartasFiguras");
+
+    foreach (Node hijo in contenedor.GetChildren())
     {
-
-        var figuras = GetNode<Control>("CartasFiguras");
-
-        foreach (Node hijo in figuras.GetChildren())
-        {
-            if (hijo is CartaDeFiguraView cartaView)
-            {
-                cartaView.Actualizar();
-            }
-        }
-
+        hijo.QueueFree();
     }
 
+    crearCartasFiguras();
+    RefrescarCartas();
+}
+
     private void RefrescarCartas()
+{
+    var contenedor = GetNode<VBoxContainer>("BotonesMovimientos");
+
+    foreach (Node hijo in contenedor.GetChildren())
     {
-        var contenedor = GetNode<VBoxContainer>("BotonesMovimientos");
+        hijo.QueueFree();
+    }
 
-        foreach (Node hijo in contenedor.GetChildren())
-        {
-            hijo.QueueFree();
-        }
-
-        foreach (CartaMovimiento carta in _jugador.manoCartas)
+    foreach (CartaMovimiento carta in _jugador.manoCartas)
+    {
+        if (carta != null)
         {
             var cartaView = CartaDeMovimientoScene.Instantiate<CartaMovimientoView>();
             cartaView.SetCarta(carta);
             contenedor.AddChild(cartaView);
         }
-        
+        else
+        {
+            // Muestra boton deshabilitado indicando "Usada"
+            var botonUsado = new Button();
+            botonUsado.Text = "Usada";
+            botonUsado.Disabled = true;
+            contenedor.AddChild(botonUsado);
+        }
     }
+}
 
     private void OnRerollPresionado()
     {

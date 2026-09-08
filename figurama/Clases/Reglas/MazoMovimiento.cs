@@ -29,6 +29,19 @@ public partial class MazoMovimiento
         cartas.Add(new MovimientoDiagonalConEspacio{});
     }
 
+    public CartaMovimiento ObtenerSiguienteCarta()
+{
+    if (cartas.Count == 0)
+    {
+        return null;
+    }
+
+    CartaMovimiento cartaExtraida = cartas[0];
+    cartas.RemoveAt(0);
+
+    return cartaExtraida;
+}
+
     public List<CartaMovimiento> generarMano()
     {
         List<CartaMovimiento> mano = new List<CartaMovimiento>();

@@ -53,3 +53,10 @@ offset_top = 66.0
 offset_right = 141.0
 offset_bottom = 97.0
 text = "Volver al Menú"
+
+[node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=1558671576]
+offset_left = 968.0
+offset_top = 575.0
+offset_right = 1096.0
+offset_bottom = 606.0
+text = "Finalizar Turno "
