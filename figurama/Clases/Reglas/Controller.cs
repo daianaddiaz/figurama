@@ -8,7 +8,7 @@ public partial class Controller
 
     public List<string> NombresJugadores { get; set; } = new List<string>();
     public int CantidadCartasMovimiento { get; set; } = 3;
-    public int CantidadFigurasPorJugador { get; set; } = 3;
+    public int CantidadFigurasPorJugador { get; set; } = 4;
 
     private TableroReglas tablero;
     private Jugador[] jugadores;
@@ -23,6 +23,9 @@ public partial class Controller
     public event System.Action<float> TemporizadorActualizado;
 
     public event System.Action TiempoAgotado; // Aviso a UI
+
+    public event System.Action<CartaFigura> FiguraCompletada;
+    
     private bool enPausa = false; // Pausa el juego
 
     public int MovimientosUsadosEnTurno { get; private set; } = 0;
@@ -180,12 +183,8 @@ private void ReiniciarTemporizador()
             completadasAhora.Add(asignada.Figura);
 
             // Reemplaza la figura completada por una carta nueva del mazo
-            CartaFigura nuevaFigura = MazoFiguras.GetInstance().ObtenerSiguienteCarta();
-            if (nuevaFigura != null)
-            {
-                jugador.figurasAArmar[i] = new FiguraAsignada { Figura = nuevaFigura, Completada = false };
-            }
-            break; 
+            FiguraCompletada?.Invoke(asignada.Figura);
+            break;
         }
     }
 

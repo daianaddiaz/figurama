@@ -18,36 +18,71 @@ public partial class ManoCartasView : Control
         crearCartasFiguras();
         RefrescarCartas();
 
-        GetNode<Button>("BotonReroll").Pressed += OnRerollPresionado;
+        var botonReroll = GetNode<Button>("BotonReroll");
+        if (!botonReroll.IsConnected(Button.SignalName.Pressed, Callable.From(OnRerollPresionado)))
+    {
+        botonReroll.Pressed += OnRerollPresionado;
+    }
     }
 
     private void crearCartasFiguras()
+{
+    var contenedor = GetNodeOrNull<Control>("CartasFiguras");
+    if (contenedor == null || _jugador?.figurasAArmar == null) return;
+
+    // Separo las figuras pendientes (no completadas) y las completadas
+    var pendientes = _jugador.figurasAArmar.FindAll(f => !f.Completada);
+    var completadas = _jugador.figurasAArmar.FindAll(f => f.Completada);
+
+    // Defino cuales 3 cartas se mostrarán:
+    // Toman prioridad hasta 3 pendientes. Si quedan lugares libres, se muestran las completadas.
+    var visibles = new List<FiguraAsignada>();
+
+    foreach (var p in pendientes)
     {
-
-        var contenedor = GetNode<Control>("CartasFiguras");
-        var i = 1;
-
-        foreach (FiguraAsignada carta in _jugador.figurasAArmar)
-        {
-            var cartaView = CartaDeFiguraScene.Instantiate<CartaDeFiguraView>();
-            cartaView.SetCarta(carta);
-            cartaView.Position = new Godot.Vector2(0, i * 25); // Ajusta la posición vertical según el índice
-            contenedor.AddChild(cartaView);
-            i += 1;
-        }
+        if (visibles.Count < 3) visibles.Add(p);
     }
+
+    foreach (var c in completadas)
+    {
+        if (visibles.Count < 3) visibles.Add(c);
+    }
+
+    // Renderizar en pantalla las cartas seleccionadas
+    for (int i = 0; i < visibles.Count; i++)
+    {
+        FiguraAsignada figura = visibles[i];
+        var cartaView = CartaDeFiguraScene.Instantiate<CartaDeFiguraView>();
+        cartaView.SetCarta(figura);
+
+        // Si la figura ya fue completada, se resalta en verde
+        if (figura.Completada)
+        {
+            cartaView.Modulate = new Color(0.3f, 1.0f, 0.3f);
+        }
+
+        cartaView.Position = new Godot.Vector2(0, (i + 1) * 25);
+        contenedor.AddChild(cartaView);
+    }
+}
 
    public void ActualizarMano()
 {
-    var contenedor = GetNode<Control>("CartasFiguras");
+        LimpiarContenedor("CartasFiguras");
+        LimpiarContenedor("CartaReserva");
 
-    foreach (Node hijo in contenedor.GetChildren())
+        crearCartasFiguras();
+        RefrescarCartas();
+}
+private void LimpiarContenedor(string nombreNodo)
     {
-        hijo.QueueFree();
-    }
+        var contenedor = GetNodeOrNull<Control>(nombreNodo);
+        if (contenedor == null) return;
 
-    crearCartasFiguras();
-    RefrescarCartas();
+        foreach (Node hijo in contenedor.GetChildren())
+        {
+            hijo.QueueFree();
+        }
 }
 
     private void RefrescarCartas()
