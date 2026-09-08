@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://du1xvdn8v3jqn" path="res://Clases/Visual/Tablero.cs" id="1_adh7g"]
 [ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_laj61"]
 [ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="3_iud63"]
+[ext_resource type="PackedScene" uid="uid://cnoxndsv4hbe3" path="res://Objetos/labeltimer.tscn" id="4_7uocc"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
@@ -20,6 +21,9 @@ size = 7.0
 [node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("4_7uocc")]
+mouse_filter = 2
 
 [node name="Manos" type="Node" parent="UITemporal" unique_id=510582804]
 

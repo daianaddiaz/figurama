@@ -22,6 +22,10 @@ public partial class Tablero : Node3D
 
     public override void _Ready()
     {
+        if (Controller.GetInstance().Jugadores() == null || Controller.GetInstance().Jugadores().Length == 0)
+    {
+        Controller.GetInstance().InicializarJugadores();
+    }
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
         ColorFicha[] coloresLogicos = { ColorFicha.Rojo, ColorFicha.Azul, ColorFicha.Amarillo, ColorFicha.Verde };
         int[] contadorColores = { cantidadColores, cantidadColores, cantidadColores, cantidadColores };
@@ -209,7 +213,7 @@ public partial class Tablero : Node3D
 
     private void ActualizarLabelTurno(int jugadorActual)
     {
-        GetNode<Label>("UITemporal/LabelTurno").Text = $"Turno: Jugador {Controller.GetInstance().NombreJugadorActual()}";
+        GetNode<Label>("UITemporal/LabelTurno").Text = $"Turno: {Controller.GetInstance().NombreJugadorActual()}";
     }
 
     private void ActualizarLabelFiguras()

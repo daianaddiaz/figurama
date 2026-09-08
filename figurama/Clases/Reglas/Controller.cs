@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class Controller
 {
@@ -18,6 +19,16 @@ public partial class Controller
     public CartaMovimiento CartaSeleccionada { get; set; } = null;
     public event System.Action<int> TurnoCambiado;
     public event System.Action<string> Victoria;
+    public event System.Action<float> TemporizadorActualizado;
+
+    public event System.Action TiempoAgotado; // Aviso a UI
+    private bool enPausa = false; // Pausa el juego
+    
+    // Temporizador
+
+    private const float TIEMPO_MAXIMO_TURNO = 120.0f; // 2 minutos
+    public float TiempoRestante { get; private set; } = TIEMPO_MAXIMO_TURNO;
+    private bool temporizadorActivo = true;
 
     public bool JuegoTerminado => condicionDeVictoria;
 
@@ -56,34 +67,86 @@ public partial class Controller
     }
 
     public void InicializarJugadores()
+{
+    //TurnoCambiado = null; OJO si lo sacan probablemente se rompa todo 
+    //Victoria = null;
+    //TemporizadorActualizado = null;
+
+    int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
+    jugadores = new Jugador[cantidad];
+
+    for (int i = 0; i < cantidad; i++)
     {
-        TurnoCambiado = null;
-        Victoria = null;
+        string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
 
-        int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
-        jugadores = new Jugador[cantidad];
-
-        for (int i = 0; i < cantidad; i++)
+        var figuras = new List<FiguraAsignada>();
+        foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
         {
-            string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
-
-            var figuras = new List<FiguraAsignada>();
-            foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
-            {
-                figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
-            }
-
-            jugadores[i] = new Jugador
-            {
-                nombre = nombre,
-                manoCartas = MazoMovimiento.GetInstance().generarMano(),
-                figurasAArmar = figuras
-            };
+            figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
         }
 
-        JugadorActual = 0;
-        condicionDeVictoria = false;
+        jugadores[i] = new Jugador
+        {
+            nombre = nombre,
+            manoCartas = MazoMovimiento.GetInstance().generarMano(),
+            figurasAArmar = figuras
+        };
     }
+
+    JugadorActual = 0;
+    condicionDeVictoria = false;
+    enPausa = false; 
+    
+    TiempoRestante = TIEMPO_MAXIMO_TURNO;
+    temporizadorActivo = true; 
+}
+    // Metodo para descontar tiempo
+
+private float _tiempoEsperaPausa = 0.0f;
+
+public void ActualizarTiempo(float delta)
+{
+    if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
+
+    // Manejo del tiempo de espera post-agotado (3 segundos de pausa)
+    if (enPausa)
+    {
+        _tiempoEsperaPausa -= delta;
+        if (_tiempoEsperaPausa <= 0.0f)
+        {
+            enPausa = false;
+            TerminarTurno();
+        }
+        return;
+    }
+
+    if (!temporizadorActivo) return;
+
+    TiempoRestante -= delta;
+
+    if (TiempoRestante <= 0.0f)
+    {
+        TiempoRestante = 0.0f;
+        temporizadorActivo = false;
+        enPausa = true;
+        _tiempoEsperaPausa = 3.0f; // Pausa de 3 segundos dentro del bucle principal
+
+        TemporizadorActualizado?.Invoke(TiempoRestante);
+        TiempoAgotado?.Invoke();
+    }
+    else
+    {
+        TemporizadorActualizado?.Invoke(TiempoRestante);
+    }
+}
+
+private void ReiniciarTemporizador()
+{
+    TiempoRestante = TIEMPO_MAXIMO_TURNO;
+    enPausa = false;
+    temporizadorActivo = true;
+    TemporizadorActualizado?.Invoke(TiempoRestante);
+}
 
     public void CambiarCartaSeleccionada(CartaMovimiento carta)
     {
@@ -120,6 +183,7 @@ public partial class Controller
         if (jugador.figurasAArmar.TrueForAll(f => f.Completada))
         {
             condicionDeVictoria = true;
+            temporizadorActivo = false;
             Victoria?.Invoke(jugador.nombre);
         }
 
@@ -132,6 +196,9 @@ public partial class Controller
 
         JugadorActual = (JugadorActual + 1) % jugadores.Length;
         jugadores[JugadorActual].RerollDisponible = true;
+
+        ReiniciarTemporizador();
+
         TurnoCambiado?.Invoke(JugadorActual);
     }
 }
