@@ -1,7 +1,7 @@
 # Alumnos:
-Kevin Alemanno
+** Kevin Alemanno
 Alejandro Decurgez
-Daiana Diaz
+Daiana Diaz** 
 
 #Guía del Juego
 
