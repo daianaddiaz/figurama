@@ -27,6 +27,7 @@ public partial class MazoMovimiento
         cartas.Add(new MovimientoLateralContiguo{});
         cartas.Add(new MovimientoDiagonalContiguo{});
         cartas.Add(new MovimientoDiagonalConEspacio{});
+        cartas.Add(new MovimientoLateralAlBorde{});
     }
 
     public CartaMovimiento ObtenerSiguienteCarta()

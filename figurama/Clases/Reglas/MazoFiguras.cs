@@ -41,6 +41,16 @@ public partial class MazoFiguras
         cartas.Add(new FiguraL());
         cartas.Add(new FiguraLinea());
         cartas.Add(new FiguraCuadrado());
+        cartas.Add(new FiguraZ());
+        cartas.Add(new FiguraTDer());
+        cartas.Add(new FiguraB());
+        cartas.Add(new FiguraZigZag());
+        cartas.Add(new FiguraTIzq());
+        cartas.Add(new FiguraL5());
+        cartas.Add(new FiguraF());
+        cartas.Add(new FiguraV());
+        cartas.Add(new FiguraU());
+        cartas.Add(new FiguraT());
     }
 
     public List<CartaFigura> generarMano(int cantidad)

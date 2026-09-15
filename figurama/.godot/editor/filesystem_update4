@@ -1,12 +1,10 @@
-<<<<<<< Updated upstream
-res://Clases/Reglas/Controller.cs
-res://Clases/Visual/ManoCartasView.cs
-=======
->>>>>>> Stashed changes
+res://Clases/Reglas/FiguraGanchoInvertido.cs
+res://Clases/Reglas/FiguraL5.cs
+res://Clases/Reglas/FiguraF.cs
+res://Clases/Reglas/FiguraV.cs
+res://Clases/Reglas/FiguraU.cs
 res://Clases/Visual/MenuPrincipal.cs
 res://Clases/Visual/CartaMovimientoView.cs
-<<<<<<< Updated upstream
-=======
 res://Clases/Visual/FigurasObjetivoView.cs
 res://Clases/Visual/CartaDeFiguraView.cs
 res://Clases/Visual/TableroView.cs
@@ -14,17 +12,13 @@ res://Clases/Visual/Ficha.cs
 res://Clases/Visual/TimerView.cs
 res://Clases/Visual/Tablero.cs
 res://Clases/Visual/FichaSeleccionada.cs
->>>>>>> Stashed changes
 res://Clases/Visual/State.cs
 res://Clases/Visual/FichaDisponible.cs
 res://Clases/Visual/FichaNeutral.cs
 res://Clases/Visual/ManoCartasView.cs
 res://Clases/Visual/StateMachine.cs
-<<<<<<< Updated upstream
-res://Clases/Visual/Ficha.cs
-res://Clases/Visual/Tablero.cs
-res://Clases/Visual/TableroView.cs
-res://Clases/Visual/FigurasObjetivoView.cs
-=======
->>>>>>> Stashed changes
-res://Objetos/tablero.tscn
+res://Clases/Reglas/MazoMovimiento.cs
+res://Clases/Reglas/FiguraTDer.cs
+res://Clases/Reglas/FiguraTIzq.cs
+res://Clases/Reglas/FiguraT.cs
+res://Clases/Reglas/FiguraB.cs
