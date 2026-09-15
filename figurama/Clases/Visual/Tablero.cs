@@ -14,6 +14,7 @@ public partial class Tablero : Node3D
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
     [Signal] public delegate void DisponibleEventHandler(Ficha ficha);
+    [Signal] public delegate void FiguraCompletadaEventHandler(Ficha ficha);
 
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
@@ -55,9 +56,11 @@ public partial class Tablero : Node3D
                 ActualizarPosicionVisual(nodoFicha);
 
                 nodoFicha.Clickeada += OnFichaClickeada;
+                _reglas.FiguraEncontrada += OnFiguraCompletada;
                 this.Connect(SignalName.Seleccionada, new Callable(nodoFicha, "_on_ficha_seleccionada"));
                 this.Connect(SignalName.Desclickeada, new Callable(nodoFicha, "_on_ficha_desclickeada"));
                 this.Connect(SignalName.Disponible, new Callable(nodoFicha, "_on_ficha_disponible"));
+                this.Connect(SignalName.FiguraCompletada, new Callable(nodoFicha, "_on_figura_completada"));
             }
         }
 
@@ -111,6 +114,15 @@ public partial class Tablero : Node3D
             mano.Hide();
             mano.crearMano(Controller.GetInstance().Jugadores()[i]);
             Manos.Add(mano);
+        }
+    }
+
+    public void OnFiguraCompletada(List<(int fila, int columna)> celdas)
+    {
+        foreach (var celda in celdas)
+        {
+            Ficha ficha = GetFichaEnPosicion(celda.fila, celda.columna);
+            EmitSignal(SignalName.FiguraCompletada, ficha);
         }
     }
 

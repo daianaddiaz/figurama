@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bjlxbkmoyfurs" path="res://Clases/Visual/FichaNeutral.cs" id="3_eesfy"]
 [ext_resource type="Script" uid="uid://cdtn5376lxn6b" path="res://Clases/Visual/FichaSeleccionada.cs" id="4_1jsyo"]
 [ext_resource type="Script" uid="uid://m6yqhxwotvb7" path="res://Clases/Visual/FichaDisponible.cs" id="5_6fi25"]
+[ext_resource type="Script" uid="uid://c80ggurkoh2k6" path="res://Clases/Visual/FichaCompletada.cs" id="6_dkhma"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
 size = Vector3(0.8, 0.2, 0.8)
@@ -35,6 +36,14 @@ script = ExtResource("4_1jsyo")
 [node name="Disponible" type="Node" parent="FSM" unique_id=796794226]
 script = ExtResource("5_6fi25")
 
+[node name="Completada" type="Node" parent="FSM" unique_id=511137318]
+script = ExtResource("6_dkhma")
+
 [node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=671901448]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5122638, -0.017372847)
 visible = false
+
+[node name="TimerEfectoCompletada" type="Timer" parent="." unique_id=420328073]
+one_shot = true
+
+[connection signal="timeout" from="TimerEfectoCompletada" to="." method="_on_timer_efecto_completada_timeout"]

@@ -73,6 +73,7 @@ public partial class ManoCartasView : Control
 
         crearCartasFiguras();
         RefrescarCartas();
+        actualizarPuntuacion();
 }
 private void LimpiarContenedor(string nombreNodo)
     {
@@ -84,6 +85,16 @@ private void LimpiarContenedor(string nombreNodo)
             hijo.QueueFree();
         }
 }
+
+private void actualizarPuntuacion()
+    {
+        var puntuacionView = GetNodeOrNull<PuntuacionView>("Puntuacion");
+        if (puntuacionView != null)
+        {
+            int figurasCompletadas = _jugador.figurasAArmar.FindAll(f => f.Completada).Count;
+            puntuacionView.ActualizarPuntuacion(figurasCompletadas);
+        }
+    }
 
     private void RefrescarCartas()
 {

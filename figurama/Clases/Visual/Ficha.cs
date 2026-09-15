@@ -61,4 +61,17 @@ public partial class Ficha : Node3D
         }
     }
 
+    public void _on_figura_completada(Ficha ficha)
+    {   
+        if(ficha == this)
+        {   
+            GetNode<StateMachine>("FSM").ChangeState("Completada");
+        }
+    }
+
+    public void _on_timer_efecto_completada_timeout()
+    {
+        GetNode<StateMachine>("FSM").ChangeState("Neutral");
+    }
+
 }

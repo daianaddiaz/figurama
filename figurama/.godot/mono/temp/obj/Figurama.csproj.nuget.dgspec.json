@@ -56,11 +56,14 @@
               "target": "Package",
               "version": "[4.7.1, )",
               "autoReferenced": true
+<<<<<<< Updated upstream
             },
             "GodotSharpEditor": {
               "target": "Package",
               "version": "[4.7.1, )",
               "autoReferenced": true
+=======
+>>>>>>> Stashed changes
             }
           },
           "imports": [
@@ -80,12 +83,28 @@
               "version": "[8.0.29, 8.0.29]"
             },
             {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
               "name": "Microsoft.NETCore.App.Ref",
               "version": "[8.0.29, 8.0.29]"
             },
             {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
               "name": "Microsoft.WindowsDesktop.App.Ref",
+<<<<<<< Updated upstream
               "version": "[8.0.29, 8.0.29]"
+=======
+              "version": "[8.0.30, 8.0.30]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[8.0.30, 8.0.30]"
+>>>>>>> Stashed changes
             }
           ],
           "frameworkReferences": {
@@ -94,6 +113,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }

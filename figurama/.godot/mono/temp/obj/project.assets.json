@@ -20,19 +20,33 @@
             "related": ".xml"
           }
         }
+<<<<<<< Updated upstream
       },
       "GodotSharpEditor/4.7.1": {
         "type": "package",
         "dependencies": {
           "GodotSharp": "4.7.1"
         },
+=======
+      }
+    },
+    "net8.0/win-x64": {
+      "Godot.SourceGenerators/4.7.2": {
+        "type": "package",
+        "build": {
+          "build/Godot.SourceGenerators.props": {}
+        }
+      },
+      "GodotSharp/4.7.2": {
+        "type": "package",
+>>>>>>> Stashed changes
         "compile": {
-          "lib/net8.0/GodotSharpEditor.dll": {
+          "lib/net8.0/GodotSharp.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/GodotSharpEditor.dll": {
+          "lib/net8.0/GodotSharp.dll": {
             "related": ".xml"
           }
         }
@@ -65,6 +79,7 @@
         "lib/net8.0/GodotSharp.dll",
         "lib/net8.0/GodotSharp.xml"
       ]
+<<<<<<< Updated upstream
     },
     "GodotSharpEditor/4.7.1": {
       "sha512": "MAX9wPgjX9BM+EOMxuF++mWKdvO2y0ZiEAfv6D68HGseQc8mX//yc7QrJizXSJ4ii1nh3krXZSyIJ77nmjOgYA==",
@@ -78,13 +93,20 @@
         "lib/net8.0/GodotSharpEditor.dll",
         "lib/net8.0/GodotSharpEditor.xml"
       ]
+=======
+>>>>>>> Stashed changes
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+<<<<<<< Updated upstream
       "Godot.SourceGenerators >= 4.7.1",
       "GodotSharp >= 4.7.1",
       "GodotSharpEditor >= 4.7.1"
+=======
+      "Godot.SourceGenerators >= 4.7.2",
+      "GodotSharp >= 4.7.2"
+>>>>>>> Stashed changes
     ]
   },
   "packageFolders": {
@@ -142,11 +164,14 @@
             "target": "Package",
             "version": "[4.7.1, )",
             "autoReferenced": true
+<<<<<<< Updated upstream
           },
           "GodotSharpEditor": {
             "target": "Package",
             "version": "[4.7.1, )",
             "autoReferenced": true
+=======
+>>>>>>> Stashed changes
           }
         },
         "imports": [
@@ -166,12 +191,28 @@
             "version": "[8.0.29, 8.0.29]"
           },
           {
+            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+            "version": "[8.0.30, 8.0.30]"
+          },
+          {
             "name": "Microsoft.NETCore.App.Ref",
             "version": "[8.0.29, 8.0.29]"
           },
           {
+            "name": "Microsoft.NETCore.App.Runtime.win-x64",
+            "version": "[8.0.30, 8.0.30]"
+          },
+          {
             "name": "Microsoft.WindowsDesktop.App.Ref",
+<<<<<<< Updated upstream
             "version": "[8.0.29, 8.0.29]"
+=======
+            "version": "[8.0.30, 8.0.30]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+            "version": "[8.0.30, 8.0.30]"
+>>>>>>> Stashed changes
           }
         ],
         "frameworkReferences": {
@@ -180,6 +221,11 @@
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win-x64": {
+        "#import": []
       }
     }
   }
