@@ -2,8 +2,53 @@
 
 [ext_resource type="Script" uid="uid://crqxjycehku6g" path="res://Clases/Visual/CartaMovimientoView.cs" id="1_aqdti"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqdti"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xg74d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uxcyx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_htwty"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_12huq"]
+
 [node name="CartaDeMovimiento" type="Button" unique_id=377832846]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
 offset_left = -52.0
-offset_bottom = 31.0
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(166, 121)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_aqdti")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg74d")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_uxcyx")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_htwty")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_12huq")
 text = "Texto"
 script = ExtResource("1_aqdti")
+
+[node name="Frente" type="TextureRect" parent="." unique_id=345352973]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Dorso" type="TextureRect" parent="." unique_id=1572942555]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5

@@ -105,24 +105,40 @@ private void actualizarPuntuacion()
         hijo.QueueFree();
     }
 
+    if (_jugador?.manoCartas == null) return;
+
     foreach (CartaMovimiento carta in _jugador.manoCartas)
-    {
-        if (carta != null)
         {
             var cartaView = CartaDeMovimientoScene.Instantiate<CartaMovimientoView>();
-            cartaView.SetCarta(carta);
             contenedor.AddChild(cartaView);
-        }
-        else
-        {
-            // Muestra boton deshabilitado indicando "Usada"
-            var botonUsado = new Button();
-            botonUsado.Text = "Usada";
-            botonUsado.Disabled = true;
-            contenedor.AddChild(botonUsado);
+
+            if (carta != null)
+            {
+                // Carta disponible: Muestra el frente activo
+                cartaView.SetCarta(carta);
+            }
+            else
+            {
+                // Carta ya jugada: Muestra el dorso directamente (estado ya volteado)
+                cartaView.SetEstadoUsadaDirecto();
+            }
         }
     }
-}
+
+    public void AnimarCartaUsada(CartaMovimiento carta)
+    {
+        var contenedor = GetNode<VBoxContainer>("BotonesMovimientos");
+
+        foreach (Node hijo in contenedor.GetChildren())
+        {
+            if (hijo is CartaMovimientoView cartaView && cartaView.CartaRepresentada == carta)
+            {
+                cartaView.AnimarVolteoUsada();
+                break;
+            }
+        }
+    }
+
 
     private void OnRerollPresionado()
     {

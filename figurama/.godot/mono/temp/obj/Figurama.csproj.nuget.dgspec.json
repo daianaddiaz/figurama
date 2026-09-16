@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj": {}
+    "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj": {}
   },
   "projects": {
-    "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj": {
+    "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
+        "projectUniqueName": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj",
         "projectName": "Figurama",
-        "projectPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
-        "packagesPath": "C:\\Users\\alema\\.nuget\\packages\\",
-        "outputPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
+        "projectPath": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\Figurama.csproj",
+        "packagesPath": "C:\\Users\\Daian\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Daian\\OneDrive\\Escritorio\\Proyecto Final\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\alema\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Daian\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -24,7 +24,6 @@
         },
         "frameworks": {
           "net8.0": {
-            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -38,32 +37,27 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "10.0.300"
+        }
       },
       "frameworks": {
         "net8.0": {
-          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Godot.SourceGenerators": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[4.7.1, )",
+              "version": "[4.7.2, )",
               "autoReferenced": true
             },
             "GodotSharp": {
               "target": "Package",
-              "version": "[4.7.1, )",
+              "version": "[4.7.2, )",
               "autoReferenced": true
-<<<<<<< Updated upstream
             },
             "GodotSharpEditor": {
               "target": "Package",
-              "version": "[4.7.1, )",
+              "version": "[4.7.2, )",
               "autoReferenced": true
-=======
->>>>>>> Stashed changes
             }
           },
           "imports": [
@@ -77,47 +71,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.29, 8.0.29]"
-            },
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.30, 8.0.30]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.29, 8.0.29]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.30, 8.0.30]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-<<<<<<< Updated upstream
-              "version": "[8.0.29, 8.0.29]"
-=======
-              "version": "[8.0.30, 8.0.30]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[8.0.30, 8.0.30]"
->>>>>>> Stashed changes
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.424/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

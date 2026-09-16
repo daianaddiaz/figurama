@@ -1,3 +1,5 @@
+TextureRect
+TextEdit
 Timer
 Node
 Label
@@ -10,5 +12,3 @@ Node3D
 ColorRect
 LineEdit
 SpotLight3D
-AreaLight3D
-Decal

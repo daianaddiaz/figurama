@@ -73,11 +73,22 @@ public partial class Tablero : Node3D
         GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
 
         ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
-    }
+        //Controller.GetInstance().CartaSeleccionada += OnCartaSeleccionadaCambiada;    
+}
 
     private void OnFinTurnoPresionado()
     {
         Controller.GetInstance().TerminarTurno();
+    }
+
+    private void OnCartaSeleccionadaCambiada(CartaMovimiento nuevaCarta)
+    {
+        DesalumbrarFichas();
+
+        if (nuevaCarta != null)
+        {
+            AlumbrarFichasDisponibles();
+        }
     }
 
     private Color VerificarCantidadDeFichas(Color color, Color[] colores, int[] contadorColores)
@@ -126,22 +137,38 @@ public partial class Tablero : Node3D
         }
     }
 
-    private void OnFichaClickeada(Ficha ficha)
+    private void OnFichaClickeada(Ficha ficha) 
     {
-        if (Controller.GetInstance().JuegoTerminado) return;
-        var movimientoActual = Controller.GetInstance().MovimientoActual();
-        if (movimientoActual == null) return;
-
-        if (!_hayFichaSeleccionada)
+        //Si no hay ficha seleccionada todavía, la marcamos como primera ficha
+        if (_fichaSeleccionada == null)
         {
             _fichaSeleccionada = ficha;
             _hayFichaSeleccionada = true;
-            EmitSignal(SignalName.Seleccionada, ficha);
+            EmitSignal(SignalName.Seleccionada, _fichaSeleccionada);
+
+            // Re-evaluamos para mostrar solo los destinos válidos para esta ficha concreta
+            DesalumbrarFichas();
             AlumbrarFichasDisponibles();
             return;
         }
 
-        if (movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        // Si vuelve a clickear la misma ficha, la deseleccionamos
+        if (_fichaSeleccionada == ficha)
+        {
+            EmitSignal(SignalName.Desclickeada, _fichaSeleccionada);
+            _fichaSeleccionada = null;
+            _hayFichaSeleccionada = false;
+
+            // Volvemos a iluminar las fichas que se pueden mover en general
+            DesalumbrarFichas();
+            AlumbrarFichasDisponibles();
+            return;
+        }
+
+        //Si hay una segunda ficha seleccionada, intentamos ejecutar el movimiento
+        CartaMovimiento movimientoActual = Controller.GetInstance().CartaSeleccionada;
+
+        if (movimientoActual != null && movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
         {
             movimientoActual.Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
 
@@ -154,56 +181,110 @@ public partial class Tablero : Node3D
                 (ficha.Datos.Fila, ficha.Datos.Columna)
             };
 
-            // 1. Si completó una figura, se repone
             Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdasMovidas);
 
-            // 2. Descuenta el movimiento utilizado
+            var manoActualView = Manos[Controller.GetInstance().JugadorActual];
+            manoActualView.AnimarCartaUsada(movimientoActual);
+
             Controller.GetInstance().RegistrarMovimientoRealizado(movimientoActual);
-
-            // 3. Resetea la carta seleccionada
             Controller.GetInstance().CambiarCartaSeleccionada(null);
-
-            // 4. Refresca la mano visualmente para deshabilitar el botón de movimiento y actualizar figuras
-            Manos[Controller.GetInstance().JugadorActual].ActualizarMano();
+            manoActualView.ActualizarMano();
         }
 
-        DesclickearFichas();
+        DesalumbrarFichas();
+        _fichaSeleccionada = null;
+        _hayFichaSeleccionada = false;
     }
 
-    private void DesclickearFichas()
+    private void DesalumbrarFichas()
     {
-        if (_fichaSeleccionada != null)
-        {
-            for (int fila = 0; fila < TableroReglas.Filas; fila++)
-            {
-                for (int columna = 0; columna < TableroReglas.Columnas; columna++)
-                {
-                    Ficha ficha = GetFichaEnPosicion(fila, columna);
-                    EmitSignal(SignalName.Desclickeada, ficha);
-                }
-            }
-            _fichaSeleccionada = null;
-            _hayFichaSeleccionada = false;
-        }
-    }
-
-    private void AlumbrarFichasDisponibles()
-    {
-        if (Controller.GetInstance().MovimientoActual() == null) return;
-
         for (int fila = 0; fila < TableroReglas.Filas; fila++)
         {
             for (int columna = 0; columna < TableroReglas.Columnas; columna++)
             {
                 Ficha ficha = GetFichaEnPosicion(fila, columna);
-                if (ficha != null && _fichaSeleccionada != null && ficha != _fichaSeleccionada)
+                if (ficha != null)
                 {
-                    AlumbrarSiEsValida(ficha);
+                    EmitSignal(SignalName.Desclickeada, ficha);
                 }
             }
         }
     }
 
+    private void DesclickearFichas()
+    {
+        DesalumbrarFichas();
+        _fichaSeleccionada = null;
+        _hayFichaSeleccionada = false;
+    }
+
+    private void AlumbrarFichasDisponibles()
+{
+    CartaMovimiento cartaActiva = Controller.GetInstance().CartaSeleccionada;
+    if (cartaActiva == null) return;
+
+    //Ya se eligió una primera ficha -> ilumina los destinos válidos desde esa ficha
+    if (_fichaSeleccionada != null)
+    {
+        for (int fila = 0; fila < TableroReglas.Filas; fila++)
+        {
+            for (int columna = 0; columna < TableroReglas.Columnas; columna++)
+            {
+                Ficha destino = GetFichaEnPosicion(fila, columna);
+                if (destino != null && destino != _fichaSeleccionada)
+                {
+                    AlumbrarSiEsValida(destino);
+                }
+            }
+        }
+    }
+    //No hay ficha elegida aún -> ilumina todas las fichas del tablero que puedan hacer al menos un movimiento
+    else
+    {
+        for (int f1 = 0; f1 < TableroReglas.Filas; f1++)
+        {
+            for (int c1 = 0; c1 < TableroReglas.Columnas; c1++)
+            {
+                Ficha origen = GetFichaEnPosicion(f1, c1);
+                if (origen == null) continue;
+
+                bool tieneOpcionValida = false;
+
+                for (int f2 = 0; f2 < TableroReglas.Filas; f2++)
+                {
+                    for (int c2 = 0; c2 < TableroReglas.Columnas; c2++)
+                    {
+                        if (f1 == f2 && c1 == c2) continue;
+
+                        if (cartaActiva.EsValido(_reglas, f1, c1, f2, c2))
+                        {
+                            tieneOpcionValida = true;
+                            break;
+                        }
+                    }
+                    if (tieneOpcionValida) break;
+                }
+
+                if (tieneOpcionValida)
+                {
+                    EmitSignal(SignalName.Disponible, origen);
+                }
+            }
+        }
+    }
+}
+
+private void AlumbrarSiEsValida(Ficha ficha)
+{
+    CartaMovimiento cartaActiva = Controller.GetInstance().CartaSeleccionada;
+    if (cartaActiva != null && _fichaSeleccionada != null)
+    {
+        if (cartaActiva.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        {
+            EmitSignal(SignalName.Disponible, ficha);
+        }
+    }
+}
     private Ficha GetFichaEnPosicion(int fila, int columna)
     {
         foreach (Node child in GetChildren())
@@ -216,13 +297,6 @@ public partial class Tablero : Node3D
         return null;
     }
 
-    private void AlumbrarSiEsValida(Ficha ficha)
-    {
-        if (Controller.GetInstance().MovimientoActual().EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
-        {
-            EmitSignal(SignalName.Disponible, ficha);
-        }
-    }
 
     private void ActualizarPosicionVisual(Ficha nodoFicha)
     {
