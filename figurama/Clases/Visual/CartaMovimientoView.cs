@@ -35,6 +35,8 @@ public partial class CartaMovimientoView : Button
 		AddThemeStyleboxOverride("pressed", emptyStyle);
 		AddThemeStyleboxOverride("disabled", emptyStyle);
 		AddThemeStyleboxOverride("focus", emptyStyle);
+
+        Controller.GetInstance().CartaUsadaEvent += OnCartaUsada;
     }
 
     public void SetCarta(CartaMovimiento carta)
@@ -47,6 +49,14 @@ public partial class CartaMovimientoView : Button
         if (ResourceLoader.Exists(rutaImagen) && _frente != null)
         {
             _frente.Texture = GD.Load<Texture2D>(rutaImagen);
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        if (Controller._instance != null)
+        {
+            Controller.GetInstance().CartaUsadaEvent -= OnCartaUsada;
         }
     }
 
@@ -99,29 +109,37 @@ public partial class CartaMovimientoView : Button
         Controller.GetInstance().CambiarCartaSeleccionada(_cartaRepresentada);
     }
 
-    public async void AnimarVolteoUsada()
+    private void OnCartaUsada(CartaMovimiento cartaUsada)
+    {
+        if (cartaUsada != null && _cartaRepresentada != null && cartaUsada == _cartaRepresentada && !_estaVolteada)
+        {
+            GD.Print($"Animando carta usada: {_cartaRepresentada}");
+            AnimarVolteoUsada();
+        }
+    }
+
+    public void AnimarVolteoUsada()
     {
         if (_estaVolteada) return;
 
         _estaVolteada = true;
         Disabled = true;
 
-        // Escalar X a 0 (de frente a perfil)
-        Tween tween1 = CreateTween();
-        tween1.TweenProperty(this, "scale:x", 0.0f, 0.25f)
-              .SetTrans(Tween.TransitionType.Sine)
-              .SetEase(Tween.EaseType.In);
+        PivotOffset = Size / 2;
 
-        await ToSignal(tween1, Tween.SignalName.Finished);
+        Tween tween = CreateTween();
 
-        // Intercambiar visibilidad en el punto medio
-        if (_frente != null) _frente.Hide();
-        if (_dorso != null) _dorso.Show();
+        tween.TweenProperty(this, "scale", new Vector2(0.0f, Scale.Y), 0.25f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.In);
 
-        // Escalar X de 0 a 1 (de perfil a dorso)
-        Tween tween2 = CreateTween();
-        tween2.TweenProperty(this, "scale:x", 1.0f, 0.25f)
-              .SetTrans(Tween.TransitionType.Sine)
-              .SetEase(Tween.EaseType.Out);
+        tween.TweenCallback(Callable.From(() => {
+            if (_frente != null) _frente.Hide();
+            if (_dorso != null) _dorso.Show();
+        }));
+
+        tween.TweenProperty(this, "scale", new Vector2(1.0f, Scale.Y), 0.25f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.Out);
     }
 }

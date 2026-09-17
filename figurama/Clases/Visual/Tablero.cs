@@ -183,14 +183,13 @@ public partial class Tablero : Node3D
 
     private void OnFichaClickeada(Ficha ficha) 
     {
-        //Si no hay ficha seleccionada todavía, la marcamos como primera ficha
+        // Si no hay ficha seleccionada todavía, la marcamos como primera ficha
         if (_fichaSeleccionada == null)
         {
             _fichaSeleccionada = ficha;
             _hayFichaSeleccionada = true;
             EmitSignal(SignalName.Seleccionada, _fichaSeleccionada);
 
-            // Re-evaluamos para mostrar solo los destinos válidos para esta ficha concreta
             DesalumbrarFichas();
             AlumbrarFichasDisponibles();
             return;
@@ -203,13 +202,14 @@ public partial class Tablero : Node3D
             _fichaSeleccionada = null;
             _hayFichaSeleccionada = false;
 
-            // Volvemos a iluminar las fichas que se pueden mover en general
+            Controller.GetInstance().CambiarCartaSeleccionada(null);
+
             DesalumbrarFichas();
             AlumbrarFichasDisponibles();
             return;
         }
 
-        //Si hay una segunda ficha seleccionada, intentamos ejecutar el movimiento
+        // Si hay una segunda ficha seleccionada, intentamos ejecutar el movimiento
         CartaMovimiento movimientoActual = Controller.GetInstance().CartaSeleccionada;
 
         if (movimientoActual != null && movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
@@ -227,12 +227,10 @@ public partial class Tablero : Node3D
 
             Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdasMovidas);
 
-            var manoActualView = Manos[Controller.GetInstance().JugadorActual];
-            manoActualView.AnimarCartaUsada(movimientoActual);
-
             Controller.GetInstance().RegistrarMovimientoRealizado(movimientoActual);
+
             Controller.GetInstance().CambiarCartaSeleccionada(null);
-            manoActualView.ActualizarMano();
+            
         }
 
         DesalumbrarFichas();

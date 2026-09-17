@@ -49,15 +49,36 @@ public partial class MazoMovimiento
         Random rand = new Random();
 
         int cantidadCartas = 3;
-            if (Controller._instance != null)
-            {
-             cantidadCartas = Controller._instance.CantidadCartasMovimiento;
-            }
+
+        if (Controller._instance != null)
+        {
+            cantidadCartas = Controller._instance.CantidadCartasMovimiento;
+        }
 
         for (int i = 0; i < cantidadCartas; i++)
         {
             int indiceAleatorio = rand.Next(cartas.Count);
-            mano.Add(cartas[indiceAleatorio]);
+            CartaMovimiento cartaBase = cartas[indiceAleatorio];
+
+            CartaMovimiento nuevaCarta = cartaBase switch
+            {
+                MovimientoEnL => new MovimientoEnL
+                {
+                    DireccionPermitida = MovimientoEnL.TipoDireccion.Cualquiera
+                },
+
+                MovimientoLateralConEspacio => new MovimientoLateralConEspacio(),
+                MovimientoLateralContiguo => new MovimientoLateralContiguo(),
+                MovimientoDiagonalContiguo => new MovimientoDiagonalContiguo(),
+                MovimientoDiagonalConEspacio => new MovimientoDiagonalConEspacio(),
+                MovimientoLateralAlBorde => new MovimientoLateralAlBorde(),
+
+                _ => throw new Exception(
+                    $"Tipo de carta no reconocido: {cartaBase.GetType().Name}"
+                )
+            };
+
+            mano.Add(nuevaCarta);
         }
 
         return mano;

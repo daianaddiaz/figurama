@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dg6uhtxrlj18m"]
 
 [ext_resource type="Script" uid="uid://crqxjycehku6g" path="res://Clases/Visual/CartaMovimientoView.cs" id="1_aqdti"]
+[ext_resource type="Texture2D" uid="uid://bqxcp46qfi0h6" path="res://Assets/Cartas Movimiento/dorso_movimiento.png" id="2_12huq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqdti"]
 
@@ -50,5 +51,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_12huq")
 expand_mode = 1
 stretch_mode = 5

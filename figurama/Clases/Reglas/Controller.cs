@@ -19,6 +19,7 @@ public partial class Controller
 
     public CartaMovimiento CartaSeleccionada { get; set; } = null;
     public event System.Action<int> TurnoCambiado;
+    public event System.Action<CartaMovimiento> CartaUsadaEvent;
     public ColorFicha? UltimoColorUsado { get; private set; }
     public event System.Action<ColorFicha> UltimoColorCambiado;
     public event System.Action<string> Victoria;
@@ -195,7 +196,6 @@ private void ReiniciarTemporizador()
 
         // Reemplaza la figura completada por una carta nueva del mazo
         FiguraCompletada?.Invoke(asignada.Figura);
-        break;
     }
 }
 
@@ -222,6 +222,8 @@ private void ReiniciarTemporizador()
         }
 
         MovimientosUsadosEnTurno++;
+
+        CartaUsadaEvent?.Invoke(cartaUsada);
 
         // Si consumió las 3 cartas de su turno, se finaliza automáticamente
         if (MovimientosUsadosEnTurno >= MAX_MOVIMIENTOS_POR_TURNO)
