@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_laj61"]
 [ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="3_iud63"]
 [ext_resource type="PackedScene" uid="uid://cnoxndsv4hbe3" path="res://Objetos/labeltimer.tscn" id="4_7uocc"]
+[ext_resource type="PackedScene" uid="uid://bnajmnqoq7plh" path="res://Objetos/indicador_ultimo_color.tscn" id="4_13hl8"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
@@ -17,6 +18,8 @@ current = true
 size = 7.0
 
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
+
+[node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("4_13hl8")]
 
 [node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
 offset_right = 40.0

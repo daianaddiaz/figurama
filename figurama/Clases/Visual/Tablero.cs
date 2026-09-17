@@ -9,6 +9,11 @@ public partial class Tablero : Node3D
     private const float SizeCelda = 1.0f;
     private const int cantidadColores = 9;
 
+    private TextureRect rectRojo;
+    private TextureRect rectAzul;
+    private TextureRect rectAmarillo;
+    private TextureRect rectVerde;
+
     private TableroReglas _reglas = new TableroReglas();
 
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
@@ -27,6 +32,15 @@ public partial class Tablero : Node3D
         {
             Controller.GetInstance().InicializarJugadores();
         }
+
+        rectRojo = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoRojo");
+        rectAzul = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoAzul");
+        rectAmarillo = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoAmarillo");
+        rectVerde = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoVerde");
+
+        ApagarTodosLosRects();
+
+        Controller.GetInstance().UltimoColorCambiado += ActualizarColor;
 
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
         ColorFicha[] coloresLogicos = { ColorFicha.Rojo, ColorFicha.Azul, ColorFicha.Amarillo, ColorFicha.Verde };
@@ -89,6 +103,36 @@ public partial class Tablero : Node3D
         {
             AlumbrarFichasDisponibles();
         }
+    }
+
+    private void ActualizarColor(ColorFicha nuevoColor)
+    {
+        ApagarTodosLosRects();
+
+        // Prendemos solo el TextureRect correspondiente
+        switch (nuevoColor)
+        {
+            case ColorFicha.Rojo:
+                rectRojo.Visible = true;
+                break;
+            case ColorFicha.Azul:
+                rectAzul.Visible = true;
+                break;
+            case ColorFicha.Amarillo:
+                rectAmarillo.Visible = true;
+                break;
+            case ColorFicha.Verde:
+                rectVerde.Visible = true;
+                break;
+        }
+    }
+
+    private void ApagarTodosLosRects()
+    {
+        if (rectRojo != null) rectRojo.Visible = false;
+        if (rectAzul != null) rectAzul.Visible = false;
+        if (rectAmarillo != null) rectAmarillo.Visible = false;
+        if (rectVerde != null) rectVerde.Visible = false;
     }
 
     private Color VerificarCantidadDeFichas(Color color, Color[] colores, int[] contadorColores)

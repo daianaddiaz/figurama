@@ -1,10 +1,8 @@
-res://Clases/Visual/CartaMovimientoView.cs
-res://Clases/Visual/ManoCartasView.cs
+res://Clases/Reglas/Controller.cs
 res://Clases/Visual/Tablero.cs
-res://Objetos/carta_de_movimiento.tscn
 res://Clases/Visual/TimerView.cs
-res://Clases/Visual/FichaCompletada.cs
 res://Clases/Visual/State.cs
+res://Clases/Visual/FichaCompletada.cs
 res://Clases/Visual/FichaDisponible.cs
 res://Clases/Visual/FichaSeleccionada.cs
 res://Clases/Visual/FichaNeutral.cs
@@ -12,6 +10,10 @@ res://Clases/Visual/StateMachine.cs
 res://Clases/Visual/Ficha.cs
 res://Clases/Visual/PuntuacionView.cs
 res://Clases/Visual/CartaDeFiguraView.cs
+res://Clases/Visual/ManoCartasView.cs
+res://Clases/Visual/CartaMovimientoView.cs
 res://Clases/Visual/MenuPrincipal.cs
 res://Clases/Visual/FigurasObjetivoView.cs
 res://Clases/Visual/TableroView.cs
+res://Objetos/tablero.tscn
+res://Objetos/indicador_ultimo_color.tscn

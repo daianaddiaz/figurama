@@ -7,12 +7,12 @@ public partial class PuntuacionView : Label
 
 	public override void _Ready()
 	{
-		Text = $"figuras formadas: {puntuacion}";
+		Text = $"Figuras formadas: {puntuacion}";
 	}
 
 	public void ActualizarPuntuacion(int nuevaPuntuacion)
 	{
 		puntuacion = nuevaPuntuacion.ToString();
-		Text = $"figuras formadas: {puntuacion}";
+		Text = $"Figuras formadas: {puntuacion}";
 	}
 }

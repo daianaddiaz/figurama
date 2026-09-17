@@ -19,6 +19,8 @@ public partial class Controller
 
     public CartaMovimiento CartaSeleccionada { get; set; } = null;
     public event System.Action<int> TurnoCambiado;
+    public ColorFicha? UltimoColorUsado { get; private set; }
+    public event System.Action<ColorFicha> UltimoColorCambiado;
     public event System.Action<string> Victoria;
     public event System.Action<float> TemporizadorActualizado;
 
@@ -172,21 +174,30 @@ private void ReiniciarTemporizador()
     Jugador jugador = jugadores[JugadorActual];
 
     for (int i = 0; i < jugador.figurasAArmar.Count; i++)
+{
+    FiguraAsignada asignada = jugador.figurasAArmar[i];
+    if (asignada.Completada) continue;
+
+    var celdas = tableroVisual.BuscarFigura(asignada.Figura, celdasMovidas);
+
+    if (celdas != null)
     {
-        FiguraAsignada asignada = jugador.figurasAArmar[i];
-        if (asignada.Completada) continue;
+        ColorFicha colorFormado = tableroVisual.ObtenerFicha(celdas[0].fila, celdas[0].columna).Color;
+        
+        if (UltimoColorUsado.HasValue && colorFormado == UltimoColorUsado.Value) continue;
 
-        if (tableroVisual.BuscarFigura(asignada.Figura, celdasMovidas) != null)
-        {
-            asignada.Completada = true;
-            jugador.Puntuacion += asignada.Figura.CantidadFichas;
-            completadasAhora.Add(asignada.Figura);
+        asignada.Completada = true;
+        jugador.Puntuacion += asignada.Figura.CantidadFichas;
+        completadasAhora.Add(asignada.Figura);
 
-            // Reemplaza la figura completada por una carta nueva del mazo
-            FiguraCompletada?.Invoke(asignada.Figura);
-            break;
-        }
+        UltimoColorUsado = colorFormado;
+        UltimoColorCambiado?.Invoke(colorFormado);
+
+        // Reemplaza la figura completada por una carta nueva del mazo
+        FiguraCompletada?.Invoke(asignada.Figura);
+        break;
     }
+}
 
     if (jugador.figurasAArmar.TrueForAll(f => f.Completada))
     {
