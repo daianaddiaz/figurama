@@ -1,4 +1,3 @@
-
 using Godot;
 using System.Collections.Generic;
 
@@ -18,10 +17,10 @@ public partial class MenuPrincipal : Control
     private Button _tutorialButton;
     private Button _exitButton;
 
-    private Button _facilBtn;    
-    private Button _medioBtn;   
-    private Button _dificilBtn; 
-    private Button _backButtonDificultad; 
+    private Button _facilBtn;
+    private Button _medioBtn;
+    private Button _dificilBtn;
+    private Button _backButtonDificultad;
 
     private Button _players2Btn;
     private Button _players3Btn;
@@ -33,10 +32,12 @@ public partial class MenuPrincipal : Control
 
     private Label _labelDificultadActual;
 
-
     // Datos del juego
     private int _selectedPlayerCount = 2;
     private List<LineEdit> _nameInputs = new List<LineEdit>();
+    private List<OptionButton> _personajeInputs = new List<OptionButton>();
+
+    private static readonly string[] NombresPersonajes = { "Lobizón", "Luz Mala", "El Pomberito", "Mulánima" };
 
     public override void _Ready()
     {
@@ -46,7 +47,6 @@ public partial class MenuPrincipal : Control
         _panelDificultad = GetNode<VBoxContainer>("PanelDificultad");
         _panelNombres = GetNode<VBoxContainer>("PanelNombres");
         _inputContainer = GetNode<VBoxContainer>("PanelNombres/InputContainer");
-        
 
         // Referencias a botones
         _playButton = GetNode<Button>("PanelPrincipal/PlayButton");
@@ -67,9 +67,8 @@ public partial class MenuPrincipal : Control
 
         _startGameBtn = GetNode<Button>("PanelNombres/StartGameButton");
         _backButtonNames = GetNode<Button>("PanelNombres/BackButtonNames");
-        
-        // Referencia a labels
 
+        // Referencia a labels
         _labelDificultadActual = GetNode<Label>("PanelPrincipal/LabelDificultadActual");
 
         // Conectar eventos
@@ -104,7 +103,6 @@ public partial class MenuPrincipal : Control
         _panelDificultad.Visible = (panelToShow == _panelDificultad);
     }
 
-
     private void OnPlayButtonPressed()
     {
         ShowPanel(_contadorJugadores);
@@ -112,7 +110,6 @@ public partial class MenuPrincipal : Control
 
     private void OnOptionsButtonPressed()
     {
-        // Queda vacío por el momento para agregar opciones más adelante
         GD.Print("Configuración seleccionada (vacío por ahora)");
     }
 
@@ -140,35 +137,54 @@ public partial class MenuPrincipal : Control
             child.QueueFree();
         }
         _nameInputs.Clear();
+        _personajeInputs.Clear();
 
-        // Entrada para los nombres
         for (int i = 0; i < count; i++)
         {
+            var fila = new HBoxContainer();
+
             LineEdit input = new LineEdit
             {
                 PlaceholderText = $"Nombre Jugador {i + 1}",
-                Text = $"Jugador {i + 1}" 
+                Text = $"Jugador {i + 1}"
             };
-            _inputContainer.AddChild(input);
+
+            OptionButton personajeInput = new OptionButton();
+            foreach (string nombrePersonaje in NombresPersonajes)
+            {
+                personajeInput.AddItem(nombrePersonaje);
+            }
+            personajeInput.Selected = 0;
+
+            fila.AddChild(input);
+            fila.AddChild(personajeInput);
+            _inputContainer.AddChild(fila);
+
             _nameInputs.Add(input);
+            _personajeInputs.Add(personajeInput);
         }
     }
 
     private void OnStartGamePressed()
     {
         List<string> playerNames = new List<string>();
-        
+        List<TipoHabilidad> personajesElegidos = new List<TipoHabilidad>();
+
         foreach (LineEdit input in _nameInputs)
         {
             string name = string.IsNullOrWhiteSpace(input.Text) ? input.PlaceholderText : input.Text;
             playerNames.Add(name);
         }
 
-        // Guardar los nombres en un Autoload/Singleton global antes de cambiar de escena
+        foreach (OptionButton personajeInput in _personajeInputs)
+        {
+            personajesElegidos.Add((TipoHabilidad)personajeInput.Selected);
+        }
+
         Controller.GetInstance().NombresJugadores = playerNames;
+        Controller.GetInstance().PersonajesElegidos = personajesElegidos;
         Controller.GetInstance().InicializarJugadores();
 
-        // Cambiar a la escena principal del juego
         GetTree().ChangeSceneToFile("res://Objetos/tablero.tscn");
     }
 

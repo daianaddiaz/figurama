@@ -52,3 +52,21 @@ C:\Users\Daian\OneDrive\Escritorio\Proyecto Final\figurama\figurama\.godot\mono\
 C:\Users\Daian\OneDrive\Escritorio\Proyecto Final\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.csproj.Up2Date
 C:\Users\Daian\OneDrive\Escritorio\Proyecto Final\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.genruntimeconfig.cache
 C:\Users\Daian\OneDrive\Escritorio\Proyecto Final\figurama\figurama\.godot\mono\temp\obj\Debug\ref\Figurama.dll
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.csproj.AssemblyReference.cache
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.GeneratedMSBuildEditorConfig.editorconfig
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.AssemblyInfoInputs.cache
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.AssemblyInfo.cs
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.csproj.CoreCompileInputs.cache
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.sourcelink.json
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.dll
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\refint\Figurama.dll
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.pdb
+D:\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.deps.json
+D:\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.runtimeconfig.json
+D:\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.dll
+D:\figurama\figurama\.godot\mono\temp\bin\Debug\Figurama.pdb
+D:\figurama\figurama\.godot\mono\temp\bin\Debug\GodotSharp.dll
+D:\figurama\figurama\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.csproj.Up2Date
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\Figurama.genruntimeconfig.cache
+D:\figurama\figurama\.godot\mono\temp\obj\Debug\ref\Figurama.dll

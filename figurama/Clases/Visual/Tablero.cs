@@ -33,6 +33,12 @@ public partial class Tablero : Node3D
             Controller.GetInstance().InicializarJugadores();
         }
 
+        var botonHabilidad = GetNodeOrNull<Button>("UITemporal/BotonHabilidad");
+        if (botonHabilidad != null)
+        {
+            botonHabilidad.Pressed += OnHabilidadPresionada;
+        }
+
         rectRojo = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoRojo");
         rectAzul = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoAzul");
         rectAmarillo = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoAmarillo");
@@ -41,6 +47,7 @@ public partial class Tablero : Node3D
         ApagarTodosLosRects();
 
         Controller.GetInstance().UltimoColorCambiado += ActualizarColor;
+        Controller.GetInstance().FichaComodinDesactivada += OnFichaComodinDesactivada;
 
         Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
         ColorFicha[] coloresLogicos = { ColorFicha.Rojo, ColorFicha.Azul, ColorFicha.Amarillo, ColorFicha.Verde };
@@ -87,8 +94,9 @@ public partial class Tablero : Node3D
         GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
 
         ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
-        //Controller.GetInstance().CartaSeleccionada += OnCartaSeleccionadaCambiada;    
-}
+        
+        ActualizarBotonHabilidad();    
+    }
 
     private void OnFinTurnoPresionado()
     {
@@ -183,6 +191,45 @@ public partial class Tablero : Node3D
 
     private void OnFichaClickeada(Ficha ficha) 
     {
+        GD.Print($"Ficha clickeada. ModoHabilidad activo: {_modoSeleccionHabilidadActivo}");
+
+        if (_modoSeleccionHabilidadActivo)
+        {
+            var jugador = Controller.GetInstance().Jugadores()[Controller.GetInstance().JugadorActual];
+            bool activada = false;
+
+            GD.Print($"Tipo de personaje: {jugador.PersonajeAsignado.Tipo}");
+
+            if (jugador.PersonajeAsignado.Tipo == TipoHabilidad.Lobizon)
+            {
+                activada = Controller.GetInstance().ActivarHabilidadLobizon(ficha.Datos);
+                if (activada)
+                {
+                    ficha.ActivarComodinVisual();
+
+                    var celdaComodin = new HashSet<(int fila, int columna)>
+                    {
+                        (ficha.Datos.Fila, ficha.Datos.Columna)
+                    };
+                    Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdaComodin);
+                }
+            }
+
+            else if (jugador.PersonajeAsignado.Tipo == TipoHabilidad.Mulanima)
+            {
+                activada = Controller.GetInstance().ActivarHabilidadMulanima(ficha.Datos);
+            }
+
+            _modoSeleccionHabilidadActivo = false;
+            if (activada) ActualizarBotonHabilidad();
+            return;
+        }
+
+        if (ficha.Datos.Bloqueada && _fichaSeleccionada == null)
+        {
+            return;
+        }
+
         // Si no hay ficha seleccionada todavía, la marcamos como primera ficha
         if (_fichaSeleccionada == null)
         {
@@ -261,72 +308,74 @@ public partial class Tablero : Node3D
     }
 
     private void AlumbrarFichasDisponibles()
-{
-    CartaMovimiento cartaActiva = Controller.GetInstance().CartaSeleccionada;
-    if (cartaActiva == null) return;
-
-    //Ya se eligió una primera ficha -> ilumina los destinos válidos desde esa ficha
-    if (_fichaSeleccionada != null)
     {
-        for (int fila = 0; fila < TableroReglas.Filas; fila++)
-        {
-            for (int columna = 0; columna < TableroReglas.Columnas; columna++)
-            {
-                Ficha destino = GetFichaEnPosicion(fila, columna);
-                if (destino != null && destino != _fichaSeleccionada)
-                {
-                    AlumbrarSiEsValida(destino);
-                }
-            }
-        }
-    }
-    //No hay ficha elegida aún -> ilumina todas las fichas del tablero que puedan hacer al menos un movimiento
-    else
-    {
-        for (int f1 = 0; f1 < TableroReglas.Filas; f1++)
-        {
-            for (int c1 = 0; c1 < TableroReglas.Columnas; c1++)
-            {
-                Ficha origen = GetFichaEnPosicion(f1, c1);
-                if (origen == null) continue;
+        CartaMovimiento cartaActiva = Controller.GetInstance().CartaSeleccionada;
+        if (cartaActiva == null) return;
 
-                bool tieneOpcionValida = false;
-
-                for (int f2 = 0; f2 < TableroReglas.Filas; f2++)
+        //Ya se eligió una primera ficha -> ilumina los destinos válidos desde esa ficha
+        if (_fichaSeleccionada != null)
+        {
+            for (int fila = 0; fila < TableroReglas.Filas; fila++)
+            {
+                for (int columna = 0; columna < TableroReglas.Columnas; columna++)
                 {
-                    for (int c2 = 0; c2 < TableroReglas.Columnas; c2++)
+                    Ficha destino = GetFichaEnPosicion(fila, columna);
+                    if (destino != null && destino != _fichaSeleccionada)
                     {
-                        if (f1 == f2 && c1 == c2) continue;
-
-                        if (cartaActiva.EsValido(_reglas, f1, c1, f2, c2))
-                        {
-                            tieneOpcionValida = true;
-                            break;
-                        }
+                        AlumbrarSiEsValida(destino);
                     }
-                    if (tieneOpcionValida) break;
                 }
-
-                if (tieneOpcionValida)
+            }
+        }
+        //No hay ficha elegida aún -> ilumina todas las fichas del tablero que puedan hacer al menos un movimiento
+        else
+        {
+            for (int f1 = 0; f1 < TableroReglas.Filas; f1++)
+            {
+                for (int c1 = 0; c1 < TableroReglas.Columnas; c1++)
                 {
-                    EmitSignal(SignalName.Disponible, origen);
+                    Ficha origen = GetFichaEnPosicion(f1, c1);
+                    if (origen == null) continue;
+
+                    bool tieneOpcionValida = false;
+
+                    for (int f2 = 0; f2 < TableroReglas.Filas; f2++)
+                    {
+                        for (int c2 = 0; c2 < TableroReglas.Columnas; c2++)
+                        {
+                            if (f1 == f2 && c1 == c2) continue;
+
+                            if (cartaActiva.EsValido(_reglas, f1, c1, f2, c2))
+                            {
+                                tieneOpcionValida = true;
+                                break;
+                            }
+                        }
+                        if (tieneOpcionValida) break;
+                    }
+
+                    if (tieneOpcionValida)
+                    {
+                        EmitSignal(SignalName.Disponible, origen);
+                    }
                 }
             }
         }
     }
-}
 
-private void AlumbrarSiEsValida(Ficha ficha)
-{
-    CartaMovimiento cartaActiva = Controller.GetInstance().CartaSeleccionada;
-    if (cartaActiva != null && _fichaSeleccionada != null)
+    private void AlumbrarSiEsValida(Ficha ficha)
     {
-        if (cartaActiva.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        if (ficha.Datos.Bloqueada) return;
+
+        CartaMovimiento cartaActiva = Controller.GetInstance().CartaSeleccionada;
+        if (cartaActiva != null && _fichaSeleccionada != null)
         {
-            EmitSignal(SignalName.Disponible, ficha);
+            if (cartaActiva.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+            {
+                EmitSignal(SignalName.Disponible, ficha);
+            }
         }
     }
-}
     private Ficha GetFichaEnPosicion(int fila, int columna)
     {
         foreach (Node child in GetChildren())
@@ -352,6 +401,7 @@ private void AlumbrarSiEsValida(Ficha ficha)
         Manos[jugadorActual].Show();
         Manos.ForEach(man => man.ActualizarMano());
         ActualizarLabelTurno(jugadorActual);
+        ActualizarBotonHabilidad();
     }
 
     private void ActualizarLabelTurno(int jugadorActual)
@@ -368,5 +418,84 @@ private void AlumbrarSiEsValida(Ficha ficha)
     private void OnVolverMenuPresionado()
     {
         GetTree().ChangeSceneToFile("res://Objetos/menuPrincipal.tscn");
+    }
+
+    private bool _modoSeleccionHabilidadActivo = false;
+
+    private void OnHabilidadPresionada()
+    {
+        var jugador = Controller.GetInstance().Jugadores()[Controller.GetInstance().JugadorActual];
+        TipoHabilidad tipo = jugador.PersonajeAsignado.Tipo;
+
+        GD.Print($"Habilidad presionada. Tipo: {tipo}, PuedeUsar: {Controller.GetInstance().PuedeUsarHabilidad()}");
+
+        if (tipo == TipoHabilidad.Pomberito)
+        {
+            bool activada = Controller.GetInstance().ActivarHabilidadPomberito();
+            if (activada)
+            {
+                Manos[Controller.GetInstance().JugadorActual].ActualizarMano();
+            }
+            ActualizarBotonHabilidad();
+            return;
+        }
+
+        if (tipo == TipoHabilidad.LuzMala)
+        {
+            MostrarPopupLuzMala();
+            return;
+        }
+
+        // Lobizón y Mulánima necesitan clickear una ficha después
+        _modoSeleccionHabilidadActivo = true;
+        GD.Print($"Modo selección activado: {_modoSeleccionHabilidadActivo}");
+    }
+
+    private void ActualizarBotonHabilidad()
+    {
+        var botonHabilidad = GetNodeOrNull<Button>("UITemporal/BotonHabilidad");
+        if (botonHabilidad == null) return;
+
+        var jugador = Controller.GetInstance().Jugadores()[Controller.GetInstance().JugadorActual];
+        botonHabilidad.Text = jugador.PersonajeAsignado.Nombre;
+        botonHabilidad.Disabled = !Controller.GetInstance().PuedeUsarHabilidad();
+    }
+
+    private void MostrarPopupLuzMala()
+    {
+        var jugadores = Controller.GetInstance().Jugadores();
+        int actual = Controller.GetInstance().JugadorActual;
+
+        var popup = GetNode<PopupMenu>("UITemporal/PopupLuzMala");
+        popup.Clear();
+
+        for (int i = 0; i < jugadores.Length; i++)
+        {
+            if (i == actual) continue;
+            popup.AddItem(jugadores[i].nombre, i);
+        }
+
+        if (popup.IsConnected(PopupMenu.SignalName.IdPressed, Callable.From<long>(OnJugadorElegidoLuzMala)))
+        {
+            popup.IdPressed -= OnJugadorElegidoLuzMala;
+        }
+        popup.IdPressed += OnJugadorElegidoLuzMala;
+        popup.Popup();
+    }
+
+    private void OnJugadorElegidoLuzMala(long id)
+    {
+        var jugadores = Controller.GetInstance().Jugadores();
+        bool activada = Controller.GetInstance().ActivarHabilidadLuzMala(jugadores[id]);
+        if (activada) ActualizarBotonHabilidad();
+    }
+
+    private void OnFichaComodinDesactivada(FichaData datosFicha)
+    {
+        Ficha ficha = GetFichaEnPosicion(datosFicha.Fila, datosFicha.Columna);
+        if (ficha != null)
+        {
+            ficha.DesactivarComodinVisual();
+        }
     }
 }

@@ -8,6 +8,12 @@ public partial class Jugador
     public List<FiguraAsignada> figurasAArmar { get; set; } = new List<FiguraAsignada>();
     public bool RerollDisponible { get; set; } = true;
     public int Puntuacion { get; set; } = 0;
+    public int VueltasJugadas { get; set; } = 0;
+    public Personaje PersonajeAsignado { get; set; }
+    public List<FichaData> FichasBloqueadas { get; set; } = new List<FichaData>();
+    public int CartasMovimientoAQuitar { get; set; } = 0;
+    public FichaData FichaComodinActiva { get; set; }
+    public int MovimientosExtraEsteTurno { get; set; } = 0;
 
     public Jugador() { }
 
@@ -16,7 +22,7 @@ public partial class Jugador
         Console.WriteLine("Ingrese el nombre del jugador:");
         nombre = Console.ReadLine();
     }
-
+    
     public void jugarTurno()
     {
         // Lógica para que el jugador juegue su turno

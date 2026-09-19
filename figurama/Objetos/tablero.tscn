@@ -63,3 +63,13 @@ offset_top = 575.0
 offset_right = 1096.0
 offset_bottom = 606.0
 text = "Finalizar Turno "
+
+[node name="BotonHabilidad" type="Button" parent="UITemporal" unique_id=1166134561]
+offset_left = 977.0
+offset_top = 527.0
+offset_right = 1092.0
+offset_bottom = 559.0
+
+[node name="PopupLuzMala" type="PopupMenu" parent="UITemporal" unique_id=629803135]
+oversampling_override = 1.0
+position = Vector2i(1000, 400)

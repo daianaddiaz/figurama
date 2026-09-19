@@ -9,6 +9,7 @@ public partial class Ficha : Node3D
 
     private MeshInstance3D _visual;
     private SpotLight3D _luz;
+    private Color _colorVisualActual;
 
     public override void _Ready()
     {
@@ -31,6 +32,7 @@ public partial class Ficha : Node3D
 
     public void SetearColor(Color color)
     {
+        _colorVisualActual = color;
         var material = new StandardMaterial3D();
         material.AlbedoColor = color;
         _visual.MaterialOverride = material;
@@ -72,6 +74,20 @@ public partial class Ficha : Node3D
     public void _on_timer_efecto_completada_timeout()
     {
         GetNode<StateMachine>("FSM").ChangeState("Neutral");
+    }
+
+    private static readonly Color ColorComodin = new Color(0.4f, 0.8f, 1.0f);
+    private Color _colorAntesDeComodin;
+
+    public void ActivarComodinVisual()
+    {
+        _colorAntesDeComodin = _colorVisualActual;
+        SetearColor(ColorComodin);
+    }
+
+    public void DesactivarComodinVisual()
+    {
+        SetearColor(_colorAntesDeComodin);
     }
 
 }

@@ -7,8 +7,11 @@ public partial class Controller
     public static Controller _instance;
 
     public List<string> NombresJugadores { get; set; } = new List<string>();
+    public List<TipoHabilidad> PersonajesElegidos { get; set; } = new List<TipoHabilidad>();
     public int CantidadCartasMovimiento { get; set; } = 3;
     public int CantidadFigurasPorJugador { get; set; } = 4;
+    public ColorFicha? UltimoColorUsado { get; private set; }
+    
 
     private TableroReglas tablero;
     private Jugador[] jugadores;
@@ -20,10 +23,10 @@ public partial class Controller
     public CartaMovimiento CartaSeleccionada { get; set; } = null;
     public event System.Action<int> TurnoCambiado;
     public event System.Action<CartaMovimiento> CartaUsadaEvent;
-    public ColorFicha? UltimoColorUsado { get; private set; }
     public event System.Action<ColorFicha> UltimoColorCambiado;
     public event System.Action<string> Victoria;
     public event System.Action<float> TemporizadorActualizado;
+    public event System.Action<FichaData> FichaComodinDesactivada;
 
     public event System.Action TiempoAgotado; // Aviso a UI
 
@@ -32,7 +35,7 @@ public partial class Controller
     private bool enPausa = false; // Pausa el juego
 
     public int MovimientosUsadosEnTurno { get; private set; } = 0;
-    public const int MAX_MOVIMIENTOS_POR_TURNO = 3;
+    public int MaxMovimientosPorTurnoBase { get; set; } = 3;
 
     // Temporizador
 
@@ -78,81 +81,92 @@ public partial class Controller
 
     public void InicializarJugadores()
     {   
-            int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
-            jugadores = new Jugador[cantidad];
+        TurnoCambiado = null;
+        Victoria = null;
+        UltimoColorCambiado = null;
+        CartaUsadaEvent = null;
+        TemporizadorActualizado = null;
+        TiempoAgotado = null;
+        FiguraCompletada = null;
+            
+        int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
+        jugadores = new Jugador[cantidad];
 
-            for (int i = 0; i < cantidad; i++)
+        for (int i = 0; i < cantidad; i++)
+        {
+            string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
+
+            var figuras = new List<FiguraAsignada>();
+            foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
             {
-                string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
-
-                var figuras = new List<FiguraAsignada>();
-                foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
-                {
-                    figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
-                }
-
-                jugadores[i] = new Jugador
-                {
-                    nombre = nombre,
-                    manoCartas = MazoMovimiento.GetInstance().generarMano(), // Trae 3 cartas iniciales
-                    figurasAArmar = figuras
-                };
+                figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
             }
 
-            JugadorActual = 0;
-            condicionDeVictoria = false;
-            enPausa = false; 
-            MovimientosUsadosEnTurno = 0;
-            ReiniciarTemporizador();
+            TipoHabilidad tipo = i < PersonajesElegidos.Count ? PersonajesElegidos[i] : TipoHabilidad.Lobizon;
+
+            jugadores[i] = new Jugador
+            {
+                nombre = nombre,
+                manoCartas = MazoMovimiento.GetInstance().generarMano(), // Trae 3 cartas iniciales
+                figurasAArmar = figuras,
+                PersonajeAsignado = new Personaje { Nombre = nombre, Tipo = tipo }
+            };
+        }
+
+        JugadorActual = 0;
+        condicionDeVictoria = false;
+        enPausa = false; 
+        MovimientosUsadosEnTurno = 0;
+        ReiniciarTemporizador();
     }
 
     // Metodo para descontar tiempo
 
-private float _tiempoEsperaPausa = 0.0f;
+    private float _tiempoEsperaPausa = 0.0f;
 
-public void ActualizarTiempo(float delta)
-{
-    if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
-
-    // Manejo del tiempo de espera post-agotado (3 segundos de pausa)
-    if (enPausa)
+    public void ActualizarTiempo(float delta)
     {
-        _tiempoEsperaPausa -= delta;
-        if (_tiempoEsperaPausa <= 0.0f)
+        if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
+
+        // Manejo del tiempo de espera post-agotado (3 segundos de pausa)
+        if (enPausa)
         {
-            enPausa = false;
-            TerminarTurno();
+            _tiempoEsperaPausa -= delta;
+            if (_tiempoEsperaPausa <= 0.0f)
+            {
+                enPausa = false;
+                TerminarTurno();
+            }
+            return;
         }
-        return;
+
+        if (!temporizadorActivo) return;
+
+        TiempoRestante -= delta;
+
+        if (TiempoRestante <= 0.0f)
+        {
+            TiempoRestante = 0.0f;
+            temporizadorActivo = false;
+            enPausa = true;
+            _tiempoEsperaPausa = 3.0f; // Pausa de 3 segundos dentro del bucle principal
+
+            TemporizadorActualizado?.Invoke(TiempoRestante);
+            TiempoAgotado?.Invoke();
+        }
+        else
+        {
+            TemporizadorActualizado?.Invoke(TiempoRestante);
+        }
     }
 
-    if (!temporizadorActivo) return;
-
-    TiempoRestante -= delta;
-
-    if (TiempoRestante <= 0.0f)
+    private void ReiniciarTemporizador()
     {
-        TiempoRestante = 0.0f;
-        temporizadorActivo = false;
-        enPausa = true;
-        _tiempoEsperaPausa = 3.0f; // Pausa de 3 segundos dentro del bucle principal
-
-        TemporizadorActualizado?.Invoke(TiempoRestante);
-        TiempoAgotado?.Invoke();
-    }
-    else
-    {
+        TiempoRestante = TIEMPO_MAXIMO_TURNO;
+        enPausa = false;
+        temporizadorActivo = true;
         TemporizadorActualizado?.Invoke(TiempoRestante);
     }
-}
-
-private void ReiniciarTemporizador()
-{
-    TiempoRestante = TIEMPO_MAXIMO_TURNO;
-    enPausa = false;
-    temporizadorActivo = true;
-    TemporizadorActualizado?.Invoke(TiempoRestante);
-}
 
     public void CambiarCartaSeleccionada(CartaMovimiento carta)
     {
@@ -170,81 +184,176 @@ private void ReiniciarTemporizador()
     public CartaMovimiento MovimientoActual() => CartaSeleccionada;
 
     public List<CartaFigura> ChequearFigurasCompletadas(TableroReglas tableroVisual, HashSet<(int fila, int columna)> celdasMovidas)
-{
-    var completadasAhora = new List<CartaFigura>();
-    Jugador jugador = jugadores[JugadorActual];
-
-    for (int i = 0; i < jugador.figurasAArmar.Count; i++)
-{
-    FiguraAsignada asignada = jugador.figurasAArmar[i];
-    if (asignada.Completada) continue;
-
-    var celdas = tableroVisual.BuscarFigura(asignada.Figura, celdasMovidas);
-
-    if (celdas != null)
     {
-        ColorFicha colorFormado = tableroVisual.ObtenerFicha(celdas[0].fila, celdas[0].columna).Color;
-        
-        if (UltimoColorUsado.HasValue && colorFormado == UltimoColorUsado.Value) continue;
+        var completadasAhora = new List<CartaFigura>();
+        Jugador jugador = jugadores[JugadorActual];
 
-        asignada.Completada = true;
-        jugador.Puntuacion += asignada.Figura.CantidadFichas;
-        completadasAhora.Add(asignada.Figura);
+        for (int i = 0; i < jugador.figurasAArmar.Count; i++)
+        {
+            FiguraAsignada asignada = jugador.figurasAArmar[i];
+            if (asignada.Completada) continue;
 
-        UltimoColorUsado = colorFormado;
-        UltimoColorCambiado?.Invoke(colorFormado);
+            var celdas = tableroVisual.BuscarFigura(asignada.Figura, celdasMovidas);
 
-        // Reemplaza la figura completada por una carta nueva del mazo
-        FiguraCompletada?.Invoke(asignada.Figura);
+            if (celdas != null)
+            {
+                ColorFicha colorFormado = tableroVisual.ObtenerFicha(celdas[0].fila, celdas[0].columna).Color;
+                
+                if (UltimoColorUsado.HasValue && colorFormado == UltimoColorUsado.Value) continue;
+
+                asignada.Completada = true;
+                jugador.Puntuacion += asignada.Figura.CantidadFichas;
+                completadasAhora.Add(asignada.Figura);
+
+                UltimoColorUsado = colorFormado;
+                UltimoColorCambiado?.Invoke(colorFormado);
+
+                // Reemplaza la figura completada por una carta nueva del mazo
+                FiguraCompletada?.Invoke(asignada.Figura);
+            }
+        }
+
+        if (jugador.figurasAArmar.TrueForAll(f => f.Completada))
+        {
+            condicionDeVictoria = true;
+            temporizadorActivo = false;
+            Victoria?.Invoke(jugador.nombre);
+        }
+
+        return completadasAhora;
     }
-}
 
-    if (jugador.figurasAArmar.TrueForAll(f => f.Completada))
-    {
-        condicionDeVictoria = true;
-        temporizadorActivo = false;
-        Victoria?.Invoke(jugador.nombre);
-    }
-
-    return completadasAhora;
-}
-
-   public void RegistrarMovimientoRealizado(CartaMovimiento cartaUsada)
+    public void RegistrarMovimientoRealizado(CartaMovimiento cartaUsada)
     {
         Jugador jugador = jugadores[JugadorActual];
-        
-        // Remarcamos la carta como ejecutada en la mano actual
+
         int index = jugador.manoCartas.IndexOf(cartaUsada);
         if (index != -1)
         {
-        // No puede ser seleccionada esa carta en este turno
-            jugador.manoCartas[index] = null; 
+            jugador.manoCartas[index] = null;
         }
 
         MovimientosUsadosEnTurno++;
 
         CartaUsadaEvent?.Invoke(cartaUsada);
 
-        // Si consumió las 3 cartas de su turno, se finaliza automáticamente
-        if (MovimientosUsadosEnTurno >= MAX_MOVIMIENTOS_POR_TURNO)
+        int limiteEsteTurno = MaxMovimientosPorTurnoBase + jugador.MovimientosExtraEsteTurno;
+        if (MovimientosUsadosEnTurno >= limiteEsteTurno)
         {
             TerminarTurno();
         }
-}
+    }
 
     public void TerminarTurno()
-{
-    CartaSeleccionada = null;
-    if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
+    {
+        CartaSeleccionada = null;
+        if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
 
-    MovimientosUsadosEnTurno = 0;
+        MovimientosUsadosEnTurno = 0;
+        jugadores[JugadorActual].MovimientosExtraEsteTurno = 0;
+
+        Jugador jugadorSaliente = jugadores[JugadorActual];
+        jugadorSaliente.VueltasJugadas++;
+
+        if (jugadorSaliente.FichaComodinActiva != null)
+        {
+            jugadorSaliente.FichaComodinActiva.EsComodin = false;
+            FichaComodinDesactivada?.Invoke(jugadorSaliente.FichaComodinActiva);
+            jugadorSaliente.FichaComodinActiva = null;
+        }
+
+        JugadorActual = (JugadorActual + 1) % jugadores.Length;
+        Jugador jugadorEntrante = jugadores[JugadorActual];
+
+        jugadorEntrante.manoCartas = MazoMovimiento.GetInstance().generarMano();
+
+        if (jugadorEntrante.CartasMovimientoAQuitar > 0)
+        {
+            int aQuitar = jugadorEntrante.CartasMovimientoAQuitar;
+            for (int i = 0; i < aQuitar && jugadorEntrante.manoCartas.Count > 0; i++)
+            {
+                jugadorEntrante.manoCartas.RemoveAt(jugadorEntrante.manoCartas.Count - 1);
+            }
+            jugadorEntrante.CartasMovimientoAQuitar = 0;
+        }
+
+        if (jugadorEntrante.PersonajeAsignado.Tipo == TipoHabilidad.Mulanima)
+        {
+            var habilidadMulanima = new HabilidadMulanima();
+            habilidadMulanima.LiberarTodas(jugadorEntrante);
+        }
+
+        jugadorEntrante.RerollDisponible = true;
+
+        ReiniciarTemporizador();
+        TurnoCambiado?.Invoke(JugadorActual);
+    }
     
-    // El jugador que termina el turno o el nuevo roba 3 cartas completas
-    JugadorActual = (JugadorActual + 1) % jugadores.Length;
-    jugadores[JugadorActual].manoCartas = MazoMovimiento.GetInstance().generarMano();
-    jugadores[JugadorActual].RerollDisponible = true;
+    private Habilidad ObtenerHabilidad(TipoHabilidad tipo)
+    {
+        return tipo switch
+        {
+            TipoHabilidad.Lobizon => new HabilidadLobizon(),
+            TipoHabilidad.LuzMala => new HabilidadLuzMala(),
+            TipoHabilidad.Pomberito => new HabilidadPomberito(),
+            TipoHabilidad.Mulanima => new HabilidadMulanima(),
+            _ => null
+        };
+    }
 
-    ReiniciarTemporizador();
-    TurnoCambiado?.Invoke(JugadorActual);
-}
+    public bool PuedeUsarHabilidad()
+    {
+        if (jugadores == null || jugadores.Length == 0) return false;
+        Jugador jugador = jugadores[JugadorActual];
+        Habilidad habilidad = ObtenerHabilidad(jugador.PersonajeAsignado.Tipo);
+        return habilidad.PuedeActivarse(jugador.PersonajeAsignado, jugador);
+    }
+
+    public bool ActivarHabilidadLobizon(FichaData ficha)
+    {
+        if (!PuedeUsarHabilidad()) return false;
+        Jugador jugador = jugadores[JugadorActual];
+        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.Lobizon) return false;
+
+        var habilidad = (HabilidadLobizon)ObtenerHabilidad(TipoHabilidad.Lobizon);
+        habilidad.Activar(jugador, ficha);
+        habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        return true;
+    }
+
+    public bool ActivarHabilidadPomberito()
+    {
+        if (!PuedeUsarHabilidad()) return false;
+        Jugador jugador = jugadores[JugadorActual];
+        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.Pomberito) return false;
+
+        var habilidad = (HabilidadPomberito)ObtenerHabilidad(TipoHabilidad.Pomberito);
+        habilidad.Activar(jugador);
+        habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        return true;
+    }
+
+    public bool ActivarHabilidadLuzMala(Jugador jugadorObjetivo)
+    {
+        if (!PuedeUsarHabilidad()) return false;
+        Jugador jugador = jugadores[JugadorActual];
+        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.LuzMala) return false;
+
+        var habilidad = (HabilidadLuzMala)ObtenerHabilidad(TipoHabilidad.LuzMala);
+        habilidad.Activar(jugadorObjetivo);
+        habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        return true;
+    }
+
+    public bool ActivarHabilidadMulanima(FichaData ficha)
+    {
+        if (!PuedeUsarHabilidad()) return false;
+        Jugador jugador = jugadores[JugadorActual];
+        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.Mulanima) return false;
+
+        var habilidad = (HabilidadMulanima)ObtenerHabilidad(TipoHabilidad.Mulanima);
+        habilidad.Activar(jugador, ficha);
+        habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        return true;
+    }
 }

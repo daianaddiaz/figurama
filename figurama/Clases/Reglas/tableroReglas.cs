@@ -34,10 +34,13 @@ public class TableroReglas
 
     public List<(int fila, int columna)> BuscarFigura(CartaFigura figura, HashSet<(int fila, int columna)> celdasMovidas)
     {
+        GD.Print($"BuscarFigura llamado. Figura: {figura.Nombre}. CeldasMovidas: {string.Join(" | ", celdasMovidas)}");
+
         var celdasDisparadoras = new HashSet<(int fila, int columna)>(celdasMovidas);
 
         int[] deltaFila = { -1, 1, 0, 0 };
         int[] deltaColumna = { 0, 0, -1, 1 };
+
 
         foreach (var celda in celdasMovidas)
         {
@@ -59,10 +62,14 @@ public class TableroReglas
             {
                 if (figura.EsValida(this, fila, columna, out List<(int fila, int columna)> celdas))
                 {
+
+                    GD.Print($"EsValida=true en ancla ({fila},{columna}). Celdas: {string.Join(" | ", celdas)}");
+
                     foreach (var celda in celdas)
                     {
                         if (celdasDisparadoras.Contains(celda))
                         {
+                            GD.Print("MATCH con disparador, retornando.");
                             return celdas;
                         }
                     }
@@ -71,7 +78,7 @@ public class TableroReglas
                 }
             }
         }
-
+        GD.Print("BuscarFigura terminó sin encontrar nada.");
         return null;
     }
 }

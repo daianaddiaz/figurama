@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj": {}
+    "D:\\figurama\\figurama\\Figurama.csproj": {}
   },
   "projects": {
-    "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj": {
+    "D:\\figurama\\figurama\\Figurama.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
+        "projectUniqueName": "D:\\figurama\\figurama\\Figurama.csproj",
         "projectName": "Figurama",
-        "projectPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
+        "projectPath": "D:\\figurama\\figurama\\Figurama.csproj",
         "packagesPath": "C:\\Users\\alema\\.nuget\\packages\\",
-        "outputPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
+        "outputPath": "D:\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\alema\\AppData\\Roaming\\NuGet\\NuGet.Config"

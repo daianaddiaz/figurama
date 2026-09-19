@@ -1,9 +1,10 @@
+PopupMenu
+Button
 TextureRect
 TextEdit
 Timer
 Node
 Label
-Button
 Control
 Panel
 RichTextLabel

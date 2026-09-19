@@ -1,8 +1,8 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1789617125
+::res://::1789823736
 export_presets.cfg::TextFile::-1::1789604309::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::6141088547517699221::1789604309::1789604362::1::::<><><>0<>0<>9b2f75d8ce0467cc2d8701694d79ca8b<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
-::res://Assets/::1789604362
+::res://Assets/::1789821814
 Moneda_Lobizon.png::CompressedTexture2D::2236820278071145466::1789604309::1789604362::1::::<><><>0<>0<>be27ec3bfcabfc6963a3215aed524763<>res://.godot/imported/Moneda_Lobizon.png-c9d9fdecee5c7c959e895fa9538ad6ff.ctex::
 Moneda_LuzMala.png::CompressedTexture2D::6325839610624295801::1789604309::1789604362::1::::<><><>0<>0<>540815227806b8bd3ecc7d19e7d76139<>res://.godot/imported/Moneda_LuzMala.png-2c15ee8e5ee78bd0bd4a951af3cb621c.ctex::
 Moneda_Mulanima.png::CompressedTexture2D::8415659154866628269::1789604309::1789604362::1::::<><><>0<>0<>3476feb5d29ae75a6e2cc9e0eb59946e<>res://.godot/imported/Moneda_Mulanima.png-bbb1411f0d887095d315b7e4e82ef70f.ctex::
@@ -11,7 +11,7 @@ ultimoAmarillo.png::CompressedTexture2D::2146710253486119598::1789604309::178960
 ultimoAzul.png::CompressedTexture2D::1573590846337058836::1789604309::1789604362::1::::<><><>0<>0<>8e5339f095cd351c3eb2344b65d1ffe8<>res://.godot/imported/ultimoAzul.png-940c94570cf44d5065ee9c3c0f8d6bb4.ctex::
 ultimoRojo.png::CompressedTexture2D::2308562217742597916::1789604309::1789604362::1::::<><><>0<>0<>de868b342751a9042e8b1192f68291be<>res://.godot/imported/ultimoRojo.png-7cce148870852d26b5227fb574571214.ctex::
 ultimoVerde.png::CompressedTexture2D::6709052250314097078::1789604309::1789604362::1::::<><><>0<>0<>1903f165f2347e8d1e24eef8cf460437<>res://.godot/imported/ultimoVerde.png-3414d4f4c48af5dd8445484a6cd1b00c.ctex::
-::res://Assets/Cartas Figuras/::1789604362
+::res://Assets/Cartas Figuras/::1789821814
 figura4_cubo.png::CompressedTexture2D::4893248654052269890::1789604309::1789604362::1::::<><><>0<>0<>9b2de93fdd9a161d4fe83195e76ae6b7<>res://.godot/imported/figura4_cubo.png-a4a1be7c4ad2ac137625ba570b54f478.ctex::
 figura4_enT.png::CompressedTexture2D::701424667782118450::1789604309::1789604362::1::::<><><>0<>0<>52262c0bb035e0da808bf58c6a7d6692<>res://.godot/imported/figura4_enT.png-73fab5ad24f86e46598d23897192ef7d.ctex::
 figura4_LDerecha.png::CompressedTexture2D::2942747063351543095::1789604309::1789604362::1::::<><><>0<>0<>224c138813ec38c88a00db8e43ce4872<>res://.godot/imported/figura4_LDerecha.png-24918fa14e2ba93aaceaa61e5def8fb8.ctex::
@@ -29,7 +29,7 @@ figura5_TDerecha.png::CompressedTexture2D::673687780079236434::1789604309::17896
 figura5_TIzquierda.png::CompressedTexture2D::2155896209172423139::1789604309::1789604362::1::::<><><>0<>0<>c63641f91c886f8246c9b14765cd8b49<>res://.godot/imported/figura5_TIzquierda.png-86e38f170fb4b95a8958110dc73878ac.ctex::
 figura5_U.png::CompressedTexture2D::6173336797208705078::1789604309::1789604362::1::::<><><>0<>0<>72d66e993c8911cb4a7127af9c9545a1<>res://.godot/imported/figura5_U.png-a6d5c6c94f97541ce3c30c23337bf60e.ctex::
 figura5_zeta.png::CompressedTexture2D::6133558462795379622::1789604309::1789604362::1::::<><><>0<>0<>440adbee7aa4a73ae320ca27b60fe044<>res://.godot/imported/figura5_zeta.png-4231970e256f0432f34a5f0f17132301.ctex::
-::res://Assets/Cartas Movimiento/::1789604362
+::res://Assets/Cartas Movimiento/::1789821814
 dorso_movimiento.png::CompressedTexture2D::3557072662939183553::1789604309::1789604362::1::::<><><>0<>0<>c4a54f067f120c82b135215ce4a2a392<>res://.godot/imported/dorso_movimiento.png-43cdeb8b9594958f05c8d870d5b009be.ctex::
 Mov_ContDiag.png::CompressedTexture2D::5947162861474710234::1789604309::1789604362::1::::<><><>0<>0<>561325d620dede7eb5ff84c94150d723<>res://.godot/imported/Mov_ContDiag.png-7b47c1a386f5bfd668c4cee963835798.ctex::
 Mov_ContLinea.png::CompressedTexture2D::2299580489697984560::1789604309::1789604362::1::::<><><>0<>0<>c14e705391b2750efc29b8cad91d801e<>res://.godot/imported/Mov_ContLinea.png-262b5e9f535be83a1cb2a6cc03baadfb.ctex::
@@ -38,18 +38,19 @@ Mov_LDerecha.png::CompressedTexture2D::1610375254993528906::1789604309::17896043
 Mov_LIzquierda.png::CompressedTexture2D::7549823247796608455::1789604309::1789604362::1::::<><><>0<>0<>496e28c7e740bb0fd87c4260a5095b0f<>res://.godot/imported/Mov_LIzquierda.png-3d1978fa87286eaa81a9d98092360223.ctex::
 Mov_UnEspacioDiagonal.png::CompressedTexture2D::2360128980717854146::1789604309::1789604362::1::::<><><>0<>0<>6e6f65df71dfba144bcd9e14a0e5e11b<>res://.godot/imported/Mov_UnEspacioDiagonal.png-7451506ba9519b5d62ac54a8a5f8c038.ctex::
 Mov_UnEspacioLinea.png::CompressedTexture2D::8530275574281267247::1789604309::1789604362::1::::<><><>0<>0<>5b6282fa0b86eac19d3d79d3614e8cb3<>res://.godot/imported/Mov_UnEspacioLinea.png-a230bdf61983e3b29722492580856c07.ctex::
-::res://Clases/::1789604309
-::res://Clases/Datos/::1789604309
+::res://Clases/::1789821814
+::res://Clases/Datos/::1789821814
 ColorFicha.cs::CSharpScript::8881088409954103630::1789604309::0::1::::<><><>0<>0<><>::
 DatosPartida.cs::CSharpScript::5298899233373010495::1789604309::0::1::::<><><>0<>0<><>::
-FichaData.cs::CSharpScript::2082263206392911570::1789604309::0::1::::<><><>0<>0<><>::
+FichaData.cs::CSharpScript::2082263206392911570::1789817227::0::1::::<><><>0<>0<><>::
 FiguraAsignada.cs::CSharpScript::1351126085954021799::1789604309::0::1::::<><><>0<>0<><>::
-Jugador.cs::CSharpScript::1574147830228686958::1789604309::0::1::::<><><>0<>0<><>::
+Jugador.cs::CSharpScript::1574147830228686958::1789821283::0::1::::<><><>0<>0<><>::
+Personaje.cs::CSharpScript::2387783142225487986::1789778784::0::1::::<><><>0<>0<><>::
 RepositorioPartida.json::JSON::-1::1789604309::0::1::::<><><>0<>0<><>::
-::res://Clases/Reglas/::1789604309
-CartaFigura.cs::CSharpScript::1722263161638519597::1789604309::0::1::::<><><>0<>0<><>::
+::res://Clases/Reglas/::1789821814
+CartaFigura.cs::CSharpScript::1722263161638519597::1789817313::0::1::::<><><>0<>0<><>::
 CartaMovimiento.cs::CSharpScript::9042535649731417366::1789604309::0::1::::<><><>0<>0<><>::
-Controller.cs::CSharpScript::2419138190147766690::1789614807::0::1::::<><><>0<>0<><>::
+Controller.cs::CSharpScript::2419138190147766690::1789821578::0::1::::<><><>0<>0<><>::
 FiguraB.cs::CSharpScript::489752363939198289::1789604309::0::1::::<><><>0<>0<><>::
 FiguraCruz.cs::CSharpScript::5973878617070627617::1789604309::0::1::::<><><>0<>0<><>::
 FiguraCuadrado.cs::CSharpScript::8206882981722458032::1789604309::0::1::::<><><>0<>0<><>::
@@ -64,9 +65,14 @@ FiguraU.cs::CSharpScript::4691226306226068085::1789604309::0::1::::<><><>0<>0<><
 FiguraV.cs::CSharpScript::9133217563181380450::1789604309::0::1::::<><><>0<>0<><>::
 FiguraZ.cs::CSharpScript::1794537401890698647::1789604309::0::1::::<><><>0<>0<><>::
 FiguraZigZag.cs::CSharpScript::3510427623279330233::1789604309::0::1::::<><><>0<>0<><>::
+Habilidad.cs::CSharpScript::258402585650505356::1789790679::0::1::::<><><>0<>0<><>::
+HabilidadLobizon.cs::CSharpScript::5921529546297118759::1789778892::0::1::::<><><>0<>0<><>::
+HabilidadLuzMala.cs::CSharpScript::3791704499303188192::1789782699::0::1::::<><><>0<>0<><>::
+HabilidadMulanima.cs::CSharpScript::1021352713007717983::1789821305::0::1::::<><><>0<>0<><>::
+HabilidadPomberito.cs::CSharpScript::228872563057890274::1789782667::0::1::::<><><>0<>0<><>::
 Juego.cs::CSharpScript::3332004772266015024::1789604309::0::1::::<><><>0<>0<><>::
 MazoFiguras.cs::CSharpScript::5017831829326039205::1789604309::0::1::::<><><>0<>0<><>::
-MazoMovimiento.cs::CSharpScript::3062947940105139731::1789614100::0::1::::<><><>0<>0<><>::
+MazoMovimiento.cs::CSharpScript::3062947940105139731::1789617185::0::1::::<><><>0<>0<><>::
 MovimientoDiagonalConEspacio.cs::CSharpScript::4833418444286423830::1789604309::0::1::::<><><>0<>0<><>::
 MovimientoDiagonalContiguo.cs::CSharpScript::6637111756802348569::1789604309::0::1::::<><><>0<>0<><>::
 MovimientoEnL.cs::CSharpScript::6085065821025863938::1789604309::0::1::::<><><>0<>0<><>::
@@ -74,10 +80,10 @@ MovimientoLateralAlBorde.cs::CSharpScript::7213804847591223114::1789604309::0::1
 MovimientoLateralConEspacio.cs::CSharpScript::3044721259187567966::1789604309::0::1::::<><><>0<>0<><>::
 MovimientoLateralContiguo.cs::CSharpScript::3931391484998301682::1789604309::0::1::::<><><>0<>0<><>::
 tableroReglas.cs::CSharpScript::335241601201704681::1789604309::0::1::::<><><>0<>0<><>::
-::res://Clases/Visual/::1789604309
+::res://Clases/Visual/::1789821814
 CartaDeFiguraView.cs::CSharpScript::2969666797665226070::1789604309::0::1::::<>Label<><>0<>0<><>::
 CartaMovimientoView.cs::CSharpScript::6000495580118007348::1789610718::0::1::::<>Button<><>0<>0<><>::
-Ficha.cs::CSharpScript::564603649285947792::1789604309::0::1::::<>Node3D<><>0<>0<><>::
+Ficha.cs::CSharpScript::564603649285947792::1789819506::0::1::::<>Node3D<><>0<>0<><>::
 FichaCompletada.cs::CSharpScript::7141058745214840951::1789604309::0::1::::<>Node<><>0<>0<><>::
 FichaDisponible.cs::CSharpScript::907748018774126862::1789604309::0::1::::<>Node<><>0<>0<><>::
 FichaNeutral.cs::CSharpScript::3042227252797126284::1789604309::0::1::::<>Node<><>0<>0<><>::
@@ -88,10 +94,10 @@ MenuPrincipal.cs::CSharpScript::2643270710963309825::1789604309::0::1::::<>Contr
 PuntuacionView.cs::CSharpScript::851781569503772886::1789606826::0::1::::<>Label<><>0<>0<><>::
 State.cs::CSharpScript::787727408741470371::1789604309::0::1::::<>Node<><>0<>0<><>::
 StateMachine.cs::CSharpScript::18987110142428171::1789604309::0::1::::<>Node<><>0<>0<><>::
-Tablero.cs::CSharpScript::8618146917132187873::1789610906::0::1::::<>Node3D<><>0<>0<><>::
+Tablero.cs::CSharpScript::8618146917132187873::1789617797::0::1::::<>Node3D<><>0<>0<><>::
 TableroView.cs::CSharpScript::7918676806802144505::1789604309::0::1::::<>Node<><>0<>0<><>::
 TimerView.cs::CSharpScript::8398782829621221284::1789604309::0::1::::<>Control<><>0<>0<><>::
-::res://Objetos/::1789609280
+::res://Objetos/::1789821814
 carta_de_figura.tscn::PackedScene::6522917246890717495::1789604309::0::1::::<><><>0<>0<><>::uid://bikr8i5p4eaw1::::res://Clases/Visual/CartaDeFiguraView.cs
 carta_de_movimiento.tscn::PackedScene::7645618697957655214::1789609280::0::1::::<><><>0<>0<><>::uid://crqxjycehku6g::::res://Clases/Visual/CartaMovimientoView.cs<>uid://bqxcp46qfi0h6::::res://Assets/Cartas Movimiento/dorso_movimiento.png
 ficha.tscn::PackedScene::7886714728035343336::1789604309::0::1::::<><><>0<>0<><>::uid://ibq67gufwybo::::res://Clases/Visual/Ficha.cs<>uid://jgykpuxokf0::::res://Clases/Visual/StateMachine.cs<>uid://bjlxbkmoyfurs::::res://Clases/Visual/FichaNeutral.cs<>uid://cdtn5376lxn6b::::res://Clases/Visual/FichaSeleccionada.cs<>uid://m6yqhxwotvb7::::res://Clases/Visual/FichaDisponible.cs<>uid://c80ggurkoh2k6::::res://Clases/Visual/FichaCompletada.cs

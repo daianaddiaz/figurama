@@ -40,7 +40,7 @@ public abstract class CartaFigura
             }
 
             FichaData ficha = tablero.ObtenerFicha(fila, columna);
-            if (ficha == null || ficha.Color != colorEsperado)
+            if (ficha == null || (!ficha.EsComodin && ficha.Color != colorEsperado))
             {
                 celdas = null;
                 return false;
@@ -67,9 +67,9 @@ public abstract class CartaFigura
                     continue;
 
                 FichaData vecino = tablero.ObtenerFicha(filaVecina, columnaVecina);
-                if (vecino != null && vecino.Color == colorEsperado)
+                if (vecino != null && (vecino.EsComodin || vecino.Color == colorEsperado))
                 {
-                    celdas = null;
+                    Godot.GD.Print($"[{Nombre}] Rechazado: vecino en ({filaVecina},{columnaVecina}) tiene color {vecino.Color}, EsComodin={vecino.EsComodin}. Color esperado de la figura: {colorEsperado}.");
                     return false;
                 }
             }
