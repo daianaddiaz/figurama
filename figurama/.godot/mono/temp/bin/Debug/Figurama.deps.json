@@ -8,14 +8,23 @@
     ".NETCoreApp,Version=v8.0": {
       "Figurama/1.0.0": {
         "dependencies": {
+<<<<<<< Updated upstream
           "GodotSharp": "4.7.1",
           "GodotSharpEditor": "4.7.1"
+=======
+          "GodotSharp": "4.7.2",
+          "GodotSharpEditor": "4.7.2"
+>>>>>>> Stashed changes
         },
         "runtime": {
           "Figurama.dll": {}
         }
       },
+<<<<<<< Updated upstream
       "GodotSharp/4.7.1": {
+=======
+      "GodotSharp/4.7.2": {
+>>>>>>> Stashed changes
         "runtime": {
           "lib/net8.0/GodotSharp.dll": {
             "assemblyVersion": "4.7.1.0",
@@ -42,6 +51,7 @@
       "serviceable": false,
       "sha512": ""
     },
+<<<<<<< Updated upstream
     "GodotSharp/4.7.1": {
       "type": "package",
       "serviceable": true,
@@ -50,6 +60,9 @@
       "hashPath": "godotsharp.4.7.1.nupkg.sha512"
     },
     "GodotSharpEditor/4.7.1": {
+=======
+    "GodotSharp/4.7.2": {
+>>>>>>> Stashed changes
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-MAX9wPgjX9BM+EOMxuF++mWKdvO2y0ZiEAfv6D68HGseQc8mX//yc7QrJizXSJ4ii1nh3krXZSyIJ77nmjOgYA==",
