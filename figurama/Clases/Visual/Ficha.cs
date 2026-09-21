@@ -83,6 +83,7 @@ public partial class Ficha : Node3D
     {
         _colorAntesDeComodin = _colorVisualActual;
         SetearColor(ColorComodin);
+        GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("ComodinSFX").Play();
     }
 
     public void DesactivarComodinVisual()

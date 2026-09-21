@@ -93,19 +93,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< Updated upstream
-      "projectUniqueName": "D:\\figurama\\figurama\\Figurama.csproj",
-      "projectName": "Figurama",
-      "projectPath": "D:\\figurama\\figurama\\Figurama.csproj",
-      "packagesPath": "C:\\Users\\alema\\.nuget\\packages\\",
-      "outputPath": "D:\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
-=======
       "projectUniqueName": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
       "projectName": "Figurama",
       "projectPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
       "packagesPath": "C:\\Users\\BANGHO\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
->>>>>>> Stashed changes
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\BANGHO\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -196,7 +188,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\.godot\\mono\\temp\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0."
+      "message": "Problema al leer el archivo de caché C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\.godot\\mono\\temp\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0."
     }
   ]
 }

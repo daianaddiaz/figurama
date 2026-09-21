@@ -1,19 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< Updated upstream
-    "D:\\figurama\\figurama\\Figurama.csproj": {}
-  },
-  "projects": {
-    "D:\\figurama\\figurama\\Figurama.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\figurama\\figurama\\Figurama.csproj",
-        "projectName": "Figurama",
-        "projectPath": "D:\\figurama\\figurama\\Figurama.csproj",
-        "packagesPath": "C:\\Users\\alema\\.nuget\\packages\\",
-        "outputPath": "D:\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
-=======
     "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj": {}
   },
   "projects": {
@@ -25,7 +12,6 @@
         "projectPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
         "packagesPath": "C:\\Users\\BANGHO\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
->>>>>>> Stashed changes
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\BANGHO\\AppData\\Roaming\\NuGet\\NuGet.Config"

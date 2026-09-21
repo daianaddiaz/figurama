@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://cdtn5376lxn6b" path="res://Clases/Visual/FichaSeleccionada.cs" id="4_1jsyo"]
 [ext_resource type="Script" uid="uid://m6yqhxwotvb7" path="res://Clases/Visual/FichaDisponible.cs" id="5_6fi25"]
 [ext_resource type="Script" uid="uid://c80ggurkoh2k6" path="res://Clases/Visual/FichaCompletada.cs" id="6_dkhma"]
+[ext_resource type="AudioStream" uid="uid://j7b2yhs8erg3" path="res://SFX/ClickSFX.wav" id="7_w6sk7"]
+[ext_resource type="AudioStream" uid="uid://dae6ma668ijn4" path="res://SFX/FichaTransformacionSFX.wav" id="8_j3kd0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
 size = Vector3(0.8, 0.2, 0.8)
@@ -45,5 +47,15 @@ visible = false
 
 [node name="TimerEfectoCompletada" type="Timer" parent="." unique_id=420328073]
 one_shot = true
+
+[node name="Sonidos" type="Node" parent="." unique_id=1751909027]
+
+[node name="ClickSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1801854383]
+stream = ExtResource("7_w6sk7")
+bus = &"SFX"
+
+[node name="ComodinSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1739575626]
+stream = ExtResource("8_j3kd0")
+bus = &"SFX"
 
 [connection signal="timeout" from="TimerEfectoCompletada" to="." method="_on_timer_efecto_completada_timeout"]

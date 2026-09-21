@@ -1,12 +1,7 @@
 is_global = true
 build_property.GodotDisabledSourceGenerators = 
-<<<<<<< Updated upstream
-build_property.GodotProjectDir = D:\figurama\figurama\
-build_property.GodotProjectDirBase64 = RDpcZmlndXJhbWFcZmlndXJhbWFc
-=======
 build_property.GodotProjectDir = C:\Users\BANGHO\Documents\GitHub\figurama\figurama\
 build_property.GodotProjectDirBase64 = QzpcVXNlcnNcQkFOR0hPXERvY3VtZW50c1xHaXRIdWJcZmlndXJhbWFcZmlndXJhbWFc
->>>>>>> Stashed changes
 build_property.GodotSourceGenerators = 
 build_property.IsGodotToolsProject = 
 build_property.TargetFramework = net8.0
@@ -21,11 +16,7 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EntryPointFilePath = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Figurama
-<<<<<<< Updated upstream
-build_property.ProjectDir = D:\figurama\figurama\
-=======
 build_property.ProjectDir = C:\Users\BANGHO\Documents\GitHub\figurama\figurama\
->>>>>>> Stashed changes
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.EffectiveAnalysisLevelStyle = 8.0

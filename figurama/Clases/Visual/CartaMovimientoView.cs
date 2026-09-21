@@ -107,6 +107,7 @@ public partial class CartaMovimientoView : Button
         if (_estaVolteada) return;
 
         Controller.GetInstance().CambiarCartaSeleccionada(_cartaRepresentada);
+        GetNode<AudioStreamPlayer>("ClickSFX").Play();
     }
 
     private void OnCartaUsada(CartaMovimiento cartaUsada)

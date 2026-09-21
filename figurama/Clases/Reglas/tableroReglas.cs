@@ -7,8 +7,6 @@ public class TableroReglas
     public const int Filas = 6;
     public const int Columnas = 6;
 
-    public event System.Action<List<(int fila, int columna)>> FiguraEncontrada;
-
     private FichaData[,] _grilla = new FichaData[Filas, Columnas];
 
     public void ColocarFicha(FichaData ficha, int fila, int columna)
@@ -73,7 +71,6 @@ public class TableroReglas
                             return celdas;
                         }
                     }
-                    FiguraEncontrada?.Invoke(celdas);
                     GD.Print("Figura encontrada en: " + string.Join(", ", celdas));
                 }
             }

@@ -1,9 +1,10 @@
+AudioStreamPlayer
+Node
 PopupMenu
 Button
 TextureRect
 TextEdit
 Timer
-Node
 Label
 Control
 Panel
@@ -11,5 +12,3 @@ RichTextLabel
 VBoxContainer
 Node3D
 ColorRect
-LineEdit
-SpotLight3D

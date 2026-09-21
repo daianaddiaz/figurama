@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://crqxjycehku6g" path="res://Clases/Visual/CartaMovimientoView.cs" id="1_aqdti"]
 [ext_resource type="Texture2D" uid="uid://bqxcp46qfi0h6" path="res://Assets/Cartas Movimiento/dorso_movimiento.png" id="2_12huq"]
+[ext_resource type="AudioStream" uid="uid://j7b2yhs8erg3" path="res://SFX/ClickSFX.wav" id="3_htwty"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqdti"]
 
@@ -54,3 +55,7 @@ grow_vertical = 2
 texture = ExtResource("2_12huq")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="ClickSFX" type="AudioStreamPlayer" parent="." unique_id=447470920]
+stream = ExtResource("3_htwty")
+bus = &"UI SFX"

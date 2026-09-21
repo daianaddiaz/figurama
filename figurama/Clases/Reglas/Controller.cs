@@ -27,6 +27,7 @@ public partial class Controller
     public event System.Action<string> Victoria;
     public event System.Action<float> TemporizadorActualizado;
     public event System.Action<FichaData> FichaComodinDesactivada;
+    public event System.Action<List<(int fila, int columna)>> FiguraEncontrada;
 
     public event System.Action TiempoAgotado; // Aviso a UI
 
@@ -202,6 +203,7 @@ public partial class Controller
                 if (UltimoColorUsado.HasValue && colorFormado == UltimoColorUsado.Value) continue;
 
                 asignada.Completada = true;
+                FiguraEncontrada?.Invoke(celdas);
                 jugador.Puntuacion += asignada.Figura.CantidadFichas;
                 completadasAhora.Add(asignada.Figura);
 

@@ -77,7 +77,7 @@ public partial class Tablero : Node3D
                 ActualizarPosicionVisual(nodoFicha);
 
                 nodoFicha.Clickeada += OnFichaClickeada;
-                _reglas.FiguraEncontrada += OnFiguraCompletada;
+                Controller.GetInstance().FiguraEncontrada += OnFiguraCompletada;
                 this.Connect(SignalName.Seleccionada, new Callable(nodoFicha, "_on_ficha_seleccionada"));
                 this.Connect(SignalName.Desclickeada, new Callable(nodoFicha, "_on_ficha_desclickeada"));
                 this.Connect(SignalName.Disponible, new Callable(nodoFicha, "_on_ficha_disponible"));
@@ -182,6 +182,7 @@ public partial class Tablero : Node3D
 
     public void OnFiguraCompletada(List<(int fila, int columna)> celdas)
     {
+        GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("FiguraSFX").Play();
         foreach (var celda in celdas)
         {
             Ficha ficha = GetFichaEnPosicion(celda.fila, celda.columna);
@@ -262,6 +263,7 @@ public partial class Tablero : Node3D
         if (movimientoActual != null && movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
         {
             movimientoActual.Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
+            GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("CambioSFX").Play();
 
             ActualizarPosicionVisual(_fichaSeleccionada);
             ActualizarPosicionVisual(ficha);
