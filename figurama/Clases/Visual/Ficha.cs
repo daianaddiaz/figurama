@@ -39,11 +39,43 @@ public partial class Ficha : Node3D
         _luz.LightColor = color;
     }
 
+    public void _on_ficha_bloqueada(Ficha ficha)
+    {
+        if (ficha == this)
+        {
+            GetNode<StateMachine>("FSM").ChangeState("Bloqueada");
+        }
+    }
+
+    public void _on_ficha_desbloqueada(Ficha ficha)
+    {
+        if (ficha == this)
+        {
+            GetNode<StateMachine>("FSM").ChangeState("Neutral");
+        }
+    }
+
+    public void _on_ficha_comodin_activado(Ficha ficha)
+    {
+        if (ficha == this)
+        {
+            GetNode<StateMachine>("FSM").ChangeState("Comodin");
+        }
+    }
+
+    public void _on_ficha_comodin_desactivado(Ficha ficha)
+    {
+        if (ficha == this)
+        {
+            GetNode<StateMachine>("FSM").ChangeState("Neutral");
+        }
+    }
+
     public void _on_ficha_desclickeada(Ficha ficha)
     {   
         if(ficha == this)
         {
-            GetNode<StateMachine>("FSM").ChangeState("Neutral");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "Comodin" : "Neutral");
         }
     }
 
@@ -70,22 +102,6 @@ public partial class Ficha : Node3D
 
     public void _on_timer_efecto_completada_timeout()
     {
-        GetNode<StateMachine>("FSM").ChangeState("Neutral");
+        GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "Comodin" : "Neutral");
     }
-
-    private static readonly Color ColorComodin = Colors.MidnightBlue;
-    private Color _colorAntesDeComodin;
-
-    public void ActivarComodinVisual()
-    {
-        _colorAntesDeComodin = _colorVisualActual;
-        SetearColor(ColorComodin);
-        GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("ComodinSFX").Play();
-    }
-
-    public void DesactivarComodinVisual()
-    {
-        SetearColor(_colorAntesDeComodin);
-    }
-
 }

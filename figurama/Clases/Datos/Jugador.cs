@@ -7,6 +7,7 @@ public partial class Jugador
     public List<CartaMovimiento> manoCartas { get; set; } = new List<CartaMovimiento>();
     public List<FiguraAsignada> figurasAArmar { get; set; } = new List<FiguraAsignada>();
     public bool RerollDisponible { get; set; } = true;
+    public bool RealizoAccionEsteTurno { get; set; } = false;
     public int Puntuacion { get; set; } = 0;
     public int VueltasJugadas { get; set; } = 0;
     public Personaje PersonajeAsignado { get; set; }

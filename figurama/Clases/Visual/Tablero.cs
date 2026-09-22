@@ -27,11 +27,23 @@ public partial class Tablero : Node3D
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
     [Signal] public delegate void DisponibleEventHandler(Ficha ficha);
     [Signal] public delegate void FiguraCompletadaEventHandler(Ficha ficha);
+    [Signal] public delegate void BloqueadaEventHandler(Ficha ficha);
+    [Signal] public delegate void DesbloqueadaEventHandler(Ficha ficha);
+    [Signal] public delegate void ComodinActivadoEventHandler(Ficha ficha);
+    [Signal] public delegate void ComodinDesactivadoEventHandler(Ficha ficha);
 
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
 
     private List<ManoCartasView> Manos = new List<ManoCartasView>();
+
+    private static readonly Dictionary<TipoHabilidad, string> NombreBotonHabilidad = new Dictionary<TipoHabilidad, string>
+    {
+        { TipoHabilidad.Lobizon, "Furia del Lobizón" },
+        { TipoHabilidad.LuzMala, "Luz Mala Activa" },
+        { TipoHabilidad.Pomberito, "Pomberito Recargado" },
+        { TipoHabilidad.Mulanima, "Mulánima Enfurecida" }
+    };
 
     public override void _Ready()
     {
@@ -93,6 +105,10 @@ public partial class Tablero : Node3D
                 this.Connect(SignalName.Desclickeada, new Callable(nodoFicha, "_on_ficha_desclickeada"));
                 this.Connect(SignalName.Disponible, new Callable(nodoFicha, "_on_ficha_disponible"));
                 this.Connect(SignalName.FiguraCompletada, new Callable(nodoFicha, "_on_figura_completada"));
+                this.Connect(SignalName.Bloqueada, new Callable(nodoFicha, "_on_ficha_bloqueada"));
+                this.Connect(SignalName.Desbloqueada, new Callable(nodoFicha, "_on_ficha_desbloqueada"));
+                this.Connect(SignalName.ComodinActivado, new Callable(nodoFicha, "_on_ficha_comodin_activado"));
+                this.Connect(SignalName.ComodinDesactivado, new Callable(nodoFicha, "_on_ficha_comodin_desactivado"));
             }
         }
 
@@ -106,7 +122,8 @@ public partial class Tablero : Node3D
 
         ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
         
-        ActualizarBotonHabilidad();    
+        ActualizarBotonHabilidad();
+        ActualizarBotonesAccion();    
     }
 
     private void OnFinTurnoPresionado()
@@ -217,7 +234,7 @@ public partial class Tablero : Node3D
                 activada = Controller.GetInstance().ActivarHabilidadLobizon(ficha.Datos);
                 if (activada)
                 {
-                    ficha.ActivarComodinVisual();
+                    EmitSignal(SignalName.ComodinActivado, ficha);
 
                     var celdaComodin = new HashSet<(int fila, int columna)>
                     {
@@ -234,7 +251,11 @@ public partial class Tablero : Node3D
             }
 
             _modoSeleccionHabilidadActivo = false;
-            if (activada) ActualizarBotonHabilidad();
+            if (activada)
+            {
+                ActualizarBotonHabilidad();
+                ActualizarBotonesAccion(); 
+            }
             return;
         }
 
@@ -291,6 +312,8 @@ public partial class Tablero : Node3D
             Controller.GetInstance().RegistrarMovimientoRealizado(movimientoActual);
 
             Controller.GetInstance().CambiarCartaSeleccionada(null);
+
+            ActualizarBotonesAccion();
             
         }
 
@@ -416,6 +439,7 @@ public partial class Tablero : Node3D
         Manos.ForEach(man => man.ActualizarMano());
         ActualizarLabelTurno(jugadorActual);
         ActualizarBotonHabilidad();
+        ActualizarBotonesAccion();
     }
 
     private void ActualizarLabelTurno(int jugadorActual)
@@ -457,6 +481,7 @@ public partial class Tablero : Node3D
             if (activada)
             {
                 Manos[Controller.GetInstance().JugadorActual].ActualizarMano();
+                ActualizarBotonesAccion();
             }
             ActualizarBotonHabilidad();
             return;
@@ -482,7 +507,7 @@ public partial class Tablero : Node3D
         if (botonHabilidad == null) return;
 
         var jugador = Controller.GetInstance().Jugadores()[Controller.GetInstance().JugadorActual];
-        botonHabilidad.Text = jugador.PersonajeAsignado.Nombre;
+        botonHabilidad.Text = NombreBotonHabilidad[jugador.PersonajeAsignado.Tipo];
         botonHabilidad.Disabled = !Controller.GetInstance().PuedeUsarHabilidad();
     }
 
@@ -513,7 +538,11 @@ public partial class Tablero : Node3D
         PasarCinematica(TipoHabilidad.LuzMala);
         var jugadores = Controller.GetInstance().Jugadores();
         bool activada = Controller.GetInstance().ActivarHabilidadLuzMala(jugadores[id]);
-        if (activada) ActualizarBotonHabilidad();
+        if (activada)
+        {
+            ActualizarBotonHabilidad();
+            ActualizarBotonesAccion();
+        }
     }
 
     private void OnFichaComodinDesactivada(FichaData datosFicha)
@@ -521,17 +550,36 @@ public partial class Tablero : Node3D
         Ficha ficha = GetFichaEnPosicion(datosFicha.Fila, datosFicha.Columna);
         if (ficha != null)
         {
-            ficha.DesactivarComodinVisual();
+            EmitSignal(SignalName.ComodinDesactivado, ficha);
         }
     }
 
     private void OnFichaBloqueada(FichaData datos)
     {
-        GetFichaEnPosicion(datos.Fila, datos.Columna)?.GetNode<StateMachine>("FSM").ChangeState("Bloqueada");
+        Ficha ficha = GetFichaEnPosicion(datos.Fila, datos.Columna);
+        if (ficha != null) EmitSignal(SignalName.Bloqueada, ficha);
     }
 
     private void OnFichaDesbloqueada(FichaData datos)
     {
-        GetFichaEnPosicion(datos.Fila, datos.Columna)?.GetNode<StateMachine>("FSM").ChangeState("Neutral");
+        Ficha ficha = GetFichaEnPosicion(datos.Fila, datos.Columna);
+        if (ficha != null) EmitSignal(SignalName.Desbloqueada, ficha);
+    }
+
+    private void ActualizarBotonesAccion()
+    {
+        var jugador = Controller.GetInstance().Jugadores()[Controller.GetInstance().JugadorActual];
+
+        var botonFinTurno = GetNodeOrNull<Button>("UITemporal/BotonFinTurno");
+        if (botonFinTurno != null)
+        {
+            botonFinTurno.Disabled = !jugador.RealizoAccionEsteTurno;
+        }
+
+        var botonReroll = Manos[Controller.GetInstance().JugadorActual].GetNodeOrNull<Button>("BotonReroll");
+        if (botonReroll != null)
+        {
+            botonReroll.Disabled = jugador.RealizoAccionEsteTurno || !jugador.RerollDisponible;
+        }
     }
 }

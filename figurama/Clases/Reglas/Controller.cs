@@ -6,8 +6,6 @@ public partial class Controller
 {
     public static Controller _instance;
 
-    public List<string> NombresJugadores { get; set; } = new List<string>();
-    public List<TipoHabilidad> PersonajesElegidos { get; set; } = new List<TipoHabilidad>();
     public int CantidadCartasMovimiento { get; set; } = 3;
     public int CantidadFigurasPorJugador { get; set; } = 4;
     public ColorFicha? UltimoColorUsado { get; private set; }
@@ -96,12 +94,12 @@ public partial class Controller
         FichaBloqueadaEvent = null;
         FichaDesbloqueadaEvent = null;
             
-        int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
+        int cantidad = DatosPartida.NombresJugadores.Count > 0 ? DatosPartida.NombresJugadores.Count : 4;
         jugadores = new Jugador[cantidad];
 
         for (int i = 0; i < cantidad; i++)
         {
-            string nombre = i < NombresJugadores.Count ? NombresJugadores[i] : $"Jugador {i + 1}";
+            string nombre = i < DatosPartida.NombresJugadores.Count ? DatosPartida.NombresJugadores[i] : $"Jugador {i + 1}";
 
             var figuras = new List<FiguraAsignada>();
             foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
@@ -109,7 +107,7 @@ public partial class Controller
                 figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
             }
 
-            TipoHabilidad tipo = i < PersonajesElegidos.Count ? PersonajesElegidos[i] : TipoHabilidad.Lobizon;
+            TipoHabilidad tipo = i < DatosPartida.PersonajesElegidos.Count ? DatosPartida.PersonajesElegidos[i] : TipoHabilidad.Lobizon;
 
             jugadores[i] = new Jugador
             {
@@ -234,6 +232,7 @@ public partial class Controller
     public void RegistrarMovimientoRealizado(CartaMovimiento cartaUsada)
     {
         Jugador jugador = jugadores[JugadorActual];
+        jugador.RealizoAccionEsteTurno = true;
 
         int index = jugador.manoCartas.IndexOf(cartaUsada);
         if (index != -1)
@@ -275,6 +274,7 @@ public partial class Controller
 
         jugadorEntrante.manoCartas = MazoMovimiento.GetInstance().generarMano();
         jugadorEntrante.RerollDisponible = true;
+        jugadorEntrante.RealizoAccionEsteTurno = false; 
 
         if (jugadorEntrante.CartasMovimientoAQuitar > 0)
         {
@@ -330,6 +330,7 @@ public partial class Controller
         var habilidad = (HabilidadLobizon)ObtenerHabilidad(TipoHabilidad.Lobizon);
         habilidad.Activar(jugador, ficha);
         habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        jugador.RealizoAccionEsteTurno = true;
         return true;
     }
 
@@ -342,6 +343,7 @@ public partial class Controller
         var habilidad = (HabilidadPomberito)ObtenerHabilidad(TipoHabilidad.Pomberito);
         habilidad.Activar(jugador);
         habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        jugador.RealizoAccionEsteTurno = true;
         return true;
     }
 
@@ -354,6 +356,7 @@ public partial class Controller
         var habilidad = (HabilidadLuzMala)ObtenerHabilidad(TipoHabilidad.LuzMala);
         habilidad.Activar(jugadorObjetivo);
         habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        jugador.RealizoAccionEsteTurno = true;
         return true;
     }
 
@@ -367,6 +370,7 @@ public partial class Controller
         habilidad.Activar(jugador, ficha);
         FichaBloqueadaEvent?.Invoke(ficha);
         habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
+        jugador.RealizoAccionEsteTurno = true;
         return true;
     }
 }

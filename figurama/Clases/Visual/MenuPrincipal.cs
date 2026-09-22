@@ -189,8 +189,8 @@ public partial class MenuPrincipal : Control
             personajesElegidos.Add((TipoHabilidad)personajeInput.Selected);
         }
 
-        Controller.GetInstance().NombresJugadores = playerNames;
-        Controller.GetInstance().PersonajesElegidos = personajesElegidos;
+        DatosPartida.NombresJugadores = playerNames;
+        DatosPartida.PersonajesElegidos = personajesElegidos;
         Controller.GetInstance().InicializarJugadores();
 
         GetTree().ChangeSceneToFile("res://Objetos/tablero.tscn");

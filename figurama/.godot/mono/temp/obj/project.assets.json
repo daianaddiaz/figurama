@@ -2,13 +2,13 @@
   "version": 4,
   "targets": {
     "net8.0": {
-      "Godot.SourceGenerators/4.7.2": {
+      "Godot.SourceGenerators/4.7.1": {
         "type": "package",
         "build": {
           "build/Godot.SourceGenerators.props": {}
         }
       },
-      "GodotSharp/4.7.2": {
+      "GodotSharp/4.7.1": {
         "type": "package",
         "compile": {
           "lib/net8.0/GodotSharp.dll": {
@@ -21,10 +21,10 @@
           }
         }
       },
-      "GodotSharpEditor/4.7.2": {
+      "GodotSharpEditor/4.7.1": {
         "type": "package",
         "dependencies": {
-          "GodotSharp": "4.7.2"
+          "GodotSharp": "4.7.1"
         },
         "compile": {
           "lib/net8.0/GodotSharpEditor.dll": {
@@ -40,40 +40,40 @@
     }
   },
   "libraries": {
-    "Godot.SourceGenerators/4.7.2": {
-      "sha512": "PeYESFlRxlmeClrPhlMINhVvt2HiKnx2Ux/FYA10rimDevHljji3/jmRZOMo9XDNQsZzPH4uQmDyPgQgzTFvAg==",
+    "Godot.SourceGenerators/4.7.1": {
+      "sha512": "XNYxnzQtZw/3ebPgpVC5eKMH5z3mx/MFNAb9rNeb/SmyMus+u4GPbwMN1ZsmXf0j4a9L/Uj55PbZIHLk96EFyQ==",
       "type": "package",
-      "path": "godot.sourcegenerators/4.7.2",
+      "path": "godot.sourcegenerators/4.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/Godot.SourceGenerators.dll",
         "build/Godot.SourceGenerators.props",
-        "godot.sourcegenerators.4.7.2.nupkg.sha512",
+        "godot.sourcegenerators.4.7.1.nupkg.sha512",
         "godot.sourcegenerators.nuspec"
       ]
     },
-    "GodotSharp/4.7.2": {
-      "sha512": "EPvfayB7b7MrBNdASvy86jRS5AbM9dprkVivcRD80g+ngn2M8KAIrBQH4NhyQL+pwxni0xVnuqhD9AFpZeNQpw==",
+    "GodotSharp/4.7.1": {
+      "sha512": "OCTPz0MtENY0J1e9Sw4VB9qxS0DK9xpEQLAIMRzCtnVKiJvHZUAAnJ9mU4ewW5+88V4beewp3dl8OE813Qw73g==",
       "type": "package",
-      "path": "godotsharp/4.7.2",
+      "path": "godotsharp/4.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharp.4.7.2.nupkg.sha512",
+        "godotsharp.4.7.1.nupkg.sha512",
         "godotsharp.nuspec",
         "lib/net8.0/GodotSharp.dll",
         "lib/net8.0/GodotSharp.xml"
       ]
     },
-    "GodotSharpEditor/4.7.2": {
-      "sha512": "Fuf2rNvajla9N8Z+ksxsSIt326wsjpB2F2uZCtxkdfWIsApabCHy5fsE2EKxOlQ4NaINGdgMIv62D0n583qe1A==",
+    "GodotSharpEditor/4.7.1": {
+      "sha512": "MAX9wPgjX9BM+EOMxuF++mWKdvO2y0ZiEAfv6D68HGseQc8mX//yc7QrJizXSJ4ii1nh3krXZSyIJ77nmjOgYA==",
       "type": "package",
-      "path": "godotsharpeditor/4.7.2",
+      "path": "godotsharpeditor/4.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharpeditor.4.7.2.nupkg.sha512",
+        "godotsharpeditor.4.7.1.nupkg.sha512",
         "godotsharpeditor.nuspec",
         "lib/net8.0/GodotSharpEditor.dll",
         "lib/net8.0/GodotSharpEditor.xml"
@@ -82,25 +82,25 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Godot.SourceGenerators >= 4.7.2",
-      "GodotSharp >= 4.7.2",
-      "GodotSharpEditor >= 4.7.2"
+      "Godot.SourceGenerators >= 4.7.1",
+      "GodotSharp >= 4.7.1",
+      "GodotSharpEditor >= 4.7.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\BANGHO\\.nuget\\packages\\": {}
+    "C:\\Users\\alema\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
+      "projectUniqueName": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
       "projectName": "Figurama",
-      "projectPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\Figurama.csproj",
-      "packagesPath": "C:\\Users\\BANGHO\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\BANGHO\\Documents\\GitHub\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
+      "projectPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\Figurama.csproj",
+      "packagesPath": "C:\\Users\\alema\\.nuget\\packages\\",
+      "outputPath": "D:\\KEVIN\\Game Developing\\Figurama\\figurama\\figurama\\.godot\\mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\BANGHO\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\alema\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -125,7 +125,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.400"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -135,17 +135,17 @@
           "Godot.SourceGenerators": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[4.7.2, )",
+            "version": "[4.7.1, )",
             "autoReferenced": true
           },
           "GodotSharp": {
             "target": "Package",
-            "version": "[4.7.2, )",
+            "version": "[4.7.1, )",
             "autoReferenced": true
           },
           "GodotSharpEditor": {
             "target": "Package",
-            "version": "[4.7.2, )",
+            "version": "[4.7.1, )",
             "autoReferenced": true
           }
         },
@@ -163,15 +163,15 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.30, 8.0.30]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.30, 8.0.30]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.30, 8.0.30]"
+            "version": "[8.0.29, 8.0.29]"
           }
         ],
         "frameworkReferences": {
@@ -179,7 +179,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
