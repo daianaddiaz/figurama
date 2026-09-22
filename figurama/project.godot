@@ -34,4 +34,5 @@ project/assembly_name="Figurama"
 
 [rendering]
 
+textures/canvas_textures/default_texture_repeat=1
 rendering_device/driver.windows="d3d12"

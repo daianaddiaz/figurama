@@ -1,14 +1,17 @@
 [gd_scene format=3 uid="uid://dkmnblo603ilc"]
 
 [ext_resource type="Script" uid="uid://ibq67gufwybo" path="res://Clases/Visual/Ficha.cs" id="1_dcclv"]
+[ext_resource type="Texture2D" uid="uid://di4p37ayd3a7v" path="res://Assets/FichaOverlaySeleccionada.png" id="2_kxmfb"]
 [ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://Clases/Visual/StateMachine.cs" id="2_laaii"]
 [ext_resource type="Script" uid="uid://bjlxbkmoyfurs" path="res://Clases/Visual/FichaNeutral.cs" id="3_eesfy"]
 [ext_resource type="Script" uid="uid://cdtn5376lxn6b" path="res://Clases/Visual/FichaSeleccionada.cs" id="4_1jsyo"]
+[ext_resource type="Texture2D" uid="uid://glhfu38s1tpm" path="res://Assets/FichaOverlayBloqueada.png" id="4_ologb"]
 [ext_resource type="Script" uid="uid://m6yqhxwotvb7" path="res://Clases/Visual/FichaDisponible.cs" id="5_6fi25"]
 [ext_resource type="Script" uid="uid://c80ggurkoh2k6" path="res://Clases/Visual/FichaCompletada.cs" id="6_dkhma"]
 [ext_resource type="Script" uid="uid://bwmx7l0bayr7u" path="res://Clases/Visual/FichaBloqueada.cs" id="7_5hdbx"]
 [ext_resource type="AudioStream" uid="uid://j7b2yhs8erg3" path="res://SFX/ClickSFX.wav" id="7_w6sk7"]
 [ext_resource type="AudioStream" uid="uid://dae6ma668ijn4" path="res://SFX/FichaTransformacionSFX.wav" id="8_j3kd0"]
+[ext_resource type="Texture2D" uid="uid://doijtaua4di22" path="res://Assets/FichaOverlayDisponible.png" id="10_kxmfb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
 size = Vector3(0.8, 0.2, 0.8)
@@ -20,6 +23,33 @@ script = ExtResource("1_dcclv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1748025612]
 mesh = SubResource("BoxMesh_dcclv")
+
+[node name="Seleccionada" type="Decal" parent="MeshInstance3D" unique_id=941072476]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
+visible = false
+size = Vector3(0.8, 0.9, 0.8)
+texture_albedo = ExtResource("2_kxmfb")
+emission_energy = 15.0
+upper_fade = 1e-05
+lower_fade = 1e-05
+
+[node name="Disponible" type="Decal" parent="MeshInstance3D" unique_id=1312148632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
+visible = false
+size = Vector3(0.8, 0.9, 0.8)
+texture_albedo = ExtResource("10_kxmfb")
+emission_energy = 15.0
+upper_fade = 1e-05
+lower_fade = 1e-05
+
+[node name="Bloqueada" type="Decal" parent="MeshInstance3D" unique_id=1643417810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
+visible = false
+size = Vector3(0.8, 0.9, 0.8)
+texture_albedo = ExtResource("4_ologb")
+emission_energy = 15.0
+upper_fade = 1e-05
+lower_fade = 1e-05
 
 [node name="Area3D" type="Area3D" parent="." unique_id=213440223]
 

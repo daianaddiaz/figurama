@@ -65,10 +65,7 @@ public partial class Ficha : Node3D
 
     public void _on_figura_completada(Ficha ficha)
     {   
-        if(ficha == this)
-        {   
-            GetNode<StateMachine>("FSM").ChangeState("Completada");
-        }
+        
     }
 
     public void _on_timer_efecto_completada_timeout()
@@ -76,7 +73,7 @@ public partial class Ficha : Node3D
         GetNode<StateMachine>("FSM").ChangeState("Neutral");
     }
 
-    private static readonly Color ColorComodin = new Color(0.4f, 0.8f, 1.0f);
+    private static readonly Color ColorComodin = Colors.MidnightBlue;
     private Color _colorAntesDeComodin;
 
     public void ActivarComodinVisual()

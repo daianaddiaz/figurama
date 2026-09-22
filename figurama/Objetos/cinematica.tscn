@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://fbefl2fqrnlf"]
+
+[ext_resource type="Script" uid="uid://wlvaufga1axp" path="res://Clases/Visual/Cinematica.cs" id="1_2c50v"]
+
+[node name="Cinematica" type="VideoStreamPlayer" unique_id=1521472071]
+visibility_layer = 4
+offset_right = 1152.0
+offset_bottom = 648.0
+autoplay = true
+expand = true
+script = ExtResource("1_2c50v")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

@@ -5,19 +5,33 @@
 [ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="3_iud63"]
 [ext_resource type="PackedScene" uid="uid://cnoxndsv4hbe3" path="res://Objetos/labeltimer.tscn" id="4_7uocc"]
 [ext_resource type="PackedScene" uid="uid://bnajmnqoq7plh" path="res://Objetos/indicador_ultimo_color.tscn" id="4_13hl8"]
+[ext_resource type="PackedScene" uid="uid://fbefl2fqrnlf" path="res://Objetos/cinematica.tscn" id="4_r30ng"]
+[ext_resource type="VideoStream" uid="uid://di5vhwuav514h" path="res://Assets/Cinematicas/LobizonComodin.ogv" id="5_qmd58"]
+[ext_resource type="VideoStream" uid="uid://ccfrot7v20rxf" path="res://Assets/Cinematicas/LuzMalaElimina.ogv" id="6_4s56h"]
 [ext_resource type="AudioStream" uid="uid://1rmfw8mtumla" path="res://SFX/CambioFichasSFX.wav" id="6_tla70"]
 [ext_resource type="AudioStream" uid="uid://dn43erp4ugnun" path="res://SFX/FiguraFormadaSFX.wav" id="7_3n5y1"]
+[ext_resource type="VideoStream" uid="uid://dnm4yjmu5feky" path="res://Assets/Cinematicas/MulanimaBloquea.ogv" id="7_tmbke"]
+[ext_resource type="VideoStream" uid="uid://cppmmyxsby5hb" path="res://Assets/Cinematicas/PomberitoRecargado.ogv" id="8_qwnp2"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
 FichaScene = ExtResource("2_laj61")
 ManoCartasScene = ExtResource("3_iud63")
+CinematicaScene = ExtResource("4_r30ng")
+CinematicaLobizon = ExtResource("5_qmd58")
+CinematicaLuzMala = ExtResource("6_4s56h")
+CinematicaMulanima = ExtResource("7_tmbke")
+CinematicaPomberito = ExtResource("8_qwnp2")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2.5, 10, 2.5)
 projection = 1
 current = true
 size = 7.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D" unique_id=2013501405]
+light_energy = 5.0
+omni_range = 20.0
 
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
 
@@ -85,3 +99,11 @@ bus = &"SFX"
 [node name="FiguraSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=183394550]
 stream = ExtResource("7_3n5y1")
 bus = &"SFX"
+
+[node name="LobizonSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1710219506]
+
+[node name="LuzMalaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1286900743]
+
+[node name="MulanimaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=853156723]
+
+[node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]

@@ -5,6 +5,11 @@ public partial class Tablero : Node3D
 {
     [Export] public PackedScene FichaScene;
     [Export] public PackedScene ManoCartasScene;
+    [Export] public PackedScene CinematicaScene;
+    [Export] public VideoStreamTheora CinematicaLobizon;
+    [Export] public VideoStreamTheora CinematicaLuzMala;
+    [Export] public VideoStreamTheora CinematicaMulanima;
+    [Export] public VideoStreamTheora CinematicaPomberito;
 
     private const float SizeCelda = 1.0f;
     private const int cantidadColores = 9;
@@ -15,6 +20,8 @@ public partial class Tablero : Node3D
     private TextureRect rectVerde;
 
     private TableroReglas _reglas = new TableroReglas();
+
+    private Node _sonidos = null;
 
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
@@ -41,7 +48,8 @@ public partial class Tablero : Node3D
         {
             botonHabilidad.Pressed += OnHabilidadPresionada;
         }
-
+        _sonidos = GetNode<Node>("Sonidos");
+        
         rectRojo = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoRojo");
         rectAzul = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoAzul");
         rectAmarillo = GetNode<TextureRect>("UITemporal/indicadorUltimoColor/ultimoAmarillo");
@@ -52,7 +60,7 @@ public partial class Tablero : Node3D
         Controller.GetInstance().UltimoColorCambiado += ActualizarColor;
         Controller.GetInstance().FichaComodinDesactivada += OnFichaComodinDesactivada;
 
-        Color[] colores = { Colors.Red, Colors.Blue, Colors.Yellow, Colors.Green };
+        Color[] colores = { Colors.MediumVioletRed, Colors.RoyalBlue, Colors.Yellow, Colors.Chartreuse };
         ColorFicha[] coloresLogicos = { ColorFicha.Rojo, ColorFicha.Azul, ColorFicha.Amarillo, ColorFicha.Verde };
         int[] contadorColores = { cantidadColores, cantidadColores, cantidadColores, cantidadColores };
 
@@ -185,7 +193,7 @@ public partial class Tablero : Node3D
 
     public void OnFiguraCompletada(List<(int fila, int columna)> celdas)
     {
-        GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("FiguraSFX").Play();
+        _sonidos.GetNode<AudioStreamPlayer>("FiguraSFX").Play();
         foreach (var celda in celdas)
         {
             Ficha ficha = GetFichaEnPosicion(celda.fila, celda.columna);
@@ -241,8 +249,6 @@ public partial class Tablero : Node3D
             _fichaSeleccionada = ficha;
             _hayFichaSeleccionada = true;
             EmitSignal(SignalName.Seleccionada, _fichaSeleccionada);
-
-            DesalumbrarFichas();
             AlumbrarFichasDisponibles();
             return;
         }
@@ -267,7 +273,7 @@ public partial class Tablero : Node3D
         if (movimientoActual != null && !ficha.Datos.Bloqueada && movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
         {
             movimientoActual.Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
-            GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("CambioSFX").Play();
+            _sonidos.GetNode<AudioStreamPlayer>("CambioSFX").Play();
 
             ActualizarPosicionVisual(_fichaSeleccionada);
             ActualizarPosicionVisual(ficha);
@@ -300,7 +306,7 @@ public partial class Tablero : Node3D
             for (int columna = 0; columna < TableroReglas.Columnas; columna++)
             {
                 Ficha ficha = GetFichaEnPosicion(fila, columna);
-                if (ficha != null)
+                if (ficha != null && ficha.Datos.Bloqueada == false)
                 {
                     EmitSignal(SignalName.Desclickeada, ficha);
                 }
@@ -437,6 +443,14 @@ public partial class Tablero : Node3D
 
         GD.Print($"Habilidad presionada. Tipo: {tipo}, PuedeUsar: {Controller.GetInstance().PuedeUsarHabilidad()}");
 
+        if (tipo == TipoHabilidad.LuzMala)
+        {
+            MostrarPopupLuzMala();
+            return;
+        }
+
+        PasarCinematica(tipo);
+
         if (tipo == TipoHabilidad.Pomberito)
         {
             bool activada = Controller.GetInstance().ActivarHabilidadPomberito();
@@ -448,15 +462,18 @@ public partial class Tablero : Node3D
             return;
         }
 
-        if (tipo == TipoHabilidad.LuzMala)
-        {
-            MostrarPopupLuzMala();
-            return;
-        }
-
         // Lobizón y Mulánima necesitan clickear una ficha después
         _modoSeleccionHabilidadActivo = true;
         GD.Print($"Modo selección activado: {_modoSeleccionHabilidadActivo}");
+    }
+
+    private void PasarCinematica(TipoHabilidad tipo)
+    {
+        VideoStreamTheora[] cinematicas = { CinematicaLobizon, CinematicaLuzMala, CinematicaPomberito, CinematicaMulanima };
+        VideoStreamTheora cinematica = cinematicas[(int)tipo];
+        var player = CinematicaScene.Instantiate<Cinematica>();
+        player.Stream = cinematica;
+        GetNode<CanvasLayer>("UITemporal").AddChild(player);
     }
 
     private void ActualizarBotonHabilidad()
@@ -493,6 +510,7 @@ public partial class Tablero : Node3D
 
     private void OnJugadorElegidoLuzMala(long id)
     {
+        PasarCinematica(TipoHabilidad.LuzMala);
         var jugadores = Controller.GetInstance().Jugadores();
         bool activada = Controller.GetInstance().ActivarHabilidadLuzMala(jugadores[id]);
         if (activada) ActualizarBotonHabilidad();
