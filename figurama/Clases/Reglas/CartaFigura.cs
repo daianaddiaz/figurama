@@ -11,12 +11,19 @@ public abstract class CartaFigura
     {
         celdas = null;
 
-        FichaData fichaAncla = tablero.ObtenerFicha(filaAncla, columnaAncla);
-        if (fichaAncla == null) return false;
-
         foreach (var patron in Patrones)
         {
-            if (CoincidePatron(tablero, filaAncla, columnaAncla, fichaAncla.Color, patron, out celdas))
+            var primerOffset = patron[0];
+            int filaPrimera = filaAncla + primerOffset.fila;
+            int columnaPrimera = columnaAncla + primerOffset.columna;
+
+            if (filaPrimera < 0 || filaPrimera >= TableroReglas.Filas || columnaPrimera < 0 || columnaPrimera >= TableroReglas.Columnas)
+                continue;
+
+            FichaData primeraFicha = tablero.ObtenerFicha(filaPrimera, columnaPrimera);
+            if (primeraFicha == null) continue;
+
+            if (CoincidePatron(tablero, filaAncla, columnaAncla, primeraFicha.Color, patron, out celdas))
                 return true;
         }
 

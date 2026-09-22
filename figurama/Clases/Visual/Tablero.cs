@@ -33,6 +33,9 @@ public partial class Tablero : Node3D
             Controller.GetInstance().InicializarJugadores();
         }
 
+        Controller.GetInstance().FichaBloqueadaEvent += OnFichaBloqueada;
+        Controller.GetInstance().FichaDesbloqueadaEvent += OnFichaDesbloqueada;
+
         var botonHabilidad = GetNodeOrNull<Button>("UITemporal/BotonHabilidad");
         if (botonHabilidad != null)
         {
@@ -213,6 +216,7 @@ public partial class Tablero : Node3D
                         (ficha.Datos.Fila, ficha.Datos.Columna)
                     };
                     Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdaComodin);
+                    Manos[Controller.GetInstance().JugadorActual].ActualizarMano();
                 }
             }
 
@@ -260,7 +264,7 @@ public partial class Tablero : Node3D
         // Si hay una segunda ficha seleccionada, intentamos ejecutar el movimiento
         CartaMovimiento movimientoActual = Controller.GetInstance().CartaSeleccionada;
 
-        if (movimientoActual != null && movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        if (movimientoActual != null && !ficha.Datos.Bloqueada && movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
         {
             movimientoActual.Ejecutar(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna);
             GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("CambioSFX").Play();
@@ -275,6 +279,8 @@ public partial class Tablero : Node3D
             };
 
             Controller.GetInstance().ChequearFigurasCompletadas(_reglas, celdasMovidas);
+
+            Manos[Controller.GetInstance().JugadorActual].ActualizarMano();
 
             Controller.GetInstance().RegistrarMovimientoRealizado(movimientoActual);
 
@@ -499,5 +505,15 @@ public partial class Tablero : Node3D
         {
             ficha.DesactivarComodinVisual();
         }
+    }
+
+    private void OnFichaBloqueada(FichaData datos)
+    {
+        GetFichaEnPosicion(datos.Fila, datos.Columna)?.GetNode<StateMachine>("FSM").ChangeState("Bloqueada");
+    }
+
+    private void OnFichaDesbloqueada(FichaData datos)
+    {
+        GetFichaEnPosicion(datos.Fila, datos.Columna)?.GetNode<StateMachine>("FSM").ChangeState("Neutral");
     }
 }

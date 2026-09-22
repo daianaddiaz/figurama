@@ -28,6 +28,8 @@ public partial class Controller
     public event System.Action<float> TemporizadorActualizado;
     public event System.Action<FichaData> FichaComodinDesactivada;
     public event System.Action<List<(int fila, int columna)>> FiguraEncontrada;
+    public event System.Action<FichaData> FichaBloqueadaEvent;
+    public event System.Action<FichaData> FichaDesbloqueadaEvent;
 
     public event System.Action TiempoAgotado; // Aviso a UI
 
@@ -89,6 +91,10 @@ public partial class Controller
         TemporizadorActualizado = null;
         TiempoAgotado = null;
         FiguraCompletada = null;
+        FichaComodinDesactivada = null;
+        FiguraEncontrada = null;
+        FichaBloqueadaEvent = null;
+        FichaDesbloqueadaEvent = null;
             
         int cantidad = NombresJugadores.Count > 0 ? NombresJugadores.Count : 4;
         jugadores = new Jugador[cantidad];
@@ -268,6 +274,7 @@ public partial class Controller
         Jugador jugadorEntrante = jugadores[JugadorActual];
 
         jugadorEntrante.manoCartas = MazoMovimiento.GetInstance().generarMano();
+        jugadorEntrante.RerollDisponible = true;
 
         if (jugadorEntrante.CartasMovimientoAQuitar > 0)
         {
@@ -281,11 +288,14 @@ public partial class Controller
 
         if (jugadorEntrante.PersonajeAsignado.Tipo == TipoHabilidad.Mulanima)
         {
+            var fichasALiberar = new List<FichaData>(jugadorEntrante.FichasBloqueadas);
             var habilidadMulanima = new HabilidadMulanima();
             habilidadMulanima.LiberarTodas(jugadorEntrante);
+            foreach (var f in fichasALiberar)
+            {
+                FichaDesbloqueadaEvent?.Invoke(f);
+            }
         }
-
-        jugadorEntrante.RerollDisponible = true;
 
         ReiniciarTemporizador();
         TurnoCambiado?.Invoke(JugadorActual);
@@ -355,6 +365,7 @@ public partial class Controller
 
         var habilidad = (HabilidadMulanima)ObtenerHabilidad(TipoHabilidad.Mulanima);
         habilidad.Activar(jugador, ficha);
+        FichaBloqueadaEvent?.Invoke(ficha);
         habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
         return true;
     }

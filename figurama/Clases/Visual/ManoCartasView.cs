@@ -34,18 +34,16 @@ public partial class ManoCartasView : Control
     var pendientes = _jugador.figurasAArmar.FindAll(f => !f.Completada);
     var completadas = _jugador.figurasAArmar.FindAll(f => f.Completada);
 
-    // Defino cuales 3 cartas se mostrarán:
-    // Toman prioridad hasta 3 pendientes. Si quedan lugares libres, se muestran las completadas.
     var visibles = new List<FiguraAsignada>();
 
     foreach (var p in pendientes)
     {
-        if (visibles.Count < 3) visibles.Add(p);
+        if (visibles.Count < _jugador.figurasAArmar.Count) visibles.Add(p);
     }
 
     foreach (var c in completadas)
     {
-        if (visibles.Count < 3) visibles.Add(c);
+        if (visibles.Count < _jugador.figurasAArmar.Count) visibles.Add(c);
     }
 
     // Renderizar en pantalla las cartas seleccionadas
