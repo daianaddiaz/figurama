@@ -16,3 +16,11 @@ res://Clases/Visual/MenuPrincipal.cs
 res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Clases/Visual/TableroView.cs
 res://Clases/Visual/FigurasObjetivoView.cs
+res://Clases/Visual/SplashScreen.cs
+res://Objetos/SplashScreen.tscn
+res://Objetos/splashScreen.tscn
+res://Clases/Visual/FuenteChocolate.tres
+res://Clases/Visual/FuentePrincipal.tres
+res://Objetos/menuPrincipal.tscn
+res://Objetos/tablero.tscn
+res://Objetos/labeltimer.tscn

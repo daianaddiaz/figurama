@@ -146,10 +146,18 @@ public partial class MenuPrincipal : Control
             LineEdit input = new LineEdit
             {
                 PlaceholderText = $"Nombre Jugador {i + 1}",
+                // Ancho 150px
+                CustomMinimumSize = new Vector2(150, 0),
+                // Evitamos que se estire innecesariamente
+                SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin,
+
                 Text = $"Jugador {i + 1}"
             };
 
-            OptionButton personajeInput = new OptionButton();
+            OptionButton personajeInput = new OptionButton()
+            {
+                CustomMinimumSize = new Vector2(150, 0)
+            };
             foreach (string nombrePersonaje in NombresPersonajes)
             {
                 personajeInput.AddItem(nombrePersonaje);

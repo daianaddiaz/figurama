@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://dlgvfi3xxspar"]
+
+[ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="1_dm2yn"]
+
+[resource]
+default_font = ExtResource("1_dm2yn")

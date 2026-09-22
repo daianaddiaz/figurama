@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://cin8dqjltbblr"]
+
+[ext_resource type="FontFile" uid="uid://b2i2odj6dqucn" path="res://Tipografia/TT Chocolates Trial DemiBold.otf" id="1_gqhed"]
+
+[resource]
+default_font = ExtResource("1_gqhed")

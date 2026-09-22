@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://c6h35napc5rg2"]
+
+[ext_resource type="Script" uid="uid://bjt0e7csweeos" path="res://Clases/Visual/SplashScreen.cs" id="1_3kooj"]
+[ext_resource type="Texture2D" uid="uid://mbottyddqatk" path="res://Assets/LogoFiguramaBlanco2.png" id="2_3kooj"]
+
+[node name="SplashScreen" type="Control" unique_id=1202285444]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3kooj")
+TiempoFade = 2.0
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=436132308]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.028434224, 0.15012796, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=586949618]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Logo" type="TextureRect" parent="CenterContainer" unique_id=1410374595]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+texture = ExtResource("2_3kooj")
+expand_mode = 3
+stretch_mode = 5
