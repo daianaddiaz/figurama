@@ -19,24 +19,24 @@ public partial class SplashScreen : Control
         // Animación con Tween: Fade In -> Espera -> Fade Out -> Cambiar Escena
         Tween tween = CreateTween();
 
-        // 1. Fade In (Aparece el logo)
+        // Fade In (Aparece el logo)
         tween.TweenProperty(_logo, "modulate:a", 1.0f, TiempoFade)
              .SetTrans(Tween.TransitionType.Cubic)
              .SetEase(Tween.EaseType.Out);
 
-        // 2. Tiempo en pantalla
+        // Tiempo en pantalla
         float tiempoEspera = TiempoVisibilidadSegundos - (TiempoFade * 2.0f);
         if (tiempoEspera > 0)
         {
             tween.TweenInterval(tiempoEspera);
         }
 
-        // 3. Fade Out (Desaparece el logo)
+        // Fade Out (Desaparece el logo)
         tween.TweenProperty(_logo, "modulate:a", 0.0f, TiempoFade)
              .SetTrans(Tween.TransitionType.Cubic)
              .SetEase(Tween.EaseType.In);
 
-        // 4. Cambiar al menú principal
+        //Cambiar al menú principal
         tween.TweenCallback(Callable.From(IrAlMenuPrincipal));
     }
 
@@ -54,6 +54,6 @@ public partial class SplashScreen : Control
         if (_cambiandoDeEscena) return;
         _cambiandoDeEscena = true;
 
-        GetTree().ChangeSceneToFile(RutaMenuPrincipal);
+        NavegadorEscenas.CambiarEscenaConPaneo(GetTree(), RutaMenuPrincipal, this);
     }
 }

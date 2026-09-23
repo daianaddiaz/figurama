@@ -1,5 +1,114 @@
 [gd_scene format=3 uid="uid://ku2fd6a47rfj"]
 
+[ext_resource type="Script" uid="uid://dbwoh0mcxmivi" path="res://Clases/Visual/Tutorial.cs" id="1_7tl1q"]
+[ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="1_ihbcq"]
+[ext_resource type="Texture2D" uid="uid://dgewmr8mwlaq2" path="res://Assets/Tutorial/Tutorial1.png" id="2_ihbcq"]
+[ext_resource type="Texture2D" uid="uid://dpdwsoapp30te" path="res://Assets/Tutorial/Tutorial2.png" id="3_xt01g"]
+[ext_resource type="Texture2D" uid="uid://bxqs8kat2b5qy" path="res://Assets/Tutorial/Tutorial3.png" id="4_tufb0"]
+[ext_resource type="Texture2D" uid="uid://b7ud4jvnlay8f" path="res://Assets/Tutorial/Tutorial4.png" id="5_pkojf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jdbf"]
+bg_color = Color(0.7058824, 0.34901962, 0.4862745, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbwm3"]
+bg_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7058824, 0.34901962, 0.4862745, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pxru"]
+bg_color = Color(0.5176471, 0.9490196, 0.4, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7058824, 0.34901962, 0.4862745, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xt01g"]
+bg_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.13333334, 0.8, 0.8, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tufb0"]
+bg_color = Color(0.5176471, 0.9490196, 0.4, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.67147654, 1.7519593e-05, 0.48042208, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkojf"]
+bg_color = Color(0.7058824, 0.34901962, 0.4862745, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 7
+
 [node name="Tutorial" type="Control" unique_id=544983571]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +116,79 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_ihbcq")
+script = ExtResource("1_7tl1q")
+PaginasTutorial = Array[Texture2D]([ExtResource("2_ihbcq"), ExtResource("3_xt01g"), ExtResource("4_tufb0"), ExtResource("5_pkojf")])
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=1425971115]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VisualizadorActual" type="TextureRect" parent="." unique_id=875596279]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VisualizadorSiguiente" type="TextureRect" parent="." unique_id=1752606170]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PanelNavegacion" type="MarginContainer" parent="." unique_id=1262624096]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 30
+
+[node name="ContenedorBotones" type="HBoxContainer" parent="PanelNavegacion" unique_id=1083938836]
+layout_mode = 2
+theme_override_constants/separation = 35
+alignment = 2
+
+[node name="BotonVolver" type="Button" parent="PanelNavegacion/ContenedorBotones" unique_id=298368724]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.81960785, 0.84313726, 0.8039216, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_7jdbf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cbwm3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5pxru")
+text = "Volver al Menú"
+icon_alignment = 1
+
+[node name="ControlEspacio" type="Control" parent="PanelNavegacion/ContenedorBotones" unique_id=1019906325]
+layout_mode = 2
+
+[node name="BotonSiguiente" type="Button" parent="PanelNavegacion/ContenedorBotones" unique_id=1060217350]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_xt01g")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tufb0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pkojf")
+text = "Siguiente"

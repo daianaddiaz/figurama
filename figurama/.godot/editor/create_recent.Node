@@ -1,3 +1,10 @@
+WorldEnvironment
+TextureRect
+Control
+Button
+HBoxContainer
+MarginContainer
+ColorRect
 Node
 Decal
 OmniLight3D
@@ -6,9 +13,3 @@ Sprite2D
 VideoStreamPlayer
 AudioStreamPlayer
 CenterContainer
-Label
-TextureRect
-Container
-ColorRect
-PopupMenu
-Button

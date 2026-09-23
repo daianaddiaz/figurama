@@ -5,6 +5,7 @@ res://Clases/Visual/CartaDeFiguraView.cs
 res://Clases/Visual/CartaMovimientoView.cs
 res://Clases/Visual/ManoCartasView.cs
 res://Clases/Visual/State.cs
+res://Clases/Visual/FichaComodin.cs
 res://Clases/Visual/FichaBloqueada.cs
 res://Clases/Visual/FichaCompletada.cs
 res://Clases/Visual/FichaDisponible.cs
@@ -14,12 +15,12 @@ res://Clases/Visual/StateMachine.cs
 res://Clases/Visual/Ficha.cs
 res://Clases/Visual/Tablero.cs
 res://Clases/Visual/SplashScreen.cs
-res://Clases/Visual/MenuPrincipal.cs
-res://Clases/Visual/TableroView.cs
 res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Clases/Visual/FigurasObjetivoView.cs
-res://Clases/Datos/DatosPartida.cs
-res://Clases/Reglas/Controller.cs
-res://Clases/Datos/Jugador.cs
-res://Clases/Visual/FichaComodin.cs
-res://Objetos/ficha.tscn
+res://Clases/Visual/TableroView.cs
+res://Clases/Visual/MenuPrincipal.cs
+res://Clases/Visual/Tutorial.cs
+res://Clases/Visual/NavegadorEscenas.cs
+res://Objetos/tutorial.tscn
+res://Objetos/menuPrincipal.tscn
+res://Objetos/tablero.tscn

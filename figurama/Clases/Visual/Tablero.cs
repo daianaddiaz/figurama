@@ -10,6 +10,7 @@ public partial class Tablero : Node3D
     [Export] public VideoStreamTheora CinematicaLuzMala;
     [Export] public VideoStreamTheora CinematicaMulanima;
     [Export] public VideoStreamTheora CinematicaPomberito;
+    [Export] public Godot.Collections.Array<Texture2D> FondosJugadores = new Godot.Collections.Array<Texture2D>();
 
     private const float SizeCelda = 1.0f;
     private const int cantidadColores = 9;
@@ -18,6 +19,8 @@ public partial class Tablero : Node3D
     private TextureRect rectAzul;
     private TextureRect rectAmarillo;
     private TextureRect rectVerde;
+
+    private TextureRect _fondoJugador;
 
     private TableroReglas _reglas = new TableroReglas();
 
@@ -111,6 +114,16 @@ public partial class Tablero : Node3D
                 this.Connect(SignalName.ComodinDesactivado, new Callable(nodoFicha, "_on_ficha_comodin_desactivado"));
             }
         }
+
+        _fondoJugador = GetNodeOrNull<TextureRect>("UITemporal/FondoJugador");
+
+        if (_fondoJugador == null)
+        {
+            GD.PrintErr("[Tablero] No se encontró el nodo 'FondoJugador'. Verifica la jerarquía.");
+        }
+
+        // Cargar el fondo del primer jugador al iniciar
+        ActualizarFondoJugador(0);
 
         CrearManos();
         Manos[0].Show();
@@ -207,6 +220,22 @@ public partial class Tablero : Node3D
             Manos.Add(mano);
         }
     }
+
+
+    public void ActualizarFondoJugador(int indiceJugador)
+    {
+        if (_fondoJugador == null || FondosJugadores == null || FondosJugadores.Count == 0) return;
+
+        if (indiceJugador >= 0 && indiceJugador < FondosJugadores.Count)
+        {
+            _fondoJugador.Texture = FondosJugadores[indiceJugador];
+        }
+        else
+        {
+            GD.PrintErr($"[Tablero] Índice de jugador fuera de rango: {indiceJugador}");
+        }
+    }
+
 
     public void OnFiguraCompletada(List<(int fila, int columna)> celdas)
     {

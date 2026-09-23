@@ -16,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_jp0jl")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=2030332104]
+propagate_maximum_size = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,6 +49,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="PanelPrincipal" type="VBoxContainer" parent="." unique_id=1122169587]
+visible = false
 custom_minimum_size = Vector2(300, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -138,7 +140,6 @@ layout_mode = 2
 text = "Volver"
 
 [node name="PanelNombres" type="VBoxContainer" parent="." unique_id=1385670577]
-visible = false
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 1
 anchors_preset = 8

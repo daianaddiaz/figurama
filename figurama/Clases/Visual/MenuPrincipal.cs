@@ -32,12 +32,18 @@ public partial class MenuPrincipal : Control
 
     private Label _labelDificultadActual;
 
+    // Cambios de Escena
+    private Control _pantallaInicio;      
+
     // Datos del juego
     private int _selectedPlayerCount = 2;
     private List<LineEdit> _nameInputs = new List<LineEdit>();
     private List<OptionButton> _personajeInputs = new List<OptionButton>();
 
     private static readonly string[] NombresPersonajes = { "Lobizón", "Luz Mala", "El Pomberito", "Mulánima" };
+
+    // Variable estática para recordar el último panel activo entre cambios de escena
+    public static string PanelInicial = "Principal";
 
     public override void _Ready()
     {
@@ -91,8 +97,8 @@ public partial class MenuPrincipal : Control
         _startGameBtn.Pressed += OnStartGamePressed;
         _backButtonNames.Pressed += () => ShowPanel(_contadorJugadores);
 
-        // Estado inicial
-        ShowPanel(_panelPrincipal);
+        // Restaurar estado según la pantalla guardada
+        RestaurarPanelInicial();
     }
 
     private void ShowPanel(VBoxContainer panelToShow)
@@ -101,6 +107,36 @@ public partial class MenuPrincipal : Control
         _contadorJugadores.Visible = (panelToShow == _contadorJugadores);
         _panelNombres.Visible = (panelToShow == _panelNombres);
         _panelDificultad.Visible = (panelToShow == _panelDificultad);
+
+        // Guardar panel actual para mantener persistencia si viajamos al tutorial
+        if (panelToShow == _contadorJugadores) PanelInicial = "ContadorJugadores";
+        else if (panelToShow == _panelNombres) PanelInicial = "Nombres";
+        else if (panelToShow == _panelDificultad) PanelInicial = "Dificultad";
+        else PanelInicial = "Principal";
+    }
+
+    private void RestaurarPanelInicial()
+    {
+        switch (PanelInicial)
+        {
+            case "ContadorJugadores":
+                ShowPanel(_contadorJugadores);
+                break;
+            case "Nombres":
+                ShowPanel(_panelNombres);
+                break;
+            case "Dificultad":
+                ShowPanel(_panelDificultad);
+                break;
+            default:
+                ShowPanel(_panelPrincipal);
+                break;
+        }
+    }
+
+    public void MostrarContadorJugadores()
+    {
+        ShowPanel(_contadorJugadores);
     }
 
     private void OnPlayButtonPressed()
@@ -115,7 +151,7 @@ public partial class MenuPrincipal : Control
 
     private void OnTutorialButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://Objetos/tutorial.tscn");
+        NavegadorEscenas.CambiarEscenaConPaneo(GetTree(), "res://Objetos/tutorial.tscn", this);
     }
 
     private void OnExitButtonPressed()
@@ -146,11 +182,8 @@ public partial class MenuPrincipal : Control
             LineEdit input = new LineEdit
             {
                 PlaceholderText = $"Nombre Jugador {i + 1}",
-                // Ancho 150px
                 CustomMinimumSize = new Vector2(150, 0),
-                // Evitamos que se estire innecesariamente
                 SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin,
-
                 Text = $"Jugador {i + 1}"
             };
 
@@ -193,7 +226,10 @@ public partial class MenuPrincipal : Control
         DatosPartida.PersonajesElegidos = personajesElegidos;
         Controller.GetInstance().InicializarJugadores();
 
-        GetTree().ChangeSceneToFile("res://Objetos/tablero.tscn");
+        // Reiniciar el estado del menú para futuras partidas
+        PanelInicial = "Principal";
+
+        NavegadorEscenas.CambiarEscenaConPaneo(GetTree(), "res://Objetos/tablero.tscn", this);
     }
 
     private void OnDificultadSelected(int cantidadCartas)
