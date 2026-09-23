@@ -21,6 +21,7 @@ size = Vector3(0.8, 0.2, 0.8)
 [sub_resource type="BoxShape3D" id="BoxShape3D_tn3ss"]
 
 [node name="Ficha" type="Node3D" unique_id=111743949]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 script = ExtResource("1_dcclv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1748025612]

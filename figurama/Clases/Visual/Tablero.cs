@@ -12,7 +12,7 @@ public partial class Tablero : Node3D
     [Export] public VideoStreamTheora CinematicaPomberito;
     [Export] public Godot.Collections.Array<Texture2D> FondosJugadores = new Godot.Collections.Array<Texture2D>();
 
-    private const float SizeCelda = 1.0f;
+    private const float SizeCelda = 0.8f;
     private const int cantidadColores = 9;
 
     private TextureRect rectRojo;
@@ -20,7 +20,7 @@ public partial class Tablero : Node3D
     private TextureRect rectAmarillo;
     private TextureRect rectVerde;
 
-    private TextureRect _fondoJugador;
+    private Sprite3D _fondoJugador;
 
     private TableroReglas _reglas = new TableroReglas();
 
@@ -115,7 +115,7 @@ public partial class Tablero : Node3D
             }
         }
 
-        _fondoJugador = GetNodeOrNull<TextureRect>("UITemporal/FondoJugador");
+        _fondoJugador = GetNodeOrNull<Sprite3D>("Camera3D/Fondo");
 
         if (_fondoJugador == null)
         {

@@ -22,6 +22,7 @@ public partial class Ficha : Node3D
 
     private void OnInputEvent(Node camara, InputEvent evento, Vector3 posicionClick, Vector3 normal, long shapeIdx)
     {
+        GD.Print("ficha clickeada" + Position);
         if (evento is InputEventMouseButton mouseEvento &&
             mouseEvento.Pressed &&
             mouseEvento.ButtonIndex == MouseButton.Left)

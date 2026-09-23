@@ -31,7 +31,7 @@ CinematicaPomberito = ExtResource("8_qwnp2")
 FondosJugadores = Array[Texture2D]([ExtResource("9_vexnf"), ExtResource("10_vgrhs"), ExtResource("11_vkud5"), ExtResource("12_1fyr1")])
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2.5, 10, 2.5)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2, 10, 2)
 projection = 1
 current = true
 size = 7.0
@@ -40,17 +40,11 @@ size = 7.0
 light_energy = 5.0
 omni_range = 20.0
 
-[node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
+[node name="Fondo" type="Sprite3D" parent="Camera3D" unique_id=1784266435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+texture = ExtResource("9_vexnf")
 
-[node name="FondoJugador" type="TextureRect" parent="UITemporal" unique_id=1136352552]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-expand_mode = 1
-stretch_mode = 5
+[node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
 
 [node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("4_13hl8")]
 
