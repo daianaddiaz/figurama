@@ -13,7 +13,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Figurama")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+16738dd8b32ba69c16ebc8a5bd082cb0b68ec798")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40f59eba0650337027687e0199b26f17115ada50")]
+>>>>>>> Stashed changes
 [assembly: System.Reflection.AssemblyProductAttribute("Figurama")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Figurama")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -19,8 +19,11 @@ res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Clases/Visual/FigurasObjetivoView.cs
 res://Clases/Visual/TableroView.cs
 res://Clases/Visual/MenuPrincipal.cs
+<<<<<<< Updated upstream
 res://Clases/Visual/Tutorial.cs
 res://Clases/Visual/NavegadorEscenas.cs
 res://Objetos/tutorial.tscn
 res://Objetos/menuPrincipal.tscn
 res://Objetos/tablero.tscn
+=======
+>>>>>>> Stashed changes
