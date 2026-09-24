@@ -1,3 +1,4 @@
+Node
 VBoxContainer
 TextureRect
 Sprite3D
@@ -9,6 +10,5 @@ MarginContainer
 ColorRect
 OmniLight3D
 SpotLight3D
-Node
 Decal
 OmniLight3D

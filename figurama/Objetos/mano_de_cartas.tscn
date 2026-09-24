@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dg6uhtxrlj18m" path="res://Objetos/carta_de_movimiento.tscn" id="2_jj060"]
 [ext_resource type="PackedScene" uid="uid://cy60q2d8wprnb" path="res://Objetos/carta_de_figura.tscn" id="3_jj060"]
 [ext_resource type="PackedScene" uid="uid://cgbc3fvjhln8y" path="res://Objetos/puntuacion.tscn" id="4_q4kwa"]
+[ext_resource type="AudioStream" uid="uid://djviimavqwuyt" path="res://SFX/RerollSFX.wav" id="6_inulw"]
 
 [node name="ManoDeCartas" type="Control" unique_id=737516228]
 layout_mode = 3
@@ -54,3 +55,9 @@ offset_left = 2.0
 offset_top = 604.0
 offset_right = 91.0
 offset_bottom = 646.0
+
+[node name="Sonidos" type="Node" parent="." unique_id=673407697]
+
+[node name="RerollSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=373798685]
+stream = ExtResource("6_inulw")
+bus = &"UI SFX"

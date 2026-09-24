@@ -9,11 +9,13 @@
 [ext_resource type="Script" uid="uid://m6yqhxwotvb7" path="res://Clases/Visual/FichaDisponible.cs" id="5_6fi25"]
 [ext_resource type="Texture2D" uid="uid://fmtt42unkuyu" path="res://Assets/FichaOverlayComodin.png" id="5_j6ww4"]
 [ext_resource type="Script" uid="uid://c80ggurkoh2k6" path="res://Clases/Visual/FichaCompletada.cs" id="6_dkhma"]
+[ext_resource type="Texture2D" uid="uid://bnxxvt64t8iay" path="res://Assets/FichaOverlayCompletada.png" id="6_nshs1"]
 [ext_resource type="Script" uid="uid://bwmx7l0bayr7u" path="res://Clases/Visual/FichaBloqueada.cs" id="7_5hdbx"]
 [ext_resource type="AudioStream" uid="uid://j7b2yhs8erg3" path="res://SFX/ClickSFX.wav" id="7_w6sk7"]
 [ext_resource type="AudioStream" uid="uid://dae6ma668ijn4" path="res://SFX/FichaTransformacionSFX.wav" id="8_j3kd0"]
 [ext_resource type="Texture2D" uid="uid://doijtaua4di22" path="res://Assets/FichaOverlayDisponible.png" id="10_kxmfb"]
 [ext_resource type="Script" uid="uid://cmj818p0fos6x" path="res://Clases/Visual/FichaComodin.cs" id="12_x23ac"]
+[ext_resource type="AudioStream" uid="uid://c15glw01ca1sl" path="res://SFX/FuegoSFX.ogg" id="16_qm8jf"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
 size = Vector3(0.8, 0.2, 0.8)
@@ -55,8 +57,18 @@ upper_fade = 1e-05
 lower_fade = 1e-05
 
 [node name="Comodin" type="Decal" parent="MeshInstance3D" unique_id=502279524]
+visible = false
 size = Vector3(0.8, 0.9, 0.8)
 texture_albedo = ExtResource("5_j6ww4")
+
+[node name="Completada" type="Decal" parent="MeshInstance3D" unique_id=953731289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
+visible = false
+size = Vector3(0.8, 0.9, 0.8)
+texture_albedo = ExtResource("6_nshs1")
+emission_energy = 15.0
+upper_fade = 1e-05
+lower_fade = 1e-05
 
 [node name="Area3D" type="Area3D" parent="." unique_id=213440223]
 
@@ -100,6 +112,10 @@ bus = &"SFX"
 
 [node name="ComodinSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1739575626]
 stream = ExtResource("8_j3kd0")
+bus = &"SFX"
+
+[node name="FuegoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=240216402]
+stream = ExtResource("16_qm8jf")
 bus = &"SFX"
 
 [connection signal="timeout" from="TimerEfectoCompletada" to="." method="_on_timer_efecto_completada_timeout"]

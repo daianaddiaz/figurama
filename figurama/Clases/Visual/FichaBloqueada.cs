@@ -12,10 +12,12 @@ public partial class FichaBloqueada : State
 	public override void OnEnter()
 	{
 		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Bloqueada").Visible = true;
+		abuelo.GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("FuegoSFX").Play();
 	}
 
 	public override void OnExit()
 	{
 		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Bloqueada").Visible = false;
+		abuelo.GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("FuegoSFX").Stop();
 	}
 }

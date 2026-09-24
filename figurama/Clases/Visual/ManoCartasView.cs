@@ -162,6 +162,7 @@ public partial class ManoCartasView : Control
     {
         if (Controller.GetInstance().RerollearManoActual())
         {
+            GetNode<AudioStreamPlayer>("Sonidos/RerollSFX").Play();
             RefrescarCartas();
         }
     }

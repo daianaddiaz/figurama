@@ -8,6 +8,7 @@ offset_right = 1152.0
 offset_bottom = 648.0
 autoplay = true
 expand = true
+bus = &"SFX"
 script = ExtResource("1_2c50v")
 
 [connection signal="finished" from="." to="." method="_on_finished"]

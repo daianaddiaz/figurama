@@ -22,7 +22,6 @@ public partial class Ficha : Node3D
 
     private void OnInputEvent(Node camara, InputEvent evento, Vector3 posicionClick, Vector3 normal, long shapeIdx)
     {
-        GD.Print("ficha clickeada" + Position);
         if (evento is InputEventMouseButton mouseEvento &&
             mouseEvento.Pressed &&
             mouseEvento.ButtonIndex == MouseButton.Left)
@@ -98,11 +97,14 @@ public partial class Ficha : Node3D
 
     public void _on_figura_completada(Ficha ficha)
     {   
-        
+        if (ficha == this)
+        {
+            GetNode<StateMachine>("FSM").ChangeState("Completada");
+        }
     }
 
     public void _on_timer_efecto_completada_timeout()
     {
-        GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "Comodin" : "Neutral");
+        GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Completada").Visible = false;
     }
 }
