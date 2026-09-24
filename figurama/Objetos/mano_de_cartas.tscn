@@ -33,6 +33,7 @@ offset_left = 893.0
 offset_top = 611.0
 offset_right = 1148.0
 offset_bottom = 642.0
+theme_override_font_sizes/font_size = 12
 text = "Rerollear Mano de Movimientos"
 
 [node name="CartasFiguras" type="VBoxContainer" parent="." unique_id=857676176]

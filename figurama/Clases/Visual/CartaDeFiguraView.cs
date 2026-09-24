@@ -3,7 +3,7 @@ using Godot;
 public partial class CartaDeFiguraView : TextureRect
 {
     private FiguraAsignada _carta;
-
+    
     public void SetCarta(FiguraAsignada carta)
     {
         _carta = carta;
@@ -25,6 +25,13 @@ public partial class CartaDeFiguraView : TextureRect
         }
 
         Actualizar();
+    }
+
+    public override void _Ready()
+    {
+        CustomMinimumSize = new Vector2(80, 120);
+        ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
+        StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
     }
 
     public void Actualizar()
