@@ -1,15 +1,14 @@
+VBoxContainer
+TextureRect
 Sprite3D
 WorldEnvironment
-TextureRect
 Control
 Button
 HBoxContainer
 MarginContainer
 ColorRect
-TextureRect
 OmniLight3D
 SpotLight3D
 Node
 Decal
 OmniLight3D
-SpotLight3D

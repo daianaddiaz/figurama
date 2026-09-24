@@ -38,7 +38,10 @@ public partial class MazoFiguras
     public void InicializarMazo()
     {
         cartas.Add(new FiguraCruz());
-        cartas.Add(new FiguraL());
+        cartas.Add(new Figura5LIzquierda());
+        cartas.Add(new Figura5LDerecha());
+        cartas.Add(new Figura4LIzquierda());
+        cartas.Add(new Figura4LDerecha());
         cartas.Add(new FiguraLinea());
         cartas.Add(new FiguraCuadrado());
         cartas.Add(new FiguraZ());
@@ -46,7 +49,6 @@ public partial class MazoFiguras
         cartas.Add(new FiguraB());
         cartas.Add(new FiguraZigZag());
         cartas.Add(new FiguraTIzq());
-        cartas.Add(new FiguraL5());
         cartas.Add(new FiguraF());
         cartas.Add(new FiguraV());
         cartas.Add(new FiguraU());

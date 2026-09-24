@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://0ohgom08bvdi"]
 
+[ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="1_38krp"]
 [ext_resource type="Script" uid="uid://1n82r0e66f4b" path="res://Clases/Visual/ManoCartasView.cs" id="1_eavyo"]
 [ext_resource type="PackedScene" uid="uid://dg6uhtxrlj18m" path="res://Objetos/carta_de_movimiento.tscn" id="2_jj060"]
 [ext_resource type="PackedScene" uid="uid://cy60q2d8wprnb" path="res://Objetos/carta_de_figura.tscn" id="3_jj060"]
@@ -8,18 +9,23 @@
 [node name="ManoDeCartas" type="Control" unique_id=737516228]
 layout_mode = 3
 anchors_preset = 0
+theme = ExtResource("1_38krp")
 script = ExtResource("1_eavyo")
 CartaDeMovimientoScene = ExtResource("2_jj060")
 CartaDeFiguraScene = ExtResource("3_jj060")
 
 [node name="BotonesMovimientos" type="VBoxContainer" parent="." unique_id=1314739409]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
+anchor_bottom = 0.5
 offset_left = -159.0
-offset_bottom = 101.0
+offset_top = -50.5
+offset_bottom = 50.5
 grow_horizontal = 0
+grow_vertical = 2
 
 [node name="BotonReroll" type="Button" parent="." unique_id=1120244138]
 layout_mode = 0
@@ -29,10 +35,17 @@ offset_right = 1148.0
 offset_bottom = 642.0
 text = "Rerollear Mano de Movimientos"
 
-[node name="CartasFiguras" type="Control" parent="." unique_id=1158141738]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="CartasFiguras" type="VBoxContainer" parent="." unique_id=857676176]
+custom_minimum_size = Vector2(32, 60)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -30.0
+offset_right = 32.0
+offset_bottom = 30.0
+grow_vertical = 2
+theme_override_constants/separation = 10
 
 [node name="Puntuacion" parent="." unique_id=1664323275 instance=ExtResource("4_q4kwa")]
 layout_mode = 0

@@ -5,6 +5,8 @@ public abstract class CartaFigura
     public abstract string Nombre { get; }
     public abstract int CantidadFichas { get; }
 
+    public abstract string RutaImagen { get; }
+
     protected abstract List<(int fila, int columna)[]> Patrones { get; }
 
     public bool EsValida(TableroReglas tablero, int filaAncla, int columnaAncla, out List<(int fila, int columna)> celdas)

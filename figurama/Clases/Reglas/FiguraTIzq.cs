@@ -5,6 +5,8 @@ public class FiguraTIzq : CartaFigura
     public override string Nombre => "T Izquierda";
     public override int CantidadFichas => 5;
 
+    public override string RutaImagen => "res://Assets/Cartas Figuras/figura5_TIzquierda.png";
+
     protected override List<(int fila, int columna)[]> Patrones => new List<(int fila, int columna)[]>
     {
         new (int fila, int columna)[] { (0, 1), (1, 1), (2, 0), (2, 1), (3, 1) },
