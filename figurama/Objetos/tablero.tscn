@@ -65,9 +65,9 @@ theme = ExtResource("14_vkud5")
 [node name="Manos" type="Node" parent="UITemporal" unique_id=510582804]
 
 [node name="LabelFiguras" type="RichTextLabel" parent="UITemporal" unique_id=1075787288]
-offset_left = 3.0
+offset_left = 20.0
 offset_top = 59.0
-offset_right = 186.0
+offset_right = 203.0
 offset_bottom = 211.0
 bbcode_enabled = true
 
@@ -83,6 +83,8 @@ theme = ExtResource("16_1fyr1")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+theme = ExtResource("14_vkud5")
+theme_override_font_sizes/font_size = 18
 
 [node name="BotonVolverMenu" type="Button" parent="UITemporal/PanelVictoria" unique_id=1577881581]
 layout_mode = 0
@@ -90,6 +92,7 @@ offset_left = 17.0
 offset_top = 66.0
 offset_right = 141.0
 offset_bottom = 97.0
+theme = ExtResource("16_1fyr1")
 text = "Volver al Menú"
 
 [node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=1558671576]

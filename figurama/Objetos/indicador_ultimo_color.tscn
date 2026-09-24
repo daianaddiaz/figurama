@@ -15,33 +15,57 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="ultimoAzul" type="TextureRect" parent="." unique_id=915186109]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 255.0
-offset_right = 204.0
-offset_bottom = 455.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -272.0
+offset_top = 30.0
+offset_right = -172.0
+offset_bottom = 130.0
+grow_horizontal = 0
 texture = ExtResource("1_n82h0")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="ultimoVerde" type="TextureRect" parent="." unique_id=1193575782]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 255.0
-offset_right = 204.0
-offset_bottom = 455.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -272.0
+offset_top = 30.0
+offset_right = -172.0
+offset_bottom = 130.0
+grow_horizontal = 0
 texture = ExtResource("2_p3vsr")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="ultimoAmarillo" type="TextureRect" parent="." unique_id=519908795]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 255.0
-offset_right = 204.0
-offset_bottom = 455.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -272.0
+offset_top = 30.0
+offset_right = -172.0
+offset_bottom = 130.0
+grow_horizontal = 0
 texture = ExtResource("3_oc5it")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="ultimoRojo" type="TextureRect" parent="." unique_id=1721824105]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 255.0
-offset_right = 204.0
-offset_bottom = 455.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -272.0
+offset_top = 30.0
+offset_right = -172.0
+offset_bottom = 130.0
+grow_horizontal = 0
 texture = ExtResource("4_unajf")
+expand_mode = 1
+stretch_mode = 5

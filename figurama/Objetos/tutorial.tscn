@@ -7,57 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://bxqs8kat2b5qy" path="res://Assets/Tutorial/Tutorial3.png" id="4_tufb0"]
 [ext_resource type="Texture2D" uid="uid://b7ud4jvnlay8f" path="res://Assets/Tutorial/Tutorial4.png" id="5_pkojf"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jdbf"]
-bg_color = Color(0.7058824, 0.34901962, 0.4862745, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
-shadow_size = 7
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbwm3"]
-bg_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.7058824, 0.34901962, 0.4862745, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
-shadow_size = 7
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pxru"]
-bg_color = Color(0.5176471, 0.9490196, 0.4, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.7058824, 0.34901962, 0.4862745, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
-shadow_size = 7
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xt01g"]
 bg_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
 border_width_left = 3
@@ -69,10 +18,10 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
 shadow_size = 7
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tufb0"]
@@ -86,10 +35,10 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
 shadow_size = 7
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkojf"]
@@ -103,11 +52,29 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jdbf"]
+bg_color = Color(0.71, 0.3479, 0.48670492, 0)
+draw_center = false
+border_color = Color(0.047058824, 0.15294118, 0.3764706, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 expand_margin_left = 10.0
 expand_margin_top = 10.0
 expand_margin_right = 10.0
 expand_margin_bottom = 10.0
-shadow_size = 7
+shadow_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_oug1d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5s6jd"]
 
 [node name="Tutorial" type="Control" unique_id=544983571]
 layout_mode = 3
@@ -153,42 +120,44 @@ stretch_mode = 5
 
 [node name="PanelNavegacion" type="MarginContainer" parent="." unique_id=1262624096]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -48.0
-offset_bottom = -18.0
-grow_horizontal = 2
+offset_left = -172.0
+offset_top = -116.0
+offset_right = 37.0
+offset_bottom = 37.0
+grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 30
 
-[node name="ContenedorBotones" type="HBoxContainer" parent="PanelNavegacion" unique_id=1083938836]
+[node name="ContenedorBotones" type="VBoxContainer" parent="PanelNavegacion" unique_id=417058367]
+custom_maximum_size = Vector2(100, -1)
 layout_mode = 2
-theme_override_constants/separation = 35
-alignment = 2
-
-[node name="BotonVolver" type="Button" parent="PanelNavegacion/ContenedorBotones" unique_id=298368724]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.81960785, 0.84313726, 0.8039216, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_7jdbf")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cbwm3")
-theme_override_styles/hover = SubResource("StyleBoxFlat_5pxru")
-text = "Volver al Menú"
-icon_alignment = 1
-
-[node name="ControlEspacio" type="Control" parent="PanelNavegacion/ContenedorBotones" unique_id=1019906325]
-layout_mode = 2
+offset_transform_position = Vector2(30, 20)
+theme_override_constants/separation = 20
 
 [node name="BotonSiguiente" type="Button" parent="PanelNavegacion/ContenedorBotones" unique_id=1060217350]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_constants/h_separation = 4
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_xt01g")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_tufb0")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pkojf")
 text = "Siguiente"
+
+[node name="BotonVolver" type="Button" parent="PanelNavegacion/ContenedorBotones" unique_id=298368724]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.81960785, 0.84313726, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_7jdbf")
+theme_override_styles/pressed = SubResource("StyleBoxLine_oug1d")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5s6jd")
+text = "Atrás"
+icon_alignment = 1

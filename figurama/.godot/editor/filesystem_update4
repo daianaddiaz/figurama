@@ -1,8 +1,3 @@
-res://Objetos/ficha.tscn
-res://addons/gut/gui/editor_globals.gd
-res://addons/gut/gui/EditorRadioButton.tres
-res://Clases/Visual/FichaCompletada.cs
-res://Objetos/tablero.tscn
 res://Clases/Visual/Cinematica.cs
 res://Clases/Visual/TimerView.cs
 res://Clases/Visual/PuntuacionView.cs
@@ -12,6 +7,7 @@ res://Clases/Visual/ManoCartasView.cs
 res://Clases/Visual/State.cs
 res://Clases/Visual/FichaComodin.cs
 res://Clases/Visual/FichaBloqueada.cs
+res://Clases/Visual/FichaCompletada.cs
 res://Clases/Visual/FichaDisponible.cs
 res://Clases/Visual/FichaSeleccionada.cs
 res://Clases/Visual/FichaNeutral.cs
@@ -19,9 +15,15 @@ res://Clases/Visual/StateMachine.cs
 res://Clases/Visual/Ficha.cs
 res://Clases/Visual/Tablero.cs
 res://Clases/Visual/SplashScreen.cs
-res://Clases/Visual/Tutorial.cs
-res://Clases/Visual/MenuPrincipal.cs
-res://Clases/Visual/TableroView.cs
 res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
+res://Clases/Visual/MenuPrincipal.cs
+res://Clases/Visual/Tutorial.cs
 res://Clases/Visual/FigurasObjetivoView.cs
-res://Objetos/mano_de_cartas.tscn
+res://Clases/Visual/TableroView.cs
+res://Objetos/indicador_ultimo_color.tscn
+res://addons/gut/gui/editor_globals.gd
+res://addons/gut/gui/EditorRadioButton.tres
+res://Objetos/carta_de_figura.tscn
+res://Objetos/labeltimer.tscn
+res://Objetos/tablero.tscn
+res://Objetos/tutorial.tscn
