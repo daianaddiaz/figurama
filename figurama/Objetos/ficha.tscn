@@ -15,6 +15,9 @@
 [ext_resource type="AudioStream" uid="uid://dae6ma668ijn4" path="res://SFX/FichaTransformacionSFX.wav" id="8_j3kd0"]
 [ext_resource type="Texture2D" uid="uid://doijtaua4di22" path="res://Assets/FichaOverlayDisponible.png" id="10_kxmfb"]
 [ext_resource type="Script" uid="uid://cmj818p0fos6x" path="res://Clases/Visual/FichaComodin.cs" id="12_x23ac"]
+[ext_resource type="Script" uid="uid://nxt06glu5sai" path="res://Clases/Visual/FichaComodinSeleccionada.cs" id="14_e6uac"]
+[ext_resource type="Script" uid="uid://tmiew2smgv7q" path="res://Clases/Visual/FichaComodinDisponible.cs" id="15_gqwj7"]
+[ext_resource type="Script" uid="uid://dm473yfpshkfl" path="res://Clases/Visual/FichaComodinCompletada.cs" id="16_gqwj7"]
 [ext_resource type="AudioStream" uid="uid://c15glw01ca1sl" path="res://SFX/FuegoSFX.ogg" id="16_qm8jf"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
@@ -64,6 +67,7 @@ texture_albedo = ExtResource("5_j6ww4")
 [node name="Completada" type="Decal" parent="MeshInstance3D" unique_id=953731289]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
 visible = false
+sorting_offset = 1.0
 size = Vector3(0.8, 0.9, 0.8)
 texture_albedo = ExtResource("6_nshs1")
 emission_energy = 15.0
@@ -96,6 +100,15 @@ script = ExtResource("7_5hdbx")
 
 [node name="Comodin" type="Node" parent="FSM" unique_id=509344216]
 script = ExtResource("12_x23ac")
+
+[node name="ComodinSeleccionado" type="Node" parent="FSM" unique_id=371139293]
+script = ExtResource("14_e6uac")
+
+[node name="ComodinDisponible" type="Node" parent="FSM" unique_id=1564817518]
+script = ExtResource("15_gqwj7")
+
+[node name="ComodinCompletada" type="Node" parent="FSM" unique_id=399967388]
+script = ExtResource("16_gqwj7")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=671901448]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5122638, -0.017372847)

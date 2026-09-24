@@ -83,4 +83,23 @@ public partial class MazoMovimiento
 
         return mano;
     }
+
+    public CartaMovimiento ObtenerCartaAlAzar()
+    {
+        if (cartas.Count == 0) return null;
+
+        Random rand = new Random();
+        CartaMovimiento cartaBase = cartas[rand.Next(cartas.Count)];
+
+        return cartaBase switch
+        {
+            MovimientoEnL => new MovimientoEnL { DireccionPermitida = MovimientoEnL.TipoDireccion.Cualquiera },
+            MovimientoLateralConEspacio => new MovimientoLateralConEspacio(),
+            MovimientoLateralContiguo => new MovimientoLateralContiguo(),
+            MovimientoDiagonalContiguo => new MovimientoDiagonalContiguo(),
+            MovimientoDiagonalConEspacio => new MovimientoDiagonalConEspacio(),
+            MovimientoLateralAlBorde => new MovimientoLateralAlBorde(),
+            _ => null
+        };
+    }
 }

@@ -12,12 +12,12 @@ public class Figura4LDerecha : CartaFigura
         new (int fila, int columna)[] { (0, 0), (1, 0), (2, 0), (2, 1) },
 
         // 90° 
-        new (int fila, int columna)[] { (0, 0), (0, 1), (0, 2), (1, 2) },
+        new (int fila, int columna)[] { (0, 0), (0, 1), (0, 2), (1, 0) },
 
         //  180° 
         new (int fila, int columna)[] { (0, 0), (0, 1), (1, 1), (2, 1) },
 
         // 270° 
-        new (int fila, int columna)[] { (0, 0), (1, 0), (1, 1), (1, 2) }
+        new (int fila, int columna)[] { (0, 2), (1, 0), (1, 1), (1, 2) }
     };
 }

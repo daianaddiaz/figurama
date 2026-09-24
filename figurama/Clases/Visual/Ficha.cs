@@ -59,6 +59,7 @@ public partial class Ficha : Node3D
     {
         if (ficha == this)
         {
+            GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("ComodinSFX").Play();
             GetNode<StateMachine>("FSM").ChangeState("Comodin");
         }
     }
@@ -83,7 +84,7 @@ public partial class Ficha : Node3D
     {   
         if(ficha == this)
         {   
-            GetNode<StateMachine>("FSM").ChangeState("Seleccionada");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "ComodinSeleccionado" : "Seleccionada");
         }
     }
 
@@ -91,7 +92,7 @@ public partial class Ficha : Node3D
     {   
         if(ficha == this)
         {   
-            GetNode<StateMachine>("FSM").ChangeState("Disponible");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "ComodinDisponible" : "Disponible");
         }
     }
 
@@ -99,7 +100,7 @@ public partial class Ficha : Node3D
     {   
         if (ficha == this)
         {
-            GetNode<StateMachine>("FSM").ChangeState("Completada");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "ComodinCompletada" : "Completada");
         }
     }
 

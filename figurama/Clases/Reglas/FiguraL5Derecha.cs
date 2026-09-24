@@ -12,7 +12,7 @@ public class Figura5LDerecha : CartaFigura
         new (int fila, int columna)[] { (0, 0), (1, 0), (2, 0), (3, 0), (3, 1) },
 
         // Rotacion de 90° 
-        new (int fila, int columna)[] { (0, 0), (0, 1), (0, 2), (0, 3), (1, 3) },
+        new (int fila, int columna)[] { (0, 0), (0, 1), (0, 2), (0, 3), (1, 0) },
 
         // Rotacion de 180° 
         new (int fila, int columna)[] { (0, 0), (0, 1), (1, 1), (2, 1), (3, 1) },

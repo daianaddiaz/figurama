@@ -1,6 +1,7 @@
+Node
+TextureButton
 VBoxContainer
 TextureRect
-Node
 Sprite3D
 WorldEnvironment
 Control
@@ -11,4 +12,3 @@ ColorRect
 OmniLight3D
 SpotLight3D
 Decal
-OmniLight3D

@@ -4,7 +4,7 @@ public class HabilidadPomberito : Habilidad
 
     public void Activar(Jugador jugador)
     {
-        var cartaExtra = MazoMovimiento.GetInstance().ObtenerSiguienteCarta();
+        var cartaExtra = MazoMovimiento.GetInstance().ObtenerCartaAlAzar();
         if (cartaExtra != null)
         {
             jugador.manoCartas.Add(cartaExtra);

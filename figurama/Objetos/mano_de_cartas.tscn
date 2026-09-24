@@ -39,14 +39,11 @@ text = "Rerollear Mano de Movimientos"
 
 [node name="CartasFiguras" type="VBoxContainer" parent="." unique_id=857676176]
 custom_minimum_size = Vector2(32, 60)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -30.0
-offset_right = 32.0
-offset_bottom = 30.0
-grow_vertical = 2
+layout_mode = 0
+offset_left = 37.0
+offset_top = 75.0
+offset_right = 69.0
+offset_bottom = 135.0
 theme_override_constants/separation = 10
 
 [node name="Puntuacion" parent="." unique_id=1664323275 instance=ExtResource("4_q4kwa")]

@@ -13,7 +13,6 @@ public partial class Controller
 
     private TableroReglas tablero;
     private Jugador[] jugadores;
-    private Juego juego;
     private bool condicionDeVictoria = false;
 
     public int JugadorActual { get; private set; } = 0;
@@ -61,7 +60,6 @@ public partial class Controller
     public void InicializarController()
     {
         tablero = new TableroReglas();
-        juego = new Juego();
     }
 
     public bool RerollearManoActual()
@@ -101,10 +99,21 @@ public partial class Controller
         {
             string nombre = i < DatosPartida.NombresJugadores.Count ? DatosPartida.NombresJugadores[i] : $"Jugador {i + 1}";
 
-            var figuras = new List<FiguraAsignada>();
+            var todasLasFiguras = new List<FiguraAsignada>();
             foreach (CartaFigura figura in MazoFiguras.GetInstance().generarMano(CantidadFigurasPorJugador))
             {
-                figuras.Add(new FiguraAsignada { Figura = figura, Completada = false });
+                todasLasFiguras.Add(new FiguraAsignada { Figura = figura, Completada = false });
+            }
+
+            var figurasActivas = new List<FiguraAsignada>();
+            var figurasReserva = new List<FiguraAsignada>();
+
+            for (int j = 0; j < todasLasFiguras.Count; j++)
+            {
+                if (j < 3)
+                    figurasActivas.Add(todasLasFiguras[j]);
+                else
+                    figurasReserva.Add(todasLasFiguras[j]);
             }
 
             TipoHabilidad tipo = i < DatosPartida.PersonajesElegidos.Count ? DatosPartida.PersonajesElegidos[i] : TipoHabilidad.Lobizon;
@@ -113,7 +122,8 @@ public partial class Controller
             {
                 nombre = nombre,
                 manoCartas = MazoMovimiento.GetInstance().generarMano(), // Trae 3 cartas iniciales
-                figurasAArmar = figuras,
+                figurasAArmar = figurasActivas,
+                figurasEnReserva = figurasReserva,
                 PersonajeAsignado = new Personaje { Nombre = nombre, Tipo = tipo }
             };
         }
@@ -210,6 +220,13 @@ public partial class Controller
                 FiguraEncontrada?.Invoke(celdas);
                 jugador.Puntuacion += asignada.Figura.CantidadFichas;
                 completadasAhora.Add(asignada.Figura);
+
+                if (jugador.figurasEnReserva.Count > 0)
+                {
+                    FiguraAsignada nuevaActiva = jugador.figurasEnReserva[0];
+                    jugador.figurasEnReserva.RemoveAt(0);
+                    jugador.figurasAArmar.Add(nuevaActiva);
+                }
 
                 UltimoColorUsado = colorFormado;
                 UltimoColorCambiado?.Invoke(colorFormado);

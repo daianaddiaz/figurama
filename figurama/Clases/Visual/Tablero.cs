@@ -48,6 +48,22 @@ public partial class Tablero : Node3D
         { TipoHabilidad.Mulanima, "Mulánima Enfurecida" }
     };
 
+    private static readonly Dictionary<TipoHabilidad, string> TexturaDisponibleHabilidad = new Dictionary<TipoHabilidad, string>
+    {
+        { TipoHabilidad.Lobizon, "res://Assets/ActivarLobizon.png" },
+        { TipoHabilidad.LuzMala, "res://Assets/ActivarLuzMala.png" },
+        { TipoHabilidad.Pomberito, "res://Assets/ActivarPomberito.png" },
+        { TipoHabilidad.Mulanima, "res://Assets/ActivarMulanima.png" }
+    };
+
+    private static readonly Dictionary<TipoHabilidad, string> TexturaNoDisponibleHabilidad = new Dictionary<TipoHabilidad, string>
+    {
+        { TipoHabilidad.Lobizon, "res://Assets/DesactivarLobizon.png" },
+        { TipoHabilidad.LuzMala, "res://Assets/DesactivarLuzMala.png" },
+        { TipoHabilidad.Pomberito, "res://Assets/DesactivarPomberito.png" },
+        { TipoHabilidad.Mulanima, "res://Assets/DesactivarMulanima.png" }
+    };
+
     public override void _Ready()
     {
         if (Controller.GetInstance().Jugadores() == null || Controller.GetInstance().Jugadores().Length == 0)
@@ -58,7 +74,7 @@ public partial class Tablero : Node3D
         Controller.GetInstance().FichaBloqueadaEvent += OnFichaBloqueada;
         Controller.GetInstance().FichaDesbloqueadaEvent += OnFichaDesbloqueada;
 
-        var botonHabilidad = GetNodeOrNull<Button>("UITemporal/BotonHabilidad");
+        var botonHabilidad = GetNodeOrNull<TextureButton>("UITemporal/BotonHabilidad");
         if (botonHabilidad != null)
         {
             botonHabilidad.Pressed += OnHabilidadPresionada;
@@ -142,16 +158,6 @@ public partial class Tablero : Node3D
     private void OnFinTurnoPresionado()
     {
         Controller.GetInstance().TerminarTurno();
-    }
-
-    private void OnCartaSeleccionadaCambiada(CartaMovimiento nuevaCarta)
-    {
-        DesalumbrarFichas();
-
-        if (nuevaCarta != null)
-        {
-            AlumbrarFichasDisponibles();
-        }
     }
 
     private void ActualizarColor(ColorFicha nuevoColor)
@@ -532,11 +538,15 @@ public partial class Tablero : Node3D
 
     private void ActualizarBotonHabilidad()
     {
-        var botonHabilidad = GetNodeOrNull<Button>("UITemporal/BotonHabilidad");
+        var botonHabilidad = GetNodeOrNull<TextureButton>("UITemporal/BotonHabilidad");
         if (botonHabilidad == null) return;
 
         var jugador = Controller.GetInstance().Jugadores()[Controller.GetInstance().JugadorActual];
-        botonHabilidad.Text = NombreBotonHabilidad[jugador.PersonajeAsignado.Tipo];
+        TipoHabilidad tipo = jugador.PersonajeAsignado.Tipo;
+
+        botonHabilidad.TextureNormal = GD.Load<Texture2D>(TexturaDisponibleHabilidad[tipo]);
+        botonHabilidad.TextureDisabled = GD.Load<Texture2D>(TexturaNoDisponibleHabilidad[tipo]);
+        botonHabilidad.TooltipText = NombreBotonHabilidad[tipo];
         botonHabilidad.Disabled = !Controller.GetInstance().PuedeUsarHabilidad();
     }
 
