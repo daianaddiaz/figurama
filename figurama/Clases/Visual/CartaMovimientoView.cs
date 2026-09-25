@@ -6,6 +6,8 @@ public partial class CartaMovimientoView : Button
 {
     [Export] public Texture2D TexturaDorso;
 
+    [Signal] public delegate void CartaSeleccionadaEventHandler(CartaMovimientoView cartaView);
+
     private TextureRect _frente;
     private TextureRect _dorso;
     private CartaMovimiento _cartaRepresentada; 
@@ -107,6 +109,8 @@ public partial class CartaMovimientoView : Button
         if (_estaVolteada) return;
 
         Controller.GetInstance().CambiarCartaSeleccionada(_cartaRepresentada);
+        EmitSignal(SignalName.CartaSeleccionada, this);
+        _on_carta_seleccionada();
         GetNode<AudioStreamPlayer>("ClickSFX").Play();
     }
 
@@ -143,4 +147,15 @@ public partial class CartaMovimientoView : Button
             .SetTrans(Tween.TransitionType.Sine)
             .SetEase(Tween.EaseType.Out);
     }
+
+    public void _on_carta_seleccionada()
+    {
+        GetNode<StateMachine>("FSM").ChangeState("Seleccionada");
+    }
+
+    public void _on_carta_no_seleccionada()
+    {
+        GetNode<StateMachine>("FSM").ChangeState("Neutral");
+    }
+
 }

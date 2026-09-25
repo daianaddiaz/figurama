@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cg8aprise306t" path="res://Assets/FondosInGame/FondoJugador3.png" id="11_vkud5"]
 [ext_resource type="Texture2D" uid="uid://ccqg8qgqs4muq" path="res://Assets/FondosInGame/FondoJugador4.png" id="12_1fyr1"]
 [ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="14_vkud5"]
+[ext_resource type="PackedScene" uid="uid://cv43ii5aqijte" path="res://Objetos/insignia.tscn" id="15_gx7pg"]
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="16_1fyr1"]
 [ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="17_1fyr1"]
 
@@ -25,6 +26,7 @@ script = ExtResource("1_adh7g")
 FichaScene = ExtResource("2_laj61")
 ManoCartasScene = ExtResource("3_iud63")
 CinematicaScene = ExtResource("4_r30ng")
+InsigniaViewScene = ExtResource("15_gx7pg")
 CinematicaLobizon = ExtResource("5_qmd58")
 CinematicaLuzMala = ExtResource("6_4s56h")
 CinematicaMulanima = ExtResource("7_tmbke")
@@ -32,7 +34,7 @@ CinematicaPomberito = ExtResource("8_qwnp2")
 FondosJugadores = Array[Texture2D]([ExtResource("9_vexnf"), ExtResource("10_vgrhs"), ExtResource("11_vkud5"), ExtResource("12_1fyr1")])
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2, 10, 2)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2, 10, 2.2)
 projection = 1
 current = true
 size = 7.0
@@ -56,6 +58,13 @@ offset_right = 75.0
 offset_bottom = 58.0
 theme = ExtResource("14_vkud5")
 theme_override_font_sizes/font_size = 20
+text = "Turno de:"
+
+[node name="InsigniaViewContainer" type="Control" parent="UITemporal" unique_id=2002938432]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("4_7uocc")]
 offset_top = 35.0
@@ -97,19 +106,20 @@ theme = ExtResource("16_1fyr1")
 text = "Volver al Menú"
 
 [node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=1558671576]
-offset_left = 968.0
-offset_top = 575.0
-offset_right = 1096.0
-offset_bottom = 606.0
+offset_left = 45.0
+offset_top = 566.0
+offset_right = 173.0
+offset_bottom = 597.0
 theme = ExtResource("16_1fyr1")
 text = "Finalizar Turno "
 
 [node name="BotonHabilidad" type="TextureButton" parent="UITemporal" unique_id=1585264927]
 custom_minimum_size = Vector2(80, 80)
-offset_left = 898.0
-offset_top = 466.0
-offset_right = 978.0
-offset_bottom = 546.0
+offset_left = 297.0
+offset_top = 526.0
+offset_right = 377.0
+offset_bottom = 606.0
+scale = Vector2(1.5, 1.5)
 ignore_texture_size = true
 stretch_mode = 5
 

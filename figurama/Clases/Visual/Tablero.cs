@@ -6,6 +6,7 @@ public partial class Tablero : Node3D
     [Export] public PackedScene FichaScene;
     [Export] public PackedScene ManoCartasScene;
     [Export] public PackedScene CinematicaScene;
+    [Export] public PackedScene InsigniaViewScene;
     [Export] public VideoStreamTheora CinematicaLobizon;
     [Export] public VideoStreamTheora CinematicaLuzMala;
     [Export] public VideoStreamTheora CinematicaMulanima;
@@ -34,6 +35,7 @@ public partial class Tablero : Node3D
     [Signal] public delegate void DesbloqueadaEventHandler(Ficha ficha);
     [Signal] public delegate void ComodinActivadoEventHandler(Ficha ficha);
     [Signal] public delegate void ComodinDesactivadoEventHandler(Ficha ficha);
+    [Signal] public delegate void CambiarInsigniaEventHandler(string nombreJugador, string texturaInsignia);
 
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
@@ -62,6 +64,14 @@ public partial class Tablero : Node3D
         { TipoHabilidad.LuzMala, "res://Assets/DesactivarLuzMala.png" },
         { TipoHabilidad.Pomberito, "res://Assets/DesactivarPomberito.png" },
         { TipoHabilidad.Mulanima, "res://Assets/DesactivarMulanima.png" }
+    };
+
+    private static readonly Dictionary<TipoHabilidad, string> TexturaInsignia = new Dictionary<TipoHabilidad, string>
+    {
+        { TipoHabilidad.Lobizon, "res://Assets/JugadorOpcionLobizon.png" },
+        { TipoHabilidad.LuzMala, "res://Assets/JugadorOpcionLuzMala.png" },
+        { TipoHabilidad.Pomberito, "res://Assets/JugadorOpcionPomberito.png" },
+        { TipoHabilidad.Mulanima, "res://Assets/JugadorOpcionMulanima.png" }
     };
 
     public override void _Ready()
@@ -149,7 +159,11 @@ public partial class Tablero : Node3D
 
         GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
 
-        ActualizarLabelTurno(Controller.GetInstance().JugadorActual);
+        var insigniaView = InsigniaViewScene.Instantiate<InsigniaView>();
+        this.Connect(SignalName.CambiarInsignia, new Callable(insigniaView, "SetInsignia"));
+        GetNode<Control>("UITemporal/InsigniaViewContainer").AddChild(insigniaView);
+        insigniaView.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        EmitSignal(SignalName.CambiarInsignia, Controller.GetInstance().NombreJugadorActual(), TexturaInsignia[Controller.GetInstance().Jugadores()[0].PersonajeAsignado.Tipo]);
         
         ActualizarBotonHabilidad();
         ActualizarBotonesAccion();    
@@ -472,14 +486,9 @@ public partial class Tablero : Node3D
         Manos[jugadorAnterior].Hide();
         Manos[jugadorActual].Show();
         Manos.ForEach(man => man.ActualizarMano());
-        ActualizarLabelTurno(jugadorActual);
+        EmitSignal(SignalName.CambiarInsignia, Controller.GetInstance().NombreJugadorActual(), TexturaInsignia[Controller.GetInstance().Jugadores()[jugadorActual].PersonajeAsignado.Tipo]);
         ActualizarBotonHabilidad();
         ActualizarBotonesAccion();
-    }
-
-    private void ActualizarLabelTurno(int jugadorActual)
-    {
-        GetNode<Label>("UITemporal/LabelTurno").Text = $"Turno: {Controller.GetInstance().NombreJugadorActual()}";
     }
 
     private void MostrarVictoria(string nombreGanador)

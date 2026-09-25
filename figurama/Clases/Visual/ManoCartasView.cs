@@ -117,7 +117,7 @@ public partial class ManoCartasView : Control
 
     private void RefrescarCartas()
     {
-        var contenedor = GetNode<VBoxContainer>("BotonesMovimientos");
+        var contenedor = GetNode<HBoxContainer>("BotonesMovimientos");
 
     foreach (Node hijo in contenedor.GetChildren())
     {
@@ -129,6 +129,7 @@ public partial class ManoCartasView : Control
         foreach (CartaMovimiento carta in _jugador.manoCartas)
         {
             var cartaView = CartaDeMovimientoScene.Instantiate<CartaMovimientoView>();
+            cartaView.CartaSeleccionada += OnCartaSeleccionada; 
             contenedor.AddChild(cartaView);
 
             if (carta != null)
@@ -144,9 +145,25 @@ public partial class ManoCartasView : Control
         }
     }
 
+    public void OnCartaSeleccionada(CartaMovimientoView cartaView)
+    {
+        if (cartaView != null && cartaView.CartaRepresentada != null)
+        {
+            var contenedor = GetNode<HBoxContainer>("BotonesMovimientos");
+
+            foreach (Node hijo in contenedor.GetChildren())
+            {
+                if (hijo is CartaMovimientoView otherCartaView && otherCartaView != cartaView)
+                {
+                    otherCartaView._on_carta_no_seleccionada();
+                }
+            }
+        }
+    }
+
     public void AnimarCartaUsada(CartaMovimiento carta)
     {
-        var contenedor = GetNode<VBoxContainer>("BotonesMovimientos");
+        var contenedor = GetNode<HBoxContainer>("BotonesMovimientos");
 
         foreach (Node hijo in contenedor.GetChildren())
         {

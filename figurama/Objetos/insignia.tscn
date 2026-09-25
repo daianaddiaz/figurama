@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://cv43ii5aqijte"]
+
+[ext_resource type="Script" uid="uid://b87xjx4vomsfs" path="res://Clases/Visual/InsigniaView.cs" id="1_5ev34"]
+[ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="1_oe3jh"]
+[ext_resource type="Texture2D" uid="uid://dhbq07gowvncf" path="res://Assets/JugadorOpcionLobizon.png" id="1_ptb3v"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j5se4"]
+font = ExtResource("1_oe3jh")
+
+[node name="Insignia" type="Control" unique_id=704896534]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -766.0
+offset_bottom = -466.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5ev34")
+
+[node name="Insignia" type="TextureRect" parent="." unique_id=347428076]
+layout_mode = 0
+offset_left = -106.0
+offset_top = -29.0
+offset_right = 377.0
+offset_bottom = 209.0
+texture = ExtResource("1_ptb3v")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NombreJugador" type="Label" parent="Insignia" unique_id=405405239]
+layout_mode = 0
+offset_left = 207.0
+offset_top = 111.0
+offset_right = 306.0
+offset_bottom = 134.0
+text = "Jugador 1"
+label_settings = SubResource("LabelSettings_j5se4")

@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://crqxjycehku6g" path="res://Clases/Visual/CartaMovimientoView.cs" id="1_aqdti"]
 [ext_resource type="Texture2D" uid="uid://bqxcp46qfi0h6" path="res://Assets/Cartas Movimiento/dorso_movimiento.png" id="2_12huq"]
 [ext_resource type="AudioStream" uid="uid://j7b2yhs8erg3" path="res://SFX/ClickSFX.wav" id="3_htwty"]
+[ext_resource type="Texture2D" uid="uid://d2c51ajmtlt2g" path="res://Assets/CartaSeleccionadaOverlay.png" id="3_nt70b"]
+[ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://Clases/Visual/StateMachine.cs" id="4_qqbci"]
+[ext_resource type="Script" uid="uid://5aog8q7wpq22" path="res://Objetos/CartaNeutral.cs" id="5_nt70b"]
+[ext_resource type="Script" uid="uid://fllbi28ervhl" path="res://Objetos/CartaSeleccionada.cs" id="6_n3bw2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqdti"]
 
@@ -56,6 +60,27 @@ texture = ExtResource("2_12huq")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="Seleccionada" type="TextureRect" parent="." unique_id=292519411]
+visible = false
+self_modulate = Color(1, 1, 1, 0.49803922)
+layout_mode = 0
+offset_left = -27.0
+offset_top = 4.5
+offset_right = 107.0
+offset_bottom = 114.5
+texture = ExtResource("3_nt70b")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="ClickSFX" type="AudioStreamPlayer" parent="." unique_id=447470920]
 stream = ExtResource("3_htwty")
 bus = &"UI SFX"
+
+[node name="FSM" type="Node" parent="." unique_id=231465928]
+script = ExtResource("4_qqbci")
+
+[node name="Neutral" type="Node" parent="FSM" unique_id=1437620206]
+script = ExtResource("5_nt70b")
+
+[node name="Seleccionada" type="Node" parent="FSM" unique_id=1375400605]
+script = ExtResource("6_n3bw2")
