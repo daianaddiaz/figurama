@@ -1,5 +1,5 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1790330822
+::res://::1790353658
 default_bus_layout.tres::AudioBusLayout::556973535073688936::1790039867::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1790258209::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::6141088547517699221::1788127332::1788127434::1::::<><><>0<>0<>9b2f75d8ce0467cc2d8701694d79ca8b<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
@@ -31,7 +31,7 @@ GdUnitResultAssert.gd::GDScript::6897984017218349633::1790039866::0::1::::GdUnit
 GdUnitSceneRunner.gd::GDScript::1630072844474173376::1790039866::0::1::::GdUnitSceneRunner<>RefCounted<><>1<>0<><>::
 GdUnitSignalAssert.gd::GDScript::2118554262854408516::1790039866::0::1::::GdUnitSignalAssert<>GdUnitAssert<><>1<>0<><>::
 GdUnitStringAssert.gd::GDScript::3172074375200563187::1790039866::0::1::::GdUnitStringAssert<>GdUnitAssert<><>1<>0<><>::
-GdUnitTestSuite.gd::GDScript::2758020973049620894::1790039866::0::1::::GdUnitTestSuite<>Node<><>0<>0<><>::
+GdUnitTestSuite.gd::GDScript::2758020973049620894::1790039866::0::1::::GdUnitTestSuite<>Node<>res://addons/gdUnit4/src/ui/settings/logo.png<>0<>0<><>::
 GdUnitTuple.gd::GDScript::2642691631953316883::1790039866::0::1::::GdUnitTuple<>RefCounted<><>0<>0<><>::
 GdUnitValueExtractor.gd::GDScript::8843183865836514005::1790039866::0::1::::GdUnitValueExtractor<>RefCounted<><>0<>0<><>::
 GdUnitVectorAssert.gd::GDScript::6495234766740006969::1790039866::0::1::::GdUnitVectorAssert<>GdUnitAssert<><>1<>0<><>::
@@ -465,7 +465,7 @@ red.png::CompressedTexture2D::2443263267725858415::1790039867::1790041129::1::::
 Script.svg::CompressedTexture2D::4817060143842260657::1790039867::1790041129::1::::<><><>0<>0<>3bf5139f8dfabcb7b156346c8559c7dc<>res://.godot/imported/Script.svg-34c66aae9c985e3e0470426acbbcda04.ctex::
 VSplitContainer.svg::CompressedTexture2D::2887385407422649463::1790039867::1790041129::1::::<><><>0<>0<>e0beaacb3020560e40771dab52414040<>res://.godot/imported/VSplitContainer.svg-6cec29fefa7e65d6ff7c2fdb9a1bb9ab.ctex::
 yellow.png::CompressedTexture2D::1043265824178416429::1790039867::1790041129::1::::<><><>0<>0<>e1c5049147dc1aeb62405fc086032860<>res://.godot/imported/yellow.png-b3cf3d463958a169d909273d3d742052.ctex::
-::res://Assets/::1790333892
+::res://Assets/::1790333894
 ActivarLobizon.png::CompressedTexture2D::6370952955547863963::1790096407::1790097565::1::::<><><>0<>0<>1822d8f2454cbb1d350914803be9b913<>res://.godot/imported/ActivarLobizon.png-f145fd77761a0ae0a04d25bc2f11b3e2.ctex::
 ActivarLuzMala.png::CompressedTexture2D::3609137854166411824::1790096423::1790097565::1::::<><><>0<>0<>0564f79b02afd12d17cd331a92a881a1<>res://.godot/imported/ActivarLuzMala.png-0dd3c0e411df6d336259e683c74ea825.ctex::
 ActivarMulanima.png::CompressedTexture2D::152139993230517236::1790096655::1790097565::1::::<><><>0<>0<>0fe228f72da1f3b57f725f93fd59dab8<>res://.godot/imported/ActivarMulanima.png-a5d23f1f73bba39dba30c6f4830759de.ctex::
@@ -611,10 +611,10 @@ FichaSeleccionada.cs::CSharpScript::5023475491862209179::1790118842::0::1::::<>N
 FuenteChocolate.tres::Theme::5363198900238309219::1790333061::0::1::::<><><>0<>0<><>::uid://b2i2odj6dqucn::::res://Tipografia/TT Chocolates Trial DemiBold.otf
 FuentePrincipal.tres::Theme::7945010047957438381::1790044605::0::1::::<><><>0<>0<><>::uid://dgnae1x6eeg64::::res://Tipografia/Designer.otf
 ManoCartasView.cs::CSharpScript::1853799654329800727::1790258209::0::1::::<>Control<><>0<>0<><>::
+MenuPausa.cs::CSharpScript::5014698296071446680::1790333915::0::1::::<>CanvasLayer<><>0<>0<><>::
 MenuPrincipal.cs::CSharpScript::2643270710963309825::1790125246::0::1::::<>Control<><>0<>0<><>::
 NavegadorEscenas.cs::CSharpScript::6895743954442772866::1790123966::0::1::::<><><>0<>0<><>::
 PuntuacionView.cs::CSharpScript::851781569503772886::1790005725::0::1::::<>Label<><>0<>0<><>::
-MenuPausa.cs::CSharpScript::5014698296071446680::1790332917::0::1::::<>CanvasLayer<><>0<>0<><>::
 SplashScreen.cs::CSharpScript::3058870206441522238::1790122992::0::1::::<>Control<><>0<>0<><>::
 State.cs::CSharpScript::787727408741470371::1788127332::0::1::::<>Node<><>0<>0<><>::
 StateMachine.cs::CSharpScript::18987110142428171::1788127332::0::1::::<>Node<><>0<>0<><>::
@@ -639,7 +639,7 @@ MovimientoLateralAlBorde.gd::GDScript::2623761658429088072::1790211556::0::1::::
 MovimientoLateralConEspacio.gd::GDScript::6300774559786671783::1790211556::0::1::::MovimientoLateralConEspacio<>CartaMovimiento<><>0<>0<><>::
 MovimientoLateralContiguo.gd::GDScript::3886272837790397298::1790211556::0::1::::MovimientoLateralContiguo<>CartaMovimiento<><>0<>0<><>::
 tableroReglas.gd::GDScript::3614425446952595876::1790211556::0::1::::TableroReglas<>RefCounted<><>0<>0<><>::
-::res://Objetos/::1790333474
+::res://Objetos/::1790333910
 carta_de_figura.tscn::PackedScene::6522917246890717495::1790259833::0::1::::<><><>0<>0<><>::uid://bikr8i5p4eaw1::::res://Clases/Visual/CartaDeFiguraView.cs
 carta_de_movimiento.tscn::PackedScene::7645618697957655214::1790039866::0::1::::<><><>0<>0<><>::uid://crqxjycehku6g::::res://Clases/Visual/CartaMovimientoView.cs<>uid://bqxcp46qfi0h6::::res://Assets/Cartas Movimiento/dorso_movimiento.png<>uid://j7b2yhs8erg3::::res://SFX/ClickSFX.wav
 cinematica.tscn::PackedScene::353261012600624919::1790258209::0::1::::<><><>0<>0<><>::uid://wlvaufga1axp::::res://Clases/Visual/Cinematica.cs
@@ -647,11 +647,11 @@ ficha.tscn::PackedScene::7886714728035343336::1790293450::0::1::::<><><>0<>0<><>
 indicador_ultimo_color.tscn::PackedScene::3299444241628454265::1790259259::0::1::::<><><>0<>0<><>::uid://woi2t5xy2kye::::res://Assets/ultimoAzul.png<>uid://c2t6d0trgyhtu::::res://Assets/ultimoVerde.png<>uid://5t5ae5rs1ghy::::res://Assets/ultimoAmarillo.png<>uid://75jxg5ws5ke3::::res://Assets/ultimoRojo.png
 labeltimer.tscn::PackedScene::5715617515761556304::1790259748::0::1::::<><><>0<>0<><>::uid://drwoyxnw03e2o::::res://Clases/Visual/TimerView.cs<>uid://dpfvp3yrv1e0l::::res://Assets/TimerFondo.png
 mano_de_cartas.tscn::PackedScene::1784058868265044474::1790333402::0::1::::<><><>0<>0<><>::uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres<>uid://1n82r0e66f4b::::res://Clases/Visual/ManoCartasView.cs<>uid://dg6uhtxrlj18m::::res://Objetos/carta_de_movimiento.tscn<>uid://cy60q2d8wprnb::::res://Objetos/carta_de_figura.tscn<>uid://cgbc3fvjhln8y::::res://Objetos/puntuacion.tscn<>uid://djviimavqwuyt::::res://SFX/RerollSFX.wav
+MenuPausa.tscn::PackedScene::4259462092723567943::1790333061::0::1::::<><><>0<>0<><>::uid://cdpfl3u1yes8o::::res://Clases/Visual/MenuPausa.cs<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres
 menuPrincipal.tscn::PackedScene::820501134656133060::1790127658::0::1::::<><><>0<>0<><>::uid://bdwojuql4m35f::::res://Clases/Visual/MenuPrincipal.cs<>uid://ditera5woi4ik::::res://Assets/FondoMenu.png<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://credcq1gwreh5::::res://Assets/LogoFiguramaAzul2.png
 puntuacion.tscn::PackedScene::5196210538659691350::1789515811::0::1::::<><><>0<>0<><>::uid://meuyoandnn0y::::res://Clases/Visual/PuntuacionView.cs
-MenuPausa.tscn::PackedScene::4259462092723567943::1790333061::0::1::::<><><>0<>0<><>::uid://cdpfl3u1yes8o::::res://Clases/Visual/MenuPausa.cs<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres
 splashScreen.tscn::PackedScene::6964900497547187227::1790048446::0::1::::<><><>0<>0<><>::uid://bjt0e7csweeos::::res://Clases/Visual/SplashScreen.cs<>uid://mbottyddqatk::::res://Assets/LogoFiguramaBlanco2.png
-tablero.tscn::PackedScene::8865837882487094184::1790333474::0::1::::<><><>0<>0<><>::uid://du1xvdn8v3jqn::::res://Clases/Visual/Tablero.cs<>uid://dkmnblo603ilc::::res://Objetos/ficha.tscn<>uid://0ohgom08bvdi::::res://Objetos/mano_de_cartas.tscn<>uid://cnoxndsv4hbe3::::res://Objetos/labeltimer.tscn<>uid://bnajmnqoq7plh::::res://Objetos/indicador_ultimo_color.tscn<>uid://fbefl2fqrnlf::::res://Objetos/cinematica.tscn<>uid://di5vhwuav514h::::res://Assets/Cinematicas/LobizonComodin.ogv<>uid://ccfrot7v20rxf::::res://Assets/Cinematicas/LuzMalaElimina.ogv<>uid://1rmfw8mtumla::::res://SFX/CambioFichasSFX.wav<>uid://dn43erp4ugnun::::res://SFX/FiguraFormadaSFX.wav<>uid://dnm4yjmu5feky::::res://Assets/Cinematicas/MulanimaBloquea.ogv<>uid://cppmmyxsby5hb::::res://Assets/Cinematicas/PomberitoRecargado.ogv<>uid://bjgtyqqfkl4yj::::res://Assets/FondosInGame/FondoJugador1.png<>uid://c4kj38c143w4d::::res://Assets/FondosInGame/FondoJugador2.png<>uid://cg8aprise306t::::res://Assets/FondosInGame/FondoJugador3.png<>uid://ccqg8qgqs4muq::::res://Assets/FondosInGame/FondoJugador4.png<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://b1xkyoodt0vp4::::res://Objetos/MenuPausa.tscn
+tablero.tscn::PackedScene::8865837882487094184::1790333910::0::1::::<><><>0<>0<><>::uid://du1xvdn8v3jqn::::res://Clases/Visual/Tablero.cs<>uid://dkmnblo603ilc::::res://Objetos/ficha.tscn<>uid://0ohgom08bvdi::::res://Objetos/mano_de_cartas.tscn<>uid://cnoxndsv4hbe3::::res://Objetos/labeltimer.tscn<>uid://bnajmnqoq7plh::::res://Objetos/indicador_ultimo_color.tscn<>uid://fbefl2fqrnlf::::res://Objetos/cinematica.tscn<>uid://di5vhwuav514h::::res://Assets/Cinematicas/LobizonComodin.ogv<>uid://ccfrot7v20rxf::::res://Assets/Cinematicas/LuzMalaElimina.ogv<>uid://1rmfw8mtumla::::res://SFX/CambioFichasSFX.wav<>uid://dn43erp4ugnun::::res://SFX/FiguraFormadaSFX.wav<>uid://dnm4yjmu5feky::::res://Assets/Cinematicas/MulanimaBloquea.ogv<>uid://cppmmyxsby5hb::::res://Assets/Cinematicas/PomberitoRecargado.ogv<>uid://bjgtyqqfkl4yj::::res://Assets/FondosInGame/FondoJugador1.png<>uid://c4kj38c143w4d::::res://Assets/FondosInGame/FondoJugador2.png<>uid://cg8aprise306t::::res://Assets/FondosInGame/FondoJugador3.png<>uid://ccqg8qgqs4muq::::res://Assets/FondosInGame/FondoJugador4.png<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://b1xkyoodt0vp4::::res://Objetos/MenuPausa.tscn
 tutorial.tscn::PackedScene::744824484734756999::1790261242::0::1::::<><><>0<>0<><>::uid://dbwoh0mcxmivi::::res://Clases/Visual/Tutorial.cs<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://dgewmr8mwlaq2::::res://Assets/Tutorial/Tutorial1.png<>uid://dpdwsoapp30te::::res://Assets/Tutorial/Tutorial2.png<>uid://bxqs8kat2b5qy::::res://Assets/Tutorial/Tutorial3.png<>uid://b7ud4jvnlay8f::::res://Assets/Tutorial/Tutorial4.png
 ::res://reports/::1790039867
 ::res://reports/report_1/::1790039867

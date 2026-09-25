@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://woi2t5xy2kye" path="res://Assets/ultimoAzul.png" id="1_n82h0"]
 [ext_resource type="Texture2D" uid="uid://c2t6d0trgyhtu" path="res://Assets/ultimoVerde.png" id="2_p3vsr"]
 [ext_resource type="Texture2D" uid="uid://5t5ae5rs1ghy" path="res://Assets/ultimoAmarillo.png" id="3_oc5it"]
-[ext_resource type="Texture2D" uid="uid://75jxg5ws5ke3" path="res://Assets/ultimoRojo.png" id="4_unajf"]
+[ext_resource type="Texture2D" uid="uid://bpgv0n0ar21tc" path="res://Assets/ultimoRojo.png" id="4_unajf"]
 
 [node name="indicadorUltimoColor" type="Control" unique_id=1226291347]
 layout_mode = 3
@@ -19,10 +19,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -272.0
-offset_top = 30.0
-offset_right = -172.0
-offset_bottom = 130.0
+offset_left = -952.0
+offset_top = 284.0
+offset_right = -832.0
+offset_bottom = 404.0
 grow_horizontal = 0
 texture = ExtResource("1_n82h0")
 expand_mode = 1
@@ -33,10 +33,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -272.0
-offset_top = 30.0
-offset_right = -172.0
-offset_bottom = 130.0
+offset_left = -952.0
+offset_top = 284.0
+offset_right = -832.0
+offset_bottom = 404.0
 grow_horizontal = 0
 texture = ExtResource("2_p3vsr")
 expand_mode = 1
@@ -47,10 +47,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -272.0
-offset_top = 30.0
-offset_right = -172.0
-offset_bottom = 130.0
+offset_left = -952.0
+offset_top = 284.0
+offset_right = -832.0
+offset_bottom = 404.0
 grow_horizontal = 0
 texture = ExtResource("3_oc5it")
 expand_mode = 1
@@ -61,10 +61,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -272.0
-offset_top = 30.0
-offset_right = -172.0
-offset_bottom = 130.0
+offset_left = -952.0
+offset_top = 286.0
+offset_right = -832.0
+offset_bottom = 406.0
 grow_horizontal = 0
 texture = ExtResource("4_unajf")
 expand_mode = 1
