@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://b1xkyoodt0vp4"]
+
+[ext_resource type="Script" uid="uid://cdpfl3u1yes8o" path="res://Clases/Visual/MenuPausa.cs" id="1_7tdgs"]
+[ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="2_ytdd3"]
+[ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="3_a8se1"]
+
+[node name="MenuPausa" type="CanvasLayer" unique_id=1412232372 node_paths=PackedStringArray("_botonVolver", "_botonMenuPrincipal", "_dialogoConfirmacion")]
+process_mode = 3
+visible = false
+script = ExtResource("1_7tdgs")
+_botonVolver = NodePath("PanelPausa/VBoxContainer/BotonVolver")
+_botonMenuPrincipal = NodePath("PanelPausa/VBoxContainer/BotonMenuPrincipal")
+_dialogoConfirmacion = NodePath("DialogoConfirmación")
+
+[node name="FondoOscuro" type="ColorRect" parent="." unique_id=246404446]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3137255)
+
+[node name="PanelPausa" type="Control" parent="." unique_id=1090679719]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelPausa" unique_id=2067480560]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -46.5
+offset_right = 77.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_ytdd3")
+theme_override_constants/separation = 9
+alignment = 1
+
+[node name="Pausa" type="Label" parent="PanelPausa/VBoxContainer" unique_id=136614462]
+layout_mode = 2
+theme = ExtResource("3_a8se1")
+theme_override_font_sizes/font_size = 24
+text = "PAUSA"
+horizontal_alignment = 1
+
+[node name="BotonVolver" type="Button" parent="PanelPausa/VBoxContainer" unique_id=1176461775]
+layout_mode = 2
+text = "Volver a la Partida"
+
+[node name="BotonMenuPrincipal" type="Button" parent="PanelPausa/VBoxContainer" unique_id=1835570570]
+layout_mode = 2
+text = "Ir a Menu Principal"
+
+[node name="DialogoConfirmación" type="ConfirmationDialog" parent="." unique_id=768795649]
+oversampling_override = 1.0
+title = "Confirmación"
+initial_position = 2
+size = Vector2i(589, 102)
+min_size = Vector2i(190, 70)
+max_size = Vector2i(16380, 16384)
+theme = ExtResource("2_ytdd3")
+ok_button_text = "Si"
+dialog_text = "¿Estás seguro de que quieres volver al menú principal?"
+cancel_button_text = "Cancelar"

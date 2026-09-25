@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://ccqg8qgqs4muq" path="res://Assets/FondosInGame/FondoJugador4.png" id="12_1fyr1"]
 [ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="14_vkud5"]
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="16_1fyr1"]
+[ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="17_1fyr1"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
@@ -100,6 +101,7 @@ offset_left = 968.0
 offset_top = 575.0
 offset_right = 1096.0
 offset_bottom = 606.0
+theme = ExtResource("16_1fyr1")
 text = "Finalizar Turno "
 
 [node name="BotonHabilidad" type="TextureButton" parent="UITemporal" unique_id=1585264927]
@@ -114,6 +116,8 @@ stretch_mode = 5
 [node name="PopupLuzMala" type="PopupMenu" parent="UITemporal" unique_id=629803135]
 oversampling_override = 1.0
 position = Vector2i(1000, 400)
+
+[node name="MenuPausa" parent="UITemporal" unique_id=1830944728 instance=ExtResource("17_1fyr1")]
 
 [node name="Sonidos" type="Node" parent="." unique_id=1349820042]
 

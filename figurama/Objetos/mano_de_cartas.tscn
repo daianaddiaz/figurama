@@ -15,6 +15,15 @@ script = ExtResource("1_eavyo")
 CartaDeMovimientoScene = ExtResource("2_jj060")
 CartaDeFiguraScene = ExtResource("3_jj060")
 
+[node name="TextoIndicativo" type="Label" parent="." unique_id=47432419]
+layout_mode = 0
+offset_left = 886.0
+offset_top = 78.0
+offset_right = 1109.0
+offset_bottom = 95.0
+text = "Movimientos Posibles:"
+horizontal_alignment = 1
+
 [node name="BotonesMovimientos" type="VBoxContainer" parent="." unique_id=1314739409]
 layout_mode = 1
 anchors_preset = 6
@@ -27,6 +36,7 @@ offset_top = -50.5
 offset_bottom = 50.5
 grow_horizontal = 0
 grow_vertical = 2
+alignment = 1
 
 [node name="BotonReroll" type="Button" parent="." unique_id=1120244138]
 layout_mode = 0
@@ -41,10 +51,18 @@ text = "Rerollear Mano de Movimientos"
 custom_minimum_size = Vector2(32, 60)
 layout_mode = 0
 offset_left = 37.0
-offset_top = 75.0
+offset_top = 110.0
 offset_right = 69.0
-offset_bottom = 135.0
+offset_bottom = 170.0
 theme_override_constants/separation = 10
+
+[node name="TextoIndicativo2" type="Label" parent="." unique_id=476807306]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 75.0
+offset_right = 212.0
+offset_bottom = 92.0
+text = "Figuras a Armar:"
 
 [node name="Puntuacion" parent="." unique_id=1664323275 instance=ExtResource("4_q4kwa")]
 layout_mode = 0
