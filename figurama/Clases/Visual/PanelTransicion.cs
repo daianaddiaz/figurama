@@ -44,7 +44,7 @@ public partial class PanelTransicion : CanvasLayer
         // Posición inicial: fuera de pantalla a la izquierda
         _panelContenedor.Position = new Vector2(-tamanoPantalla.X, 0);
 
-        // 1. Paneo de entrada al centro
+        // Paneo de entrada al centro
         Tween tweenEntrada = CreateTween();
         tweenEntrada.TweenProperty(_panelContenedor, "position", Vector2.Zero, 0.4f)
                     .SetTrans(Tween.TransitionType.Cubic)
@@ -52,10 +52,10 @@ public partial class PanelTransicion : CanvasLayer
 
         await ToSignal(tweenEntrada, Tween.SignalName.Finished);
 
-        // 2. Espera para lectura
+        // Espera para lectura
         await ToSignal(GetTree().CreateTimer(duracionPausa), SceneTreeTimer.SignalName.Timeout);
 
-        // 3. Paneo de salida a la derecha
+        // Paneo de salida a la derecha
         Tween tweenSalida = CreateTween();
         tweenSalida.TweenProperty(_panelContenedor, "position", new Vector2(tamanoPantalla.X, 0), 0.4f)
                    .SetTrans(Tween.TransitionType.Cubic)
