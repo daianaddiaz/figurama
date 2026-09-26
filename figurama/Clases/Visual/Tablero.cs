@@ -11,7 +11,10 @@ public partial class Tablero : Node3D
     [Export] public VideoStreamTheora CinematicaLuzMala;
     [Export] public VideoStreamTheora CinematicaMulanima;
     [Export] public VideoStreamTheora CinematicaPomberito;
-    [Export] public Godot.Collections.Array<Texture2D> FondosJugadores = new Godot.Collections.Array<Texture2D>();
+    [Export] public PackedScene TransicionScene;
+
+    // Fondos para 2, 3 o 4 jugadores (se configuran desde el Inspector)
+    [Export] public Texture2D[] FondosJugadores;
 
     private const float SizeCelda = 0.8f;
     private const int cantidadColores = 9;
@@ -141,14 +144,15 @@ public partial class Tablero : Node3D
             }
         }
 
+        // Referencia al Sprite3D bajo la cámara
         _fondoJugador = GetNodeOrNull<Sprite3D>("Camera3D/Fondo");
 
         if (_fondoJugador == null)
         {
-            GD.PrintErr("[Tablero] No se encontró el nodo 'FondoJugador'. Verifica la jerarquía.");
+            GD.PrintErr("[Tablero] No se encontró el nodo 'Camera3D/Fondo'. Verifica la jerarquía.");
         }
 
-        // Cargar el fondo del primer jugador al iniciar
+        // Cargar el fondo del primer jugador al iniciar la partida
         ActualizarFondoJugador(0);
 
         CrearManos();
@@ -169,6 +173,62 @@ public partial class Tablero : Node3D
         ActualizarBotonesAccion();    
     }
 
+    public void ActualizarFondoJugador(int indiceJugador)
+{
+    if (_fondoJugador == null) return;
+
+    if (FondosJugadores == null || FondosJugadores.Length == 0)
+    {
+        GD.PrintErr("[Tablero] No se asignaron imágenes en el arreglo 'FondosJugadores' del Inspector.");
+        return;
+    }
+
+    if (indiceJugador >= 0 && indiceJugador < FondosJugadores.Length)
+    {
+        if (FondosJugadores[indiceJugador] != null)
+        {
+            _fondoJugador.Texture = FondosJugadores[indiceJugador];
+        }
+    }
+    else
+    {
+        GD.PrintErr($"[Tablero] Índice de jugador ({indiceJugador}) fuera de rango para las texturas de fondo configuradas.");
+    }
+}
+
+private async void OnTurnoCambiado(int jugadorActual)
+{
+    // Primero actualizamos la lógica del juego para que el turno NO se trabe
+    int jugadorAnterior = (jugadorActual - 1 + Manos.Count) % Manos.Count;
+    if (jugadorAnterior >= 0 && jugadorAnterior < Manos.Count)
+    {
+        Manos[jugadorAnterior].Hide();
+    }
+
+    if (jugadorActual >= 0 && jugadorActual < Manos.Count)
+    {
+        Manos[jugadorActual].Show();
+    }
+
+    Manos.ForEach(man => man.ActualizarMano());
+    
+    ActualizarFondoJugador(jugadorActual);
+
+    EmitSignal(SignalName.CambiarInsignia, Controller.GetInstance().NombreJugadorActual(), TexturaInsignia[Controller.GetInstance().Jugadores()[jugadorActual].PersonajeAsignado.Tipo]);
+    ActualizarBotonHabilidad();
+    ActualizarBotonesAccion();
+
+    // Desplegamos la animación de transición de manera segura
+    if (TransicionScene != null)
+    {
+        var transicion = TransicionScene.Instantiate<PanelTransicion>();
+        AddChild(transicion);
+
+        string nombreProximoJugador = Controller.GetInstance().NombreJugadorActual();
+        await transicion.ReproducirTransicionAsync(nombreProximoJugador, 1.5f);
+    }
+}
+
     private void OnFinTurnoPresionado()
     {
         Controller.GetInstance().TerminarTurno();
@@ -178,7 +238,6 @@ public partial class Tablero : Node3D
     {
         ApagarTodosLosRects();
 
-        // Prendemos solo el TextureRect correspondiente
         switch (nuevoColor)
         {
             case ColorFicha.Rojo:
@@ -241,22 +300,6 @@ public partial class Tablero : Node3D
         }
     }
 
-
-    public void ActualizarFondoJugador(int indiceJugador)
-    {
-        if (_fondoJugador == null || FondosJugadores == null || FondosJugadores.Count == 0) return;
-
-        if (indiceJugador >= 0 && indiceJugador < FondosJugadores.Count)
-        {
-            _fondoJugador.Texture = FondosJugadores[indiceJugador];
-        }
-        else
-        {
-            GD.PrintErr($"[Tablero] Índice de jugador fuera de rango: {indiceJugador}");
-        }
-    }
-
-
     public void OnFiguraCompletada(List<(int fila, int columna)> celdas)
     {
         _sonidos.GetNode<AudioStreamPlayer>("FiguraSFX").Play();
@@ -293,7 +336,6 @@ public partial class Tablero : Node3D
                     Manos[Controller.GetInstance().JugadorActual].ActualizarMano();
                 }
             }
-
             else if (jugador.PersonajeAsignado.Tipo == TipoHabilidad.Mulanima)
             {
                 activada = Controller.GetInstance().ActivarHabilidadMulanima(ficha.Datos);
@@ -313,7 +355,6 @@ public partial class Tablero : Node3D
             return;
         }
 
-        // Si no hay ficha seleccionada todavía, la marcamos como primera ficha
         if (_fichaSeleccionada == null)
         {
             _fichaSeleccionada = ficha;
@@ -323,7 +364,6 @@ public partial class Tablero : Node3D
             return;
         }
 
-        // Si vuelve a clickear la misma ficha, la deseleccionamos
         if (_fichaSeleccionada == ficha)
         {
             EmitSignal(SignalName.Desclickeada, _fichaSeleccionada);
@@ -337,7 +377,6 @@ public partial class Tablero : Node3D
             return;
         }
 
-        // Si hay una segunda ficha seleccionada, intentamos ejecutar el movimiento
         CartaMovimiento movimientoActual = Controller.GetInstance().CartaSeleccionada;
 
         if (movimientoActual != null && !ficha.Datos.Bloqueada && movimientoActual.EsValido(_reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
@@ -363,7 +402,6 @@ public partial class Tablero : Node3D
             Controller.GetInstance().CambiarCartaSeleccionada(null);
 
             ActualizarBotonesAccion();
-            
         }
 
         DesalumbrarFichas();
@@ -398,7 +436,6 @@ public partial class Tablero : Node3D
         CartaMovimiento cartaActiva = Controller.GetInstance().CartaSeleccionada;
         if (cartaActiva == null) return;
 
-        //Ya se eligió una primera ficha -> ilumina los destinos válidos desde esa ficha
         if (_fichaSeleccionada != null)
         {
             for (int fila = 0; fila < TableroReglas.Filas; fila++)
@@ -413,7 +450,6 @@ public partial class Tablero : Node3D
                 }
             }
         }
-        //No hay ficha elegida aún -> ilumina todas las fichas del tablero que puedan hacer al menos un movimiento
         else
         {
             for (int f1 = 0; f1 < TableroReglas.Filas; f1++)
@@ -462,6 +498,7 @@ public partial class Tablero : Node3D
             }
         }
     }
+
     private Ficha GetFichaEnPosicion(int fila, int columna)
     {
         foreach (Node child in GetChildren())
@@ -474,21 +511,9 @@ public partial class Tablero : Node3D
         return null;
     }
 
-
     private void ActualizarPosicionVisual(Ficha nodoFicha)
     {
         nodoFicha.Position = new Vector3(nodoFicha.Datos.Columna * SizeCelda, 0, nodoFicha.Datos.Fila * SizeCelda);
-    }
-
-    private void OnTurnoCambiado(int jugadorActual)
-    {
-        int jugadorAnterior = (jugadorActual - 1 + Manos.Count) % Manos.Count;
-        Manos[jugadorAnterior].Hide();
-        Manos[jugadorActual].Show();
-        Manos.ForEach(man => man.ActualizarMano());
-        EmitSignal(SignalName.CambiarInsignia, Controller.GetInstance().NombreJugadorActual(), TexturaInsignia[Controller.GetInstance().Jugadores()[jugadorActual].PersonajeAsignado.Tipo]);
-        ActualizarBotonHabilidad();
-        ActualizarBotonesAccion();
     }
 
     private void MostrarVictoria(string nombreGanador)
@@ -531,7 +556,6 @@ public partial class Tablero : Node3D
             return;
         }
 
-        // Lobizón y Mulánima necesitan clickear una ficha después
         _modoSeleccionHabilidadActivo = true;
         GD.Print($"Modo selección activado: {_modoSeleccionHabilidadActivo}");
     }

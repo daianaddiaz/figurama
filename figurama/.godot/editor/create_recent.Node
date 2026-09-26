@@ -1,5 +1,7 @@
-Control
 Label
+ColorRect
+Control
+CanvasLayer
 TextureRect
 Node
 HBoxContainer
@@ -7,8 +9,6 @@ AnimatedSprite3D
 ConfirmationDialog
 Button
 VBoxContainer
-ColorRect
-CanvasLayer
 TextureButton
 Sprite3D
 WorldEnvironment

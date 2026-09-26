@@ -13,6 +13,7 @@
 [ext_resource type="VideoStream" uid="uid://dnm4yjmu5feky" path="res://Assets/Cinematicas/MulanimaBloquea.ogv" id="7_tmbke"]
 [ext_resource type="VideoStream" uid="uid://cppmmyxsby5hb" path="res://Assets/Cinematicas/PomberitoRecargado.ogv" id="8_qwnp2"]
 [ext_resource type="Texture2D" uid="uid://bjgtyqqfkl4yj" path="res://Assets/FondosInGame/FondoJugador1.png" id="9_vexnf"]
+[ext_resource type="PackedScene" uid="uid://cybs8v4dh3qtl" path="res://Objetos/PanelTransicion.tscn" id="10_hur3d"]
 [ext_resource type="Texture2D" uid="uid://c4kj38c143w4d" path="res://Assets/FondosInGame/FondoJugador2.png" id="10_vgrhs"]
 [ext_resource type="Texture2D" uid="uid://cg8aprise306t" path="res://Assets/FondosInGame/FondoJugador3.png" id="11_vkud5"]
 [ext_resource type="Texture2D" uid="uid://ccqg8qgqs4muq" path="res://Assets/FondosInGame/FondoJugador4.png" id="12_1fyr1"]
@@ -31,7 +32,8 @@ CinematicaLobizon = ExtResource("5_qmd58")
 CinematicaLuzMala = ExtResource("6_4s56h")
 CinematicaMulanima = ExtResource("7_tmbke")
 CinematicaPomberito = ExtResource("8_qwnp2")
-FondosJugadores = Array[Texture2D]([ExtResource("9_vexnf"), ExtResource("10_vgrhs"), ExtResource("11_vkud5"), ExtResource("12_1fyr1")])
+TransicionScene = ExtResource("10_hur3d")
+FondosJugadores = Array[Texture2D]([ExtResource("10_vgrhs"), ExtResource("11_vkud5"), ExtResource("12_1fyr1"), ExtResource("9_vexnf")])
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 2, 10, 2.2)
@@ -83,10 +85,17 @@ bbcode_enabled = true
 
 [node name="PanelVictoria" type="Panel" parent="UITemporal" unique_id=66741956]
 visible = false
-offset_left = 501.0
-offset_top = 304.0
-offset_right = 666.0
-offset_bottom = 344.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("16_1fyr1")
 
 [node name="LabelGanador" type="Label" parent="UITemporal/PanelVictoria" unique_id=798286767]
@@ -94,14 +103,23 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 theme = ExtResource("14_vkud5")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 19
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BotonVolverMenu" type="Button" parent="UITemporal/PanelVictoria" unique_id=1577881581]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 66.0
-offset_right = 141.0
-offset_bottom = 97.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -14.0
+offset_right = 54.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("16_1fyr1")
 text = "Volver al Menú"
 
