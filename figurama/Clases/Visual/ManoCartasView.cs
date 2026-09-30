@@ -20,6 +20,7 @@ public partial class ManoCartasView : Control
         RefrescarCartas();
 
         var botonReroll = GetNode<Button>("BotonReroll");
+        Controller.GetInstance().CartaSeleccionadaCambiada += OnCartaSeleccionadaCambiada;
         if (!botonReroll.IsConnected(Button.SignalName.Pressed, Callable.From(OnRerollPresionado)))
         {
             botonReroll.Pressed += OnRerollPresionado;
@@ -119,17 +120,18 @@ public partial class ManoCartasView : Control
     {
         var contenedor = GetNode<HBoxContainer>("BotonesMovimientos");
 
-    foreach (Node hijo in contenedor.GetChildren())
-    {
-        contenedor.RemoveChild(hijo);
-        hijo.QueueFree();
-    }
+        GD.Print("RefrescarCartas: destruyendo cartas viejas");
+
+        foreach (Node hijo in contenedor.GetChildren())
+        {
+            contenedor.RemoveChild(hijo);
+            hijo.QueueFree();
+        }
         if (_jugador?.manoCartas == null) return;
 
         foreach (CartaMovimiento carta in _jugador.manoCartas)
         {
             var cartaView = CartaDeMovimientoScene.Instantiate<CartaMovimientoView>();
-            cartaView.CartaSeleccionada += OnCartaSeleccionada; 
             contenedor.AddChild(cartaView);
 
             if (carta != null)
@@ -145,18 +147,17 @@ public partial class ManoCartasView : Control
         }
     }
 
-    public void OnCartaSeleccionada(CartaMovimientoView cartaView)
+    private void OnCartaSeleccionadaCambiada(CartaMovimiento cartaActiva)
     {
-        if (cartaView != null && cartaView.CartaRepresentada != null)
+        var contenedor = GetNode<HBoxContainer>("BotonesMovimientos");
+        foreach (Node hijo in contenedor.GetChildren())
         {
-            var contenedor = GetNode<HBoxContainer>("BotonesMovimientos");
-
-            foreach (Node hijo in contenedor.GetChildren())
+            if (hijo is CartaMovimientoView cartaView)
             {
-                if (hijo is CartaMovimientoView otherCartaView && otherCartaView != cartaView)
-                {
-                    otherCartaView._on_carta_no_seleccionada();
-                }
+                if (cartaActiva != null && cartaView.CartaRepresentada == cartaActiva)
+                    cartaView._on_carta_seleccionada();
+                else
+                    cartaView._on_carta_no_seleccionada();
             }
         }
     }

@@ -20,6 +20,7 @@
 [ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="14_vkud5"]
 [ext_resource type="PackedScene" uid="uid://cv43ii5aqijte" path="res://Objetos/insignia.tscn" id="15_gx7pg"]
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="16_1fyr1"]
+[ext_resource type="Script" uid="uid://bh4lahjti2fp4" path="res://Clases/Visual/IndicadorUltimoColorView.cs" id="16_ohv7o"]
 [ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="17_1fyr1"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
@@ -52,6 +53,7 @@ texture = ExtResource("9_vexnf")
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
 
 [node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("4_13hl8")]
+script = ExtResource("16_ohv7o")
 
 [node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
 offset_left = 35.0

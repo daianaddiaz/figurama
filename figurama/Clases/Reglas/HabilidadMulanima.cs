@@ -2,7 +2,7 @@ public class HabilidadMulanima : Habilidad
 {
     public override string Nombre => "Mulánima";
 
-    public void Activar(Jugador jugador, FichaData ficha)
+    public override void Activar(Jugador jugador, FichaData ficha = null, Jugador objetivo = null)
     {
         ficha.Bloqueada = true;
         jugador.FichasBloqueadas.Add(ficha);

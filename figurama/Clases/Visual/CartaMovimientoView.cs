@@ -6,8 +6,6 @@ public partial class CartaMovimientoView : Button
 {
     [Export] public Texture2D TexturaDorso;
 
-    [Signal] public delegate void CartaSeleccionadaEventHandler(CartaMovimientoView cartaView);
-
     private TextureRect _frente;
     private TextureRect _dorso;
     private CartaMovimiento _cartaRepresentada; 
@@ -102,6 +100,8 @@ public partial class CartaMovimientoView : Button
 
         if (_frente != null) _frente.Hide();
         if (_dorso != null) _dorso.Show();
+
+        GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Neutral);
     }
 
     public override void _Pressed()
@@ -109,8 +109,6 @@ public partial class CartaMovimientoView : Button
         if (_estaVolteada) return;
 
         Controller.GetInstance().CambiarCartaSeleccionada(_cartaRepresentada);
-        EmitSignal(SignalName.CartaSeleccionada, this);
-        _on_carta_seleccionada();
         GetNode<AudioStreamPlayer>("ClickSFX").Play();
     }
 
@@ -129,6 +127,9 @@ public partial class CartaMovimientoView : Button
 
         _estaVolteada = true;
         Disabled = true;
+
+        GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Neutral);
+        GD.Print($"AnimarVolteoUsada ejecutado para instancia {GetInstanceId()}");
 
         PivotOffset = Size / 2;
 
@@ -150,12 +151,11 @@ public partial class CartaMovimientoView : Button
 
     public void _on_carta_seleccionada()
     {
-        GetNode<StateMachine>("FSM").ChangeState("Seleccionada");
+        GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Seleccionada);
     }
 
     public void _on_carta_no_seleccionada()
     {
-        GetNode<StateMachine>("FSM").ChangeState("Neutral");
+        GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Neutral);
     }
-
 }

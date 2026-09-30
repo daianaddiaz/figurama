@@ -5,8 +5,9 @@
 [ext_resource type="AudioStream" uid="uid://j7b2yhs8erg3" path="res://SFX/ClickSFX.wav" id="3_htwty"]
 [ext_resource type="Texture2D" uid="uid://d2c51ajmtlt2g" path="res://Assets/CartaSeleccionadaOverlay.png" id="3_nt70b"]
 [ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://Clases/Visual/StateMachine.cs" id="4_qqbci"]
-[ext_resource type="Script" uid="uid://5aog8q7wpq22" path="res://Objetos/CartaNeutral.cs" id="5_nt70b"]
-[ext_resource type="Script" uid="uid://fllbi28ervhl" path="res://Objetos/CartaSeleccionada.cs" id="6_n3bw2"]
+[ext_resource type="Script" uid="uid://5aog8q7wpq22" path="res://Clases/Visual/CartaNeutral.cs" id="5_nt70b"]
+[ext_resource type="Script" uid="uid://fllbi28ervhl" path="res://Clases/Visual/CartaSeleccionada.cs" id="6_n3bw2"]
+
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqdti"]
 

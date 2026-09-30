@@ -2,8 +2,8 @@ public class HabilidadLuzMala : Habilidad
 {
     public override string Nombre => "Luz Mala";
 
-    public void Activar(Jugador jugadorObjetivo)
+    public override void Activar(Jugador jugador, FichaData ficha = null, Jugador objetivo = null)
     {
-        jugadorObjetivo.CartasMovimientoAQuitar += 1;
+        objetivo.CartasMovimientoAQuitar += 1;
     }
 }

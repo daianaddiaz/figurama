@@ -43,7 +43,7 @@ public partial class Ficha : Node3D
     {
         if (ficha == this)
         {
-            GetNode<StateMachine>("FSM").ChangeState("Bloqueada");
+            GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Bloqueada);
         }
     }
 
@@ -51,7 +51,7 @@ public partial class Ficha : Node3D
     {
         if (ficha == this)
         {
-            GetNode<StateMachine>("FSM").ChangeState("Neutral");
+            GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Neutral);
         }
     }
 
@@ -60,7 +60,7 @@ public partial class Ficha : Node3D
         if (ficha == this)
         {
             GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("ComodinSFX").Play();
-            GetNode<StateMachine>("FSM").ChangeState("Comodin");
+            GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Comodin);
         }
     }
 
@@ -68,7 +68,7 @@ public partial class Ficha : Node3D
     {
         if (ficha == this)
         {
-            GetNode<StateMachine>("FSM").ChangeState("Neutral");
+            GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Neutral);
         }
     }
 
@@ -76,7 +76,7 @@ public partial class Ficha : Node3D
     {   
         if(ficha == this)
         {
-            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "Comodin" : "Neutral");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? EstadoFSM.Comodin : EstadoFSM.Neutral);
         }
     }
 
@@ -84,7 +84,7 @@ public partial class Ficha : Node3D
     {   
         if(ficha == this)
         {   
-            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "ComodinSeleccionado" : "Seleccionada");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? EstadoFSM.ComodinSeleccionado : EstadoFSM.Seleccionada);
         }
     }
 
@@ -92,7 +92,7 @@ public partial class Ficha : Node3D
     {   
         if(ficha == this)
         {   
-            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "ComodinDisponible" : "Disponible");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? EstadoFSM.ComodinDisponible : EstadoFSM.Disponible);
         }
     }
 
@@ -100,7 +100,7 @@ public partial class Ficha : Node3D
     {   
         if (ficha == this)
         {
-            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? "ComodinCompletada" : "Completada");
+            GetNode<StateMachine>("FSM").ChangeState(Datos.EsComodin ? EstadoFSM.ComodinCompletada : EstadoFSM.Completada);
         }
     }
 

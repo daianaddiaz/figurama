@@ -27,6 +27,7 @@ public partial class Controller
     public event System.Action<List<(int fila, int columna)>> FiguraEncontrada;
     public event System.Action<FichaData> FichaBloqueadaEvent;
     public event System.Action<FichaData> FichaDesbloqueadaEvent;
+    public event System.Action<CartaMovimiento> CartaSeleccionadaCambiada;
 
     public event System.Action TiempoAgotado; // Aviso a UI
 
@@ -91,6 +92,7 @@ public partial class Controller
         FiguraEncontrada = null;
         FichaBloqueadaEvent = null;
         FichaDesbloqueadaEvent = null;
+        CartaSeleccionadaCambiada = null;
             
         int cantidad = DatosPartida.NombresJugadores.Count > 0 ? DatosPartida.NombresJugadores.Count : 4;
         jugadores = new Jugador[cantidad];
@@ -186,6 +188,7 @@ public partial class Controller
     public void CambiarCartaSeleccionada(CartaMovimiento carta)
     {
         CartaSeleccionada = carta;
+        CartaSeleccionadaCambiada?.Invoke(carta);
     }
 
     public Jugador[] Jugadores() => jugadores;
@@ -268,7 +271,7 @@ public partial class Controller
         }
     }
 
-    public void TerminarTurno()
+    public async void TerminarTurno()
     {
         CartaSeleccionada = null;
         if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
@@ -278,6 +281,8 @@ public partial class Controller
 
         Jugador jugadorSaliente = jugadores[JugadorActual];
         jugadorSaliente.VueltasJugadas++;
+
+        await Task.Delay(2000);
 
         if (jugadorSaliente.FichaComodinActiva != null)
         {
@@ -338,56 +343,27 @@ public partial class Controller
         return habilidad.PuedeActivarse(jugador.PersonajeAsignado, jugador);
     }
 
-    public bool ActivarHabilidadLobizon(FichaData ficha)
+    public bool ActivarHabilidad(TipoHabilidad tipoEsperado, FichaData ficha = null, Jugador jugadorObjetivo = null)
     {
         if (!PuedeUsarHabilidad()) return false;
         Jugador jugador = jugadores[JugadorActual];
-        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.Lobizon) return false;
+        if (jugador.PersonajeAsignado.Tipo != tipoEsperado) return false;
 
-        var habilidad = (HabilidadLobizon)ObtenerHabilidad(TipoHabilidad.Lobizon);
-        habilidad.Activar(jugador, ficha);
+        var habilidad = ObtenerHabilidad(tipoEsperado);
+        habilidad.Activar(jugador, ficha, jugadorObjetivo);
+
+        if (tipoEsperado == TipoHabilidad.Mulanima)
+        {
+            FichaBloqueadaEvent?.Invoke(ficha);
+        }
+
         habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
         jugador.RealizoAccionEsteTurno = true;
         return true;
     }
 
-    public bool ActivarHabilidadPomberito()
+    public void PausarTemporizador(bool pausar)
     {
-        if (!PuedeUsarHabilidad()) return false;
-        Jugador jugador = jugadores[JugadorActual];
-        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.Pomberito) return false;
-
-        var habilidad = (HabilidadPomberito)ObtenerHabilidad(TipoHabilidad.Pomberito);
-        habilidad.Activar(jugador);
-        habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
-        jugador.RealizoAccionEsteTurno = true;
-        return true;
-    }
-
-    public bool ActivarHabilidadLuzMala(Jugador jugadorObjetivo)
-    {
-        if (!PuedeUsarHabilidad()) return false;
-        Jugador jugador = jugadores[JugadorActual];
-        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.LuzMala) return false;
-
-        var habilidad = (HabilidadLuzMala)ObtenerHabilidad(TipoHabilidad.LuzMala);
-        habilidad.Activar(jugadorObjetivo);
-        habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
-        jugador.RealizoAccionEsteTurno = true;
-        return true;
-    }
-
-    public bool ActivarHabilidadMulanima(FichaData ficha)
-    {
-        if (!PuedeUsarHabilidad()) return false;
-        Jugador jugador = jugadores[JugadorActual];
-        if (jugador.PersonajeAsignado.Tipo != TipoHabilidad.Mulanima) return false;
-
-        var habilidad = (HabilidadMulanima)ObtenerHabilidad(TipoHabilidad.Mulanima);
-        habilidad.Activar(jugador, ficha);
-        FichaBloqueadaEvent?.Invoke(ficha);
-        habilidad.MarcarUsada(jugador.PersonajeAsignado, jugador);
-        jugador.RealizoAccionEsteTurno = true;
-        return true;
+        temporizadorActivo = !pausar;
     }
 }

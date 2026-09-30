@@ -79,4 +79,8 @@ public partial class StateMachine : Node
 		}
 	}
 
+	public void ChangeState(EstadoFSM nuevoEstado)
+	{
+		ChangeState(nuevoEstado.ToString());
+	}
 }
