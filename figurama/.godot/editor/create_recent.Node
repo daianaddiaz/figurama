@@ -1,3 +1,10 @@
+Decal
+CSGCylinder3D
+Node3D
+CSGPolygon3D
+CSGCombiner3D
+CSGBox3D
+CSGMesh3D
 Label
 ColorRect
 Control
@@ -5,10 +12,3 @@ CanvasLayer
 TextureRect
 Node
 HBoxContainer
-AnimatedSprite3D
-ConfirmationDialog
-Button
-VBoxContainer
-TextureButton
-Sprite3D
-WorldEnvironment
