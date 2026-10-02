@@ -8,13 +8,13 @@ public partial class Ficha : Node3D
     public FichaData Datos;
 
     private MeshInstance3D _visual;
-    private SpotLight3D _luz;
     private Color _colorVisualActual;
+    private FichaModelo _modelo;
 
     public override void _Ready()
     {
         _visual = GetNode<MeshInstance3D>("MeshInstance3D");
-        _luz = GetNode<SpotLight3D>("SpotLight3D");
+        _modelo = GetNode<FichaModelo>("Modelo");
 
         Area3D areaDeClick = GetNode<Area3D>("Area3D");
         areaDeClick.InputEvent += OnInputEvent;
@@ -30,13 +30,10 @@ public partial class Ficha : Node3D
         }
     }
 
-    public void SetearColor(Color color)
+    public void SetearColor(Color colorElegido, Color colorSecundario, int indice)
     {
-        _colorVisualActual = color;
-        var material = new StandardMaterial3D();
-        material.AlbedoColor = color;
-        _visual.MaterialOverride = material;
-        _luz.LightColor = color;
+        _colorVisualActual = colorElegido;
+        _modelo.SetearColor(colorElegido, colorSecundario, indice);
     }
 
     public void _on_ficha_bloqueada(Ficha ficha)

@@ -1,7 +1,7 @@
 public enum ColorFicha
 {
     Rojo,
+    Verde,
     Azul,
-    Amarillo,
-    Verde
+    Amarillo
 }
