@@ -12,9 +12,12 @@ public partial class ManoCartasView : Control
 
     private Jugador _jugador;
 
-    public void crearMano(Jugador jugador)
+    private Camera3D _camara;
+
+    public void crearMano(Jugador jugador, Camera3D camara)
     {
         _jugador = jugador;
+        _camara = camara;
 
         crearCartasFiguras();
         RefrescarCartas();
@@ -137,7 +140,7 @@ public partial class ManoCartasView : Control
             if (carta != null)
             {
                 // Carta disponible
-                cartaView.SetCarta(carta);
+                cartaView.SetCarta(carta, _camara);
             }
             else
             {

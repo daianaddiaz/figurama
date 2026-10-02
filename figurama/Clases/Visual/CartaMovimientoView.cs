@@ -6,6 +6,8 @@ public partial class CartaMovimientoView : Button
 {
     [Export] public Texture2D TexturaDorso;
 
+    [Signal] public delegate void CartaSeleccionadaEventHandler();
+
     private TextureRect _frente;
     private TextureRect _dorso;
     private CartaMovimiento _cartaRepresentada; 
@@ -39,7 +41,7 @@ public partial class CartaMovimientoView : Button
         Controller.GetInstance().CartaUsadaEvent += OnCartaUsada;
     }
 
-    public void SetCarta(CartaMovimiento carta)
+    public void SetCarta(CartaMovimiento carta, Camera3D camara)
     {
         _cartaRepresentada = carta;
         string nombreArchivo = ObtenerNombreAsset(carta);
@@ -50,6 +52,8 @@ public partial class CartaMovimientoView : Button
         {
             _frente.Texture = GD.Load<Texture2D>(rutaImagen);
         }
+
+        this.Connect(SignalName.CartaSeleccionada, new Callable(camara, "_on_carta_seleccionada"));
     }
 
     public override void _ExitTree()
@@ -109,6 +113,7 @@ public partial class CartaMovimientoView : Button
         if (_estaVolteada) return;
 
         Controller.GetInstance().CambiarCartaSeleccionada(_cartaRepresentada);
+        EmitSignal(SignalName.CartaSeleccionada);
         GetNode<AudioStreamPlayer>("ClickSFX").Play();
     }
 

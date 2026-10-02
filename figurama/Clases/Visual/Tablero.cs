@@ -25,6 +25,8 @@ public partial class Tablero : Node3D
 
     private Node _sonidos = null;
 
+    private Camera3D _camaraJugador;
+
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
     [Signal] public delegate void DisponibleEventHandler(Ficha ficha);
@@ -87,6 +89,8 @@ public partial class Tablero : Node3D
 
 
         _fondoJugador = GetNodeOrNull<Sprite3D>("Camera3D/Fondo");
+
+        _camaraJugador = GetNodeOrNull<Camera3D>("CamaraJugador");
 
 
         if (_fondoJugador == null)
@@ -186,7 +190,7 @@ public partial class Tablero : Node3D
             mano.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
             mano.MouseFilter = Control.MouseFilterEnum.Ignore;
             mano.Hide();
-            mano.crearMano(Controller.GetInstance().Jugadores()[i]);
+            mano.crearMano(Controller.GetInstance().Jugadores()[i], _camaraJugador);
             Manos.Add(mano);
         }
     }

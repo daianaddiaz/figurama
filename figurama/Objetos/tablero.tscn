@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://cg8aprise306t" path="res://Assets/FondosInGame/FondoJugador3.png" id="11_vkud5"]
 [ext_resource type="Texture2D" uid="uid://ccqg8qgqs4muq" path="res://Assets/FondosInGame/FondoJugador4.png" id="12_1fyr1"]
 [ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="14_vkud5"]
+[ext_resource type="Script" uid="uid://chg1lhfvfm5ai" path="res://Clases/Visual/CamaraJugador.cs" id="15_8kbus"]
 [ext_resource type="PackedScene" uid="uid://cv43ii5aqijte" path="res://Objetos/insignia.tscn" id="15_gx7pg"]
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="16_1fyr1"]
 [ext_resource type="Script" uid="uid://bh4lahjti2fp4" path="res://Clases/Visual/IndicadorUltimoColorView.cs" id="16_ohv7o"]
@@ -37,17 +38,13 @@ CinematicaPomberito = ExtResource("8_qwnp2")
 TransicionScene = ExtResource("10_hur3d")
 FondosJugadores = Array[Texture2D]([ExtResource("10_vgrhs"), ExtResource("11_vkud5"), ExtResource("12_1fyr1"), ExtResource("9_vexnf")])
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
-transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 2.553543, 6.015542)
+[node name="CamaraJugador" type="Camera3D" parent="." unique_id=424431728]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 2, 2.5, 6)
 current = true
 size = 7.0
+script = ExtResource("15_8kbus")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D" unique_id=2013501405]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0259347, -0.5498915)
-light_energy = 5.0
-omni_range = 20.0
-
-[node name="Fondo" type="Sprite3D" parent="Camera3D" unique_id=1784266435]
+[node name="Fondo" type="Sprite3D" parent="CamaraJugador" unique_id=1784266435]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4371166, -0.085167766, -7.024351)
 visible = false
 texture = ExtResource("9_vexnf")
@@ -170,4 +167,9 @@ bus = &"SFX"
 [node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
 
 [node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("23_t2ppj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9589739, -0.5423274, 1.5886722)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 1.9152498)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2013501405]
+transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)
+light_energy = 5.0
+omni_range = 20.0
