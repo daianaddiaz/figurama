@@ -22,6 +22,7 @@
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="16_1fyr1"]
 [ext_resource type="Script" uid="uid://bh4lahjti2fp4" path="res://Clases/Visual/IndicadorUltimoColorView.cs" id="16_ohv7o"]
 [ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="17_1fyr1"]
+[ext_resource type="PackedScene" uid="uid://buwepwvvigi8t" path="res://Objetos/mesa_modelo.tscn" id="23_t2ppj"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_adh7g")
@@ -37,16 +38,18 @@ TransicionScene = ExtResource("10_hur3d")
 FondosJugadores = Array[Texture2D]([ExtResource("10_vgrhs"), ExtResource("11_vkud5"), ExtResource("12_1fyr1"), ExtResource("9_vexnf")])
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=424431728]
-transform = Transform3D(1, 0, 0, 0, 0.69292456, 0.72101015, 0, -0.72101015, 0.69292456, 2.1263788, 1.8403277, 5.090621)
+transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 2.553543, 6.015542)
 current = true
 size = 7.0
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D" unique_id=2013501405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0259347, -0.5498915)
 light_energy = 5.0
 omni_range = 20.0
 
 [node name="Fondo" type="Sprite3D" parent="Camera3D" unique_id=1784266435]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4371166, -0.085167766, -7.024351)
+visible = false
 texture = ExtResource("9_vexnf")
 
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
@@ -134,10 +137,10 @@ text = "Finalizar Turno "
 
 [node name="BotonHabilidad" type="TextureButton" parent="UITemporal" unique_id=1585264927]
 custom_minimum_size = Vector2(80, 80)
-offset_left = 297.0
-offset_top = 526.0
-offset_right = 377.0
-offset_bottom = 606.0
+offset_left = 15.0
+offset_top = 503.0
+offset_right = 95.0
+offset_bottom = 583.0
 scale = Vector2(1.5, 1.5)
 ignore_texture_size = true
 stretch_mode = 5
@@ -165,3 +168,6 @@ bus = &"SFX"
 [node name="MulanimaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=853156723]
 
 [node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
+
+[node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("23_t2ppj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9589739, -0.5423274, 1.5886722)

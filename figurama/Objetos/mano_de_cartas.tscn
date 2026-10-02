@@ -24,11 +24,13 @@ offset_bottom = 95.0
 horizontal_alignment = 1
 
 [node name="BotonesMovimientos" type="HBoxContainer" parent="." unique_id=246760735]
+propagate_maximum_size = false
 layout_mode = 0
-offset_left = 450.0
-offset_top = 525.0
-offset_right = 450.0
-offset_bottom = 525.0
+offset_left = 136.0
+offset_top = 446.0
+offset_right = 136.0
+offset_bottom = 446.0
+scale = Vector2(1.45, 1.45)
 alignment = 2
 
 [node name="BotonReroll" type="Button" parent="." unique_id=1120244138]
@@ -40,14 +42,14 @@ offset_bottom = 636.0
 theme_override_font_sizes/font_size = 12
 text = "Rerollear Mano de Movimientos"
 
-[node name="CartasFiguras" type="VBoxContainer" parent="." unique_id=857676176]
-custom_minimum_size = Vector2(32, 60)
+[node name="CartasFiguras" type="HBoxContainer" parent="." unique_id=1845447606]
+propagate_maximum_size = false
 layout_mode = 0
-offset_left = 978.0
-offset_top = 141.0
-offset_right = 1010.0
-offset_bottom = 201.0
-theme_override_constants/separation = 10
+offset_left = 769.00006
+offset_top = 446.0
+offset_right = 769.00006
+offset_bottom = 446.0
+scale = Vector2(1.45, 1.45)
 
 [node name="TextoIndicativo2" type="Label" parent="." unique_id=476807306]
 layout_mode = 0

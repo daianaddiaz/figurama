@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://crqxjycehku6g" path="res://Clases/Visual/CartaMovimientoView.cs" id="1_aqdti"]
 [ext_resource type="Texture2D" uid="uid://bqxcp46qfi0h6" path="res://Assets/Cartas Movimiento/dorso_movimiento.png" id="2_12huq"]
+[ext_resource type="Texture2D" uid="uid://cqy35ymxsu6jm" path="res://Assets/Cartas Movimiento/Mov_ContDiag.png" id="2_n3bw2"]
 [ext_resource type="AudioStream" uid="uid://j7b2yhs8erg3" path="res://SFX/ClickSFX.wav" id="3_htwty"]
 [ext_resource type="Texture2D" uid="uid://d2c51ajmtlt2g" path="res://Assets/CartaSeleccionadaOverlay.png" id="3_nt70b"]
 [ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://Clases/Visual/StateMachine.cs" id="4_qqbci"]
 [ext_resource type="Script" uid="uid://5aog8q7wpq22" path="res://Clases/Visual/CartaNeutral.cs" id="5_nt70b"]
 [ext_resource type="Script" uid="uid://fllbi28ervhl" path="res://Clases/Visual/CartaSeleccionada.cs" id="6_n3bw2"]
-
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqdti"]
 
@@ -20,23 +20,16 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_12huq"]
 
 [node name="CartaDeMovimiento" type="Button" unique_id=377832846]
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -52.0
-offset_top = -15.5
-offset_bottom = 15.5
-grow_horizontal = 0
-grow_vertical = 2
-pivot_offset = Vector2(166, 121)
+custom_minimum_size = Vector2(116, 167)
+offset_right = 116.0
+offset_bottom = 167.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_aqdti")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_xg74d")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_uxcyx")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_htwty")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_12huq")
-text = "Texto"
 script = ExtResource("1_aqdti")
 
 [node name="Frente" type="TextureRect" parent="." unique_id=345352973]
@@ -46,6 +39,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_n3bw2")
 expand_mode = 1
 stretch_mode = 5
 
@@ -64,11 +58,12 @@ stretch_mode = 5
 [node name="Seleccionada" type="TextureRect" parent="." unique_id=292519411]
 visible = false
 self_modulate = Color(1, 1, 1, 0.49803922)
-layout_mode = 0
-offset_left = -27.0
-offset_top = 4.5
-offset_right = 107.0
-offset_bottom = 114.5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_nt70b")
 expand_mode = 1
 stretch_mode = 5

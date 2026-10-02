@@ -30,11 +30,11 @@ public partial class ManoCartasView : Control
     private void crearCartasFiguras()
     {
         
-        var contenedor = GetNodeOrNull<VBoxContainer>("CartasFiguras"); 
+        var contenedor = GetNodeOrNull<HBoxContainer>("CartasFiguras"); 
 
         if (contenedor == null)
         {
-            GD.PrintErr("Error: No se encontró el contenedor VBoxContainer 'CartasFiguras'");
+            GD.PrintErr("Error: No se encontró el contenedor HBoxContainer 'CartasFiguras'");
             return;
         }
 
