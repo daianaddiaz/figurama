@@ -1,5 +1,5 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1790950244
+::res://::1791037667
 default_bus_layout.tres::AudioBusLayout::556973535073688936::1790006608::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1790218068::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::6141088547517699221::1788654116::1788803560::1::::<><><>0<>0<>9b2f75d8ce0467cc2d8701694d79ca8b<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
@@ -31,7 +31,7 @@ GdUnitResultAssert.gd::GDScript::6897984017218349633::1790005412::0::1::::GdUnit
 GdUnitSceneRunner.gd::GDScript::1630072844474173376::1790005412::0::1::::GdUnitSceneRunner<>RefCounted<><>1<>0<><>::
 GdUnitSignalAssert.gd::GDScript::2118554262854408516::1790005412::0::1::::GdUnitSignalAssert<>GdUnitAssert<><>1<>0<><>::
 GdUnitStringAssert.gd::GDScript::3172074375200563187::1790005412::0::1::::GdUnitStringAssert<>GdUnitAssert<><>1<>0<><>::
-GdUnitTestSuite.gd::GDScript::2758020973049620894::1790005412::0::1::::GdUnitTestSuite<>Node<><>0<>0<><>::
+GdUnitTestSuite.gd::GDScript::2758020973049620894::1790005412::0::1::::GdUnitTestSuite<>Node<>res://addons/gdUnit4/src/ui/settings/logo.png<>0<>0<><>::
 GdUnitTuple.gd::GDScript::2642691631953316883::1790005412::0::1::::GdUnitTuple<>RefCounted<><>0<>0<><>::
 GdUnitValueExtractor.gd::GDScript::8843183865836514005::1790005412::0::1::::GdUnitValueExtractor<>RefCounted<><>0<>0<><>::
 GdUnitVectorAssert.gd::GDScript::6495234766740006969::1790005412::0::1::::GdUnitVectorAssert<>GdUnitAssert<><>1<>0<><>::
@@ -405,14 +405,14 @@ LobsterTwo-BoldItalic.ttf::FontFile::3182965850633207044::1790005412::1790005746
 LobsterTwo-Italic.ttf::FontFile::7759867820021968437::1790005412::1790005746::1::::<><><>0<>0<>996d6c75f556b60eb6da0fffa0a54d4e<>res://.godot/imported/LobsterTwo-Italic.ttf-f93abf6c25390c85ad5fb6c4ee75159e.fontdata::
 LobsterTwo-Regular.ttf::FontFile::2115948870915788183::1790005412::1790005746::1::::<><><>0<>0<>8d1ca8c94ef93d21f94ba83f40f0d62a<>res://.godot/imported/LobsterTwo-Regular.ttf-f3fcfa01cd671c8da433dd875d0fe04b.fontdata::
 OFL.txt::TextFile::-1::1790005412::0::1::::<><><>0<>0<><>::
-::res://addons/gut/gui/::1790907292
+::res://addons/gut/gui/::1790952189
 about.gd::GDScript::488202083672295193::1790005412::0::1::::<>AcceptDialog<><>0<>1<><>::
 about.tscn::PackedScene::8284998557770768332::1790005412::0::1::::<><><>0<>0<><>::uid://g7qu8ihdt3pd::::res://addons/gut/gui/about.gd<>uid://c5om15m2e70qp::::res://addons/gut/gui/check_for_update.tscn<>uid://bjkn8mhx2fmt1::::res://addons/gut/gui/GutLogo.tscn
 arrow.png::CompressedTexture2D::2222304255268796957::1790005412::1790005748::1::::<><><>0<>0<>c6670127146b5956636ca7e2cf440791<>res://.godot/imported/arrow.png-2b5b2d838b5b3467cf300ac2da1630d9.ctex::
 check_for_update.gd::GDScript::3394966669571495706::1790005412::0::1::::<>Control<><>0<>1<><>::
 check_for_update.tscn::PackedScene::6908184595110281651::1790005412::0::1::::<><><>0<>0<><>::uid://bomsutomy3pdy::::res://addons/gut/gui/check_for_update.gd<>uid://bnh0lslf4yh87::::res://addons/gut/fonts/CourierPrime-Regular.ttf
-EditorRadioButton.tres::Theme::8460222933348692164::1790907292::0::1::::<><><>0<>0<><>::
-editor_globals.gd::GDScript::4861108855360548659::1790907292::0::1::::<>RefCounted<><>0<>1<><>::
+EditorRadioButton.tres::Theme::8460222933348692164::1790952189::0::1::::<><><>0<>0<><>::
+editor_globals.gd::GDScript::4861108855360548659::1790952189::0::1::::<>RefCounted<><>0<>1<><>::
 GutBottomPanel.gd::GDScript::8536994468377110612::1790005412::0::1::::<>Control<><>0<>1<><>::
 GutBottomPanel.tscn::PackedScene::4354655867367614688::1790005412::0::1::::<><><>0<>0<><>::uid://dtvnb0xatk0my::::res://addons/gut/gui/GutBottomPanel.gd<>uid://0yunjxtaa8iw::::res://addons/gut/gui/RunAtCursor.tscn<>uid://cr6tvdv0ve6cv::::res://addons/gut/gui/play.png<>uid://bvo0uao7deu0q::::res://addons/gut/icon.png<>uid://4gyyn12um08h::::res://addons/gut/gui/RunResults.tscn<>uid://ljc2viafngwd::::res://addons/gut/images/HSplitContainer.svg<>uid://bqmo4dj64c7yl::::res://addons/gut/gui/OutputText.tscn<>uid://bhew20crsywxr::::res://addons/gut/images/VSplitContainer.svg<>uid://dj5ve0bq7xa5j::::res://addons/gut/gui/ShortcutDialog.tscn<>uid://ckv5eh8xyrwbk::::res://addons/gut/gui/ShellOutOptions.tscn
 GutControl.gd::GDScript::5919874032655369281::1790005412::0::1::::<>Control<><>0<>1<><>::
@@ -604,7 +604,8 @@ MovimientoLateralAlBorde.cs::CSharpScript::7213804847591223114::1789440363::0::1
 MovimientoLateralConEspacio.cs::CSharpScript::3044721259187567966::1788654116::0::1::::<><><>0<>0<><>::
 MovimientoLateralContiguo.cs::CSharpScript::3931391484998301682::1788654116::0::1::::<><><>0<>0<><>::
 tableroReglas.cs::CSharpScript::335241601201704681::1790176618::0::1::::<><><>0<>0<><>::
-::res://Clases/Visual/::1790893958
+::res://Clases/Visual/::1790952183
+CamaraJugador.cs::CSharpScript::5278148201270474384::1790954807::0::1::::<>Camera3D<><>0<>0<><>::
 CargadorAssetsTablero.cs::CSharpScript::1878786990503773757::1790879875::0::1::::<><><>0<>0<><>::
 CartaDeFiguraView.cs::CSharpScript::2969666797665226070::1790215772::0::1::::<>TextureRect<><>0<>0<><>::
 CartaMovimientoView.cs::CSharpScript::6000495580118007348::1790952057::0::1::::<>Button<><>0<>0<><>::
@@ -634,7 +635,6 @@ MenuPrincipal.cs::CSharpScript::2643270710963309825::1790174641::0::1::::<>Contr
 NavegadorEscenas.cs::CSharpScript::6895743954442772866::1790174641::0::1::::<><><>0<>0<><>::
 PanelTransicion.cs::CSharpScript::4515637262861068617::1790393149::0::1::::<>CanvasLayer<><>0<>0<><>::
 PuntuacionView.cs::CSharpScript::851781569503772886::1789823317::0::1::::<>Label<><>0<>0<><>::
-CamaraJugador.cs::CSharpScript::5278148201270474384::1790951131::0::1::::<><><>0<>0<><>::
 SplashScreen.cs::CSharpScript::3058870206441522238::1790174641::0::1::::<>Control<><>0<>0<><>::
 State.cs::CSharpScript::787727408741470371::1788654116::0::1::::<>Node<><>0<>0<><>::
 StateMachine.cs::CSharpScript::18987110142428171::1790879875::0::1::::<>Node<><>0<>0<><>::
@@ -659,7 +659,7 @@ MovimientoLateralAlBorde.gd::GDScript::2623761658429088072::1790215772::0::1::::
 MovimientoLateralConEspacio.gd::GDScript::6300774559786671783::1790215772::0::1::::MovimientoLateralConEspacio<>CartaMovimiento<><>0<>0<><>::
 MovimientoLateralContiguo.gd::GDScript::3886272837790397298::1790215772::0::1::::MovimientoLateralContiguo<>CartaMovimiento<><>0<>0<><>::
 tableroReglas.gd::GDScript::3614425446952595876::1790215772::0::1::::TableroReglas<>RefCounted<><>0<>0<><>::
-::res://Objetos/::1790951059
+::res://Objetos/::1790954640
 carta_de_figura.tscn::PackedScene::6522917246890717495::1790335931::0::1::::<><><>0<>0<><>::uid://bikr8i5p4eaw1::::res://Clases/Visual/CartaDeFiguraView.cs
 carta_de_movimiento.tscn::PackedScene::7645618697957655214::1790913931::0::1::::<><><>0<>0<><>::uid://crqxjycehku6g::::res://Clases/Visual/CartaMovimientoView.cs<>uid://bqxcp46qfi0h6::::res://Assets/Cartas Movimiento/dorso_movimiento.png<>uid://cqy35ymxsu6jm::::res://Assets/Cartas Movimiento/Mov_ContDiag.png<>uid://j7b2yhs8erg3::::res://SFX/ClickSFX.wav<>uid://d2c51ajmtlt2g::::res://Assets/CartaSeleccionadaOverlay.png<>uid://jgykpuxokf0::::res://Clases/Visual/StateMachine.cs<>uid://5aog8q7wpq22::::res://Clases/Visual/CartaNeutral.cs<>uid://fllbi28ervhl::::res://Clases/Visual/CartaSeleccionada.cs
 cinematica.tscn::PackedScene::353261012600624919::1790217919::0::1::::<><><>0<>0<><>::uid://wlvaufga1axp::::res://Clases/Visual/Cinematica.cs
@@ -675,7 +675,7 @@ mesa_modelo.tscn::PackedScene::3835884710842379813::1790908281::0::1::::<><><>0<
 PanelTransicion.tscn::PackedScene::6460590977458158401::1790393924::0::1::::<><><>0<>0<><>::uid://b5ln5egoifpbd::::res://Clases/Visual/PanelTransicion.cs<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres
 puntuacion.tscn::PackedScene::5196210538659691350::1789440371::0::1::::<><><>0<>0<><>::uid://meuyoandnn0y::::res://Clases/Visual/PuntuacionView.cs
 splashScreen.tscn::PackedScene::6964900497547187227::1790364353::0::1::::<><><>0<>0<><>::uid://bjt0e7csweeos::::res://Clases/Visual/SplashScreen.cs<>uid://mbottyddqatk::::res://Assets/LogoFiguramaBlanco2.png
-tablero.tscn::PackedScene::8865837882487094184::1790915041::0::1::::<><><>0<>0<><>::uid://du1xvdn8v3jqn::::res://Clases/Visual/Tablero.cs<>uid://dkmnblo603ilc::::res://Objetos/ficha.tscn<>uid://0ohgom08bvdi::::res://Objetos/mano_de_cartas.tscn<>uid://cnoxndsv4hbe3::::res://Objetos/labeltimer.tscn<>uid://bnajmnqoq7plh::::res://Objetos/indicador_ultimo_color.tscn<>uid://fbefl2fqrnlf::::res://Objetos/cinematica.tscn<>uid://di5vhwuav514h::::res://Assets/Cinematicas/LobizonComodin.ogv<>uid://ccfrot7v20rxf::::res://Assets/Cinematicas/LuzMalaElimina.ogv<>uid://1rmfw8mtumla::::res://SFX/CambioFichasSFX.wav<>uid://dn43erp4ugnun::::res://SFX/FiguraFormadaSFX.wav<>uid://dnm4yjmu5feky::::res://Assets/Cinematicas/MulanimaBloquea.ogv<>uid://cppmmyxsby5hb::::res://Assets/Cinematicas/PomberitoRecargado.ogv<>uid://bjgtyqqfkl4yj::::res://Assets/FondosInGame/FondoJugador1.png<>uid://cybs8v4dh3qtl::::res://Objetos/PanelTransicion.tscn<>uid://c4kj38c143w4d::::res://Assets/FondosInGame/FondoJugador2.png<>uid://cg8aprise306t::::res://Assets/FondosInGame/FondoJugador3.png<>uid://ccqg8qgqs4muq::::res://Assets/FondosInGame/FondoJugador4.png<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres<>uid://cv43ii5aqijte::::res://Objetos/insignia.tscn<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://bh4lahjti2fp4::::res://Clases/Visual/IndicadorUltimoColorView.cs<>uid://b1xkyoodt0vp4::::res://Objetos/MenuPausa.tscn<>uid://buwepwvvigi8t::::res://Objetos/mesa_modelo.tscn
+tablero.tscn::PackedScene::8865837882487094184::1790954640::0::1::::<><><>0<>0<><>::uid://du1xvdn8v3jqn::::res://Clases/Visual/Tablero.cs<>uid://dkmnblo603ilc::::res://Objetos/ficha.tscn<>uid://0ohgom08bvdi::::res://Objetos/mano_de_cartas.tscn<>uid://cnoxndsv4hbe3::::res://Objetos/labeltimer.tscn<>uid://bnajmnqoq7plh::::res://Objetos/indicador_ultimo_color.tscn<>uid://fbefl2fqrnlf::::res://Objetos/cinematica.tscn<>uid://di5vhwuav514h::::res://Assets/Cinematicas/LobizonComodin.ogv<>uid://ccfrot7v20rxf::::res://Assets/Cinematicas/LuzMalaElimina.ogv<>uid://1rmfw8mtumla::::res://SFX/CambioFichasSFX.wav<>uid://dn43erp4ugnun::::res://SFX/FiguraFormadaSFX.wav<>uid://dnm4yjmu5feky::::res://Assets/Cinematicas/MulanimaBloquea.ogv<>uid://cppmmyxsby5hb::::res://Assets/Cinematicas/PomberitoRecargado.ogv<>uid://bjgtyqqfkl4yj::::res://Assets/FondosInGame/FondoJugador1.png<>uid://cybs8v4dh3qtl::::res://Objetos/PanelTransicion.tscn<>uid://c4kj38c143w4d::::res://Assets/FondosInGame/FondoJugador2.png<>uid://cg8aprise306t::::res://Assets/FondosInGame/FondoJugador3.png<>uid://ccqg8qgqs4muq::::res://Assets/FondosInGame/FondoJugador4.png<>uid://dlgvfi3xxspar::::res://Clases/Visual/FuentePrincipal.tres<>uid://chg1lhfvfm5ai::::res://Clases/Visual/CamaraJugador.cs<>uid://cv43ii5aqijte::::res://Objetos/insignia.tscn<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://bh4lahjti2fp4::::res://Clases/Visual/IndicadorUltimoColorView.cs<>uid://b1xkyoodt0vp4::::res://Objetos/MenuPausa.tscn<>uid://buwepwvvigi8t::::res://Objetos/mesa_modelo.tscn
 tutorial.tscn::PackedScene::744824484734756999::1790335931::0::1::::<><><>0<>0<><>::uid://dbwoh0mcxmivi::::res://Clases/Visual/Tutorial.cs<>uid://cin8dqjltbblr::::res://Clases/Visual/FuenteChocolate.tres<>uid://dgewmr8mwlaq2::::res://Assets/Tutorial/Tutorial1.png<>uid://dpdwsoapp30te::::res://Assets/Tutorial/Tutorial2.png<>uid://bxqs8kat2b5qy::::res://Assets/Tutorial/Tutorial3.png<>uid://b7ud4jvnlay8f::::res://Assets/Tutorial/Tutorial4.png
 ::res://reports/::1790005412
 ::res://reports/report_1/::1790005412

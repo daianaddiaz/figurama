@@ -7,12 +7,14 @@ public partial class CartaMovimientoView : Button
     [Export] public Texture2D TexturaDorso;
 
     [Signal] public delegate void CartaSeleccionadaEventHandler();
+    [Signal] public delegate void CartaNoSeleccionadaEventHandler();
 
     private TextureRect _frente;
     private TextureRect _dorso;
     private CartaMovimiento _cartaRepresentada; 
 
     private bool _estaVolteada = false;
+    private bool _estaSeleccionada = false;
 
     public CartaMovimiento CartaRepresentada => _cartaRepresentada;
 
@@ -54,6 +56,7 @@ public partial class CartaMovimientoView : Button
         }
 
         this.Connect(SignalName.CartaSeleccionada, new Callable(camara, "_on_carta_seleccionada"));
+        this.Connect(SignalName.CartaNoSeleccionada, new Callable(camara, "_on_carta_no_seleccionada"));
     }
 
     public override void _ExitTree()
@@ -112,8 +115,21 @@ public partial class CartaMovimientoView : Button
     {
         if (_estaVolteada) return;
 
-        Controller.GetInstance().CambiarCartaSeleccionada(_cartaRepresentada);
-        EmitSignal(SignalName.CartaSeleccionada);
+        var cartaAEnviar = _cartaRepresentada;
+
+        if (_estaSeleccionada)
+        {
+            cartaAEnviar = null;
+            _on_carta_no_seleccionada();
+            EmitSignal(SignalName.CartaNoSeleccionada);
+        }
+        else
+        {
+            cartaAEnviar = _cartaRepresentada;
+            _estaSeleccionada = true;
+            EmitSignal(SignalName.CartaSeleccionada);
+        }
+        Controller.GetInstance().CambiarCartaSeleccionada(cartaAEnviar);
         GetNode<AudioStreamPlayer>("ClickSFX").Play();
     }
 
@@ -161,6 +177,7 @@ public partial class CartaMovimientoView : Button
 
     public void _on_carta_no_seleccionada()
     {
+        _estaSeleccionada = false;
         GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Neutral);
     }
 }
