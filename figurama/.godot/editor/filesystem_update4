@@ -1,8 +1,12 @@
-res://Clases/Visual/CamaraJugador.cs
+res://Objetos/carta_de_movimiento.tscn
+res://addons/gut/gui/editor_globals.gd
+res://addons/gut/gui/EditorRadioButton.tres
+res://Clases/Visual/ManoCartasView.cs
 res://Clases/Visual/CartaMovimientoView.cs
 res://Clases/Visual/MenuPausa.cs
 res://Clases/Visual/IndicadorUltimoColorView.cs
 res://Clases/Visual/InsigniaView.cs
+res://Clases/Visual/CamaraJugador.cs
 res://Clases/Visual/PanelTransicion.cs
 res://Clases/Visual/Cinematica.cs
 res://Clases/Visual/TimerView.cs
@@ -11,7 +15,6 @@ res://Clases/Visual/CartaDeFiguraView.cs
 res://Clases/Visual/State.cs
 res://Clases/Visual/CartaSeleccionada.cs
 res://Clases/Visual/CartaNeutral.cs
-res://Clases/Visual/ManoCartasView.cs
 res://Clases/Visual/Tablero.cs
 res://Clases/Visual/FichaComodinCompletada.cs
 res://Clases/Visual/FichaComodinDisponible.cs
@@ -29,3 +32,4 @@ res://Clases/Visual/SplashScreen.cs
 res://Clases/Visual/MenuPrincipal.cs
 res://Clases/Visual/Tutorial.cs
 res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
+res://Objetos/tablero.tscn

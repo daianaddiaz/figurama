@@ -13,12 +13,12 @@ public partial class FichaSeleccionada : State
 
 	public override void OnEnter()
 	{
-		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Seleccionada").Visible = true;
+		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Seleccionada").Visible = true;
 		abuelo.GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("ClickSFX").Play();
 	}
 
 	public override void OnExit()
 	{
-		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Seleccionada").Visible = false;
+		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Seleccionada").Visible = false;
 	}
 }

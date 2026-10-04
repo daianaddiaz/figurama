@@ -14,6 +14,8 @@ public partial class ManoCartasView : Control
 
     private Camera3D _camara;
 
+    private int cantidadCartas = 0;
+
     public void crearMano(Jugador jugador, Camera3D camara)
     {
         _jugador = jugador;
@@ -136,11 +138,12 @@ public partial class ManoCartasView : Control
         {
             var cartaView = CartaDeMovimientoScene.Instantiate<CartaMovimientoView>();
             contenedor.AddChild(cartaView);
+            cantidadCartas++;
 
             if (carta != null)
             {
                 // Carta disponible
-                cartaView.SetCarta(carta, _camara);
+                cartaView.SetCarta(carta, _camara, cantidadCartas);
             }
             else
             {

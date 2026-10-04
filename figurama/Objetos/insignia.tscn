@@ -20,10 +20,11 @@ script = ExtResource("1_5ev34")
 
 [node name="Insignia" type="TextureRect" parent="." unique_id=347428076]
 layout_mode = 0
-offset_left = -106.0
-offset_top = -29.0
-offset_right = 377.0
-offset_bottom = 209.0
+offset_left = -200.0
+offset_top = -128.0
+offset_right = 283.0
+offset_bottom = 110.0
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_ptb3v")
 expand_mode = 1
 stretch_mode = 5

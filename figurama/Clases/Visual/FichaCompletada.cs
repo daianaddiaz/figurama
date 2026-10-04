@@ -13,7 +13,7 @@ public partial class FichaCompletada : State
 
 	public override void OnEnter()
 	{
-		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Completada").Visible = true;
+		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Completada").Visible = true;
 		GetParent<StateMachine>().GetParent<Node3D>().GetNode<Timer>("TimerEfectoCompletada").Start();
 	}
 }

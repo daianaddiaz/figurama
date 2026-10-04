@@ -11,13 +11,13 @@ public partial class FichaComodinCompletada : State
 
 	public override void OnEnter()
 	{
-		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Completada").Visible = true;
-		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Comodin").Visible = true;
+		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Completada").Visible = true;
+		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Comodin").Visible = true;
 		abuelo.GetNode<Timer>("TimerEfectoCompletada").Start();
 	}
 	public override void OnExit()
 	{
-		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Completada").Visible = false;
-		abuelo.GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Comodin").Visible = false;
+		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Completada").Visible = false;
+		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Comodin").Visible = false;
 	}
 }

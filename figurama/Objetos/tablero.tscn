@@ -55,9 +55,9 @@ texture = ExtResource("9_vexnf")
 script = ExtResource("16_ohv7o")
 
 [node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
-offset_left = 35.0
+offset_left = 976.0
 offset_top = 35.0
-offset_right = 75.0
+offset_right = 1096.0
 offset_bottom = 58.0
 theme = ExtResource("14_vkud5")
 theme_override_font_sizes/font_size = 20
@@ -66,12 +66,12 @@ text = "Turno de:"
 [node name="InsigniaViewContainer" type="Control" parent="UITemporal" unique_id=2002938432]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 805.0
+offset_top = 67.0
+offset_right = 845.0
+offset_bottom = 107.0
 
 [node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("4_7uocc")]
-offset_top = 35.0
-offset_bottom = 35.0
 mouse_filter = 2
 theme = ExtResource("14_vkud5")
 
@@ -125,10 +125,10 @@ theme = ExtResource("16_1fyr1")
 text = "Volver al Menú"
 
 [node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=1558671576]
-offset_left = 45.0
-offset_top = 566.0
-offset_right = 173.0
-offset_bottom = 597.0
+offset_left = 28.0
+offset_top = 123.0
+offset_right = 156.0
+offset_bottom = 154.0
 theme = ExtResource("16_1fyr1")
 text = "Finalizar Turno "
 

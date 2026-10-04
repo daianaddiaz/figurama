@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://ibq67gufwybo" path="res://Clases/Visual/Ficha.cs" id="1_dcclv"]
 [ext_resource type="Texture2D" uid="uid://di4p37ayd3a7v" path="res://Assets/FichaOverlaySeleccionada.png" id="2_kxmfb"]
 [ext_resource type="Script" uid="uid://jgykpuxokf0" path="res://Clases/Visual/StateMachine.cs" id="2_laaii"]
-[ext_resource type="Texture2D" uid="uid://cnmwp6nueo5e" path="res://Assets/FichaOverlay.png" id="2_xxg1v"]
 [ext_resource type="Script" uid="uid://bjlxbkmoyfurs" path="res://Clases/Visual/FichaNeutral.cs" id="3_eesfy"]
 [ext_resource type="Script" uid="uid://cdtn5376lxn6b" path="res://Clases/Visual/FichaSeleccionada.cs" id="4_1jsyo"]
 [ext_resource type="Script" uid="uid://m6yqhxwotvb7" path="res://Clases/Visual/FichaDisponible.cs" id="5_6fi25"]
@@ -28,9 +27,6 @@
 [ext_resource type="Script" uid="uid://dm473yfpshkfl" path="res://Clases/Visual/FichaComodinCompletada.cs" id="16_gqwj7"]
 [ext_resource type="AudioStream" uid="uid://c15glw01ca1sl" path="res://SFX/FuegoSFX.ogg" id="16_qm8jf"]
 [ext_resource type="PackedScene" uid="uid://c7jh81ep0gprt" path="res://Objetos/ficha_modelo.tscn" id="27_4h42c"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_dcclv"]
-size = Vector3(0.8, 0.2, 0.8)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j5se4"]
 animations = [{
@@ -72,19 +68,7 @@ script = ExtResource("1_dcclv")
 
 [node name="Modelo" parent="." unique_id=1243413463 instance=ExtResource("27_4h42c")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1748025612]
-visible = false
-mesh = SubResource("BoxMesh_dcclv")
-
-[node name="BordeComun" type="Decal" parent="MeshInstance3D" unique_id=879798389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
-size = Vector3(0.8, 0.9, 0.8)
-texture_albedo = ExtResource("2_xxg1v")
-emission_energy = 15.0
-upper_fade = 1e-05
-lower_fade = 1e-05
-
-[node name="Seleccionada" type="Decal" parent="MeshInstance3D" unique_id=941072476]
+[node name="Seleccionada" type="Decal" parent="Modelo" unique_id=941072476]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
 visible = false
 size = Vector3(0.8, 0.9, 0.8)
@@ -93,7 +77,7 @@ emission_energy = 15.0
 upper_fade = 1e-05
 lower_fade = 1e-05
 
-[node name="Disponible" type="Decal" parent="MeshInstance3D" unique_id=1312148632]
+[node name="Disponible" type="Decal" parent="Modelo" unique_id=1312148632]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
 visible = false
 size = Vector3(0.8, 0.9, 0.8)
@@ -102,12 +86,12 @@ emission_energy = 15.0
 upper_fade = 1e-05
 lower_fade = 1e-05
 
-[node name="Comodin" type="Decal" parent="MeshInstance3D" unique_id=502279524]
+[node name="Comodin" type="Decal" parent="Modelo" unique_id=502279524]
 visible = false
 size = Vector3(0.8, 0.9, 0.8)
 texture_albedo = ExtResource("5_j6ww4")
 
-[node name="Completada" type="Decal" parent="MeshInstance3D" unique_id=953731289]
+[node name="Completada" type="Decal" parent="Modelo" unique_id=953731289]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0010742247, 0, -0.00015869737)
 visible = false
 sorting_offset = 1.0
@@ -117,7 +101,7 @@ emission_energy = 15.0
 upper_fade = 1e-05
 lower_fade = 1e-05
 
-[node name="Bloqueada" type="AnimatedSprite3D" parent="MeshInstance3D" unique_id=1553037599]
+[node name="Bloqueada" type="AnimatedSprite3D" parent="Modelo" unique_id=1553037599]
 transform = Transform3D(0.20000002, 0, 0, 0, -8.742278e-09, 0.20000002, 0, -0.20000002, -8.742278e-09, 0, 0.100056574, -0.14004576)
 visible = false
 sprite_frames = SubResource("SpriteFrames_j5se4")

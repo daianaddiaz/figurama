@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 
 public partial class CartaMovimientoView : Button
@@ -8,6 +8,9 @@ public partial class CartaMovimientoView : Button
 
     [Signal] public delegate void CartaSeleccionadaEventHandler();
     [Signal] public delegate void CartaNoSeleccionadaEventHandler();
+
+    private List<string> _teclas = new List<string> { "boton1", "boton2", "boton3", "boton4", "boton5" };
+    private string _teclaAsignada = null;
 
     private TextureRect _frente;
     private TextureRect _dorso;
@@ -43,7 +46,15 @@ public partial class CartaMovimientoView : Button
         Controller.GetInstance().CartaUsadaEvent += OnCartaUsada;
     }
 
-    public void SetCarta(CartaMovimiento carta, Camera3D camara)
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed(_teclaAsignada))
+        {
+            _Pressed();
+        }
+    }
+
+    public void SetCarta(CartaMovimiento carta, Camera3D camara, int cartaIndex)
     {
         _cartaRepresentada = carta;
         string nombreArchivo = ObtenerNombreAsset(carta);
@@ -54,6 +65,9 @@ public partial class CartaMovimientoView : Button
         {
             _frente.Texture = GD.Load<Texture2D>(rutaImagen);
         }
+
+        GetNode<TextureRect>("Tecla").GetNode<Label>("TeclaTexto").Text = cartaIndex.ToString();
+        _teclaAsignada = _teclas[cartaIndex - 1];
 
         this.Connect(SignalName.CartaSeleccionada, new Callable(camara, "_on_carta_seleccionada"));
         this.Connect(SignalName.CartaNoSeleccionada, new Callable(camara, "_on_carta_no_seleccionada"));

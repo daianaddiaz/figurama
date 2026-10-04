@@ -6,14 +6,11 @@ public partial class Ficha : Node3D
     public delegate void ClickeadaEventHandler(Ficha ficha);
 
     public FichaData Datos;
-
-    private MeshInstance3D _visual;
     private Color _colorVisualActual;
     private FichaModelo _modelo;
 
     public override void _Ready()
     {
-        _visual = GetNode<MeshInstance3D>("MeshInstance3D");
         _modelo = GetNode<FichaModelo>("Modelo");
 
         Area3D areaDeClick = GetNode<Area3D>("Area3D");
@@ -103,6 +100,6 @@ public partial class Ficha : Node3D
 
     public void _on_timer_efecto_completada_timeout()
     {
-        GetNode<MeshInstance3D>("MeshInstance3D").GetNode<Decal>("Completada").Visible = false;
+        GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Completada").Visible = false;
     }
 }

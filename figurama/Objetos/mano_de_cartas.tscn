@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dg6uhtxrlj18m" path="res://Objetos/carta_de_movimiento.tscn" id="2_jj060"]
 [ext_resource type="PackedScene" uid="uid://cy60q2d8wprnb" path="res://Objetos/carta_de_figura.tscn" id="3_jj060"]
 [ext_resource type="PackedScene" uid="uid://cgbc3fvjhln8y" path="res://Objetos/puntuacion.tscn" id="4_q4kwa"]
+[ext_resource type="Texture2D" uid="uid://ba175sr16lb16" path="res://Assets/FiguramaUIOverlayBajo.png" id="5_pt8ux"]
 [ext_resource type="AudioStream" uid="uid://djviimavqwuyt" path="res://SFX/RerollSFX.wav" id="6_inulw"]
 
 [node name="ManoDeCartas" type="Control" unique_id=737516228]
@@ -14,6 +15,13 @@ theme = ExtResource("1_38krp")
 script = ExtResource("1_eavyo")
 CartaDeMovimientoScene = ExtResource("2_jj060")
 CartaDeFiguraScene = ExtResource("3_jj060")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=948701039]
+layout_mode = 0
+offset_top = 502.0
+offset_right = 1152.0
+offset_bottom = 649.0
+texture = ExtResource("5_pt8ux")
 
 [node name="TextoIndicativo" type="Label" parent="." unique_id=47432419]
 layout_mode = 0
@@ -35,10 +43,10 @@ alignment = 2
 
 [node name="BotonReroll" type="Button" parent="." unique_id=1120244138]
 layout_mode = 0
-offset_left = 12.0
-offset_top = 605.0
-offset_right = 267.0
-offset_bottom = 636.0
+offset_left = 32.0
+offset_top = 148.0
+offset_right = 287.0
+offset_bottom = 179.0
 theme_override_font_sizes/font_size = 12
 text = "Rerollear Mano de Movimientos"
 
@@ -52,6 +60,7 @@ offset_bottom = 446.0
 scale = Vector2(1.45, 1.45)
 
 [node name="TextoIndicativo2" type="Label" parent="." unique_id=476807306]
+visible = false
 layout_mode = 0
 offset_left = 906.0
 offset_top = 93.0
@@ -61,10 +70,10 @@ text = "Figuras a Armar:"
 
 [node name="Puntuacion" parent="." unique_id=1664323275 instance=ExtResource("4_q4kwa")]
 layout_mode = 0
-offset_left = 690.0
-offset_top = 36.0
-offset_right = 1125.0
-offset_bottom = 78.0
+offset_left = 699.0
+offset_top = 418.0
+offset_right = 1134.0
+offset_bottom = 460.0
 horizontal_alignment = 2
 
 [node name="Sonidos" type="Node" parent="." unique_id=673407697]

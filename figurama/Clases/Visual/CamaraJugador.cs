@@ -10,7 +10,7 @@ public partial class CamaraJugador : Camera3D
 	Vector3 _rotacionObjetivo;
 
 	private float velocidadMovimiento = 5.0f;
-	private float velocidadRotacion = 0.05f;
+	private float velocidadRotacion = 0.04f;
 
 	private bool moviendoArriba = false;
 	private bool moviendoAbajo = false;
@@ -38,12 +38,16 @@ public partial class CamaraJugador : Camera3D
 	{
 		moviendoArriba = true;
 		rotandoArriba = true;
+		moviendoAbajo = false;
+		rotandoAbajo = false;
 	}
 
 	public void _on_carta_no_seleccionada()
 	{
 		moviendoAbajo = true;
 		rotandoAbajo = true;
+		moviendoArriba = false;
+		rotandoArriba = false;
 	}
 
 	private void MoverArriba(float delta)
@@ -55,6 +59,7 @@ public partial class CamaraJugador : Camera3D
 			if (GlobalTransform.Origin.DistanceTo(_posicionObjetivo) < 0.01f)
 			{
 				moviendoArriba = false;
+				GlobalTransform = GlobalTransform with { Origin = _posicionObjetivo };
 			}
 		}
 	}
@@ -68,6 +73,7 @@ public partial class CamaraJugador : Camera3D
 			if (GlobalTransform.Origin.DistanceTo(_posicionInicial) < 0.01f)
 			{
 				moviendoAbajo = false;
+				GlobalTransform = GlobalTransform with { Origin = _posicionInicial };
 			}
 		}
 	}
@@ -78,10 +84,10 @@ public partial class CamaraJugador : Camera3D
 		{
 			Vector3 newRotation = Rotation.Slerp(_rotacionObjetivo, delta * velocidadRotacion);
 			Rotation = newRotation;
-			GD.Print($"Rotación actual: {GlobalRotationDegrees}, Rotación objetivo: {_rotacionObjetivo}");
 			if (GlobalRotationDegrees.X < _rotacionObjetivo.X)
 			{
 				rotandoArriba = false;
+				GlobalRotationDegrees = _rotacionObjetivo;
 			}
 		}
 	}
@@ -92,10 +98,10 @@ public partial class CamaraJugador : Camera3D
 		{
 			Vector3 newRotation = Rotation.Slerp(_rotacionInicial, delta * -velocidadRotacion);
 			Rotation = newRotation;
-			GD.Print($"Rotación actual: {GlobalRotationDegrees}, Rotación objetivo: {_rotacionInicial}");
 			if (GlobalRotationDegrees.X > _rotacionInicial.X)
 			{
 				rotandoAbajo = false;
+				GlobalRotationDegrees = _rotacionInicial;
 			}
 		}
 	}
