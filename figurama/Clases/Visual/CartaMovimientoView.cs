@@ -48,9 +48,12 @@ public partial class CartaMovimientoView : Button
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed(_teclaAsignada))
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
         {
-            _Pressed();
+            if (_teclaAsignada != null && @event.IsActionPressed(_teclaAsignada))
+            {
+                _Pressed();
+            }
         }
     }
 
@@ -66,7 +69,7 @@ public partial class CartaMovimientoView : Button
             _frente.Texture = GD.Load<Texture2D>(rutaImagen);
         }
 
-        GetNode<TextureRect>("Tecla").GetNode<Label>("TeclaTexto").Text = cartaIndex.ToString();
+        GetNode<Label>("Tecla/TeclaTexto").Text = cartaIndex.ToString();
         _teclaAsignada = _teclas[cartaIndex - 1];
 
         this.Connect(SignalName.CartaSeleccionada, new Callable(camara, "_on_carta_seleccionada"));
@@ -122,6 +125,7 @@ public partial class CartaMovimientoView : Button
         if (_frente != null) _frente.Hide();
         if (_dorso != null) _dorso.Show();
 
+        GetNode<TextureRect>("Tecla").Visible = false;
         GetNode<StateMachine>("FSM").ChangeState(EstadoFSM.Neutral);
     }
 

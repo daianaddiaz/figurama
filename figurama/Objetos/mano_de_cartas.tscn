@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://cgbc3fvjhln8y" path="res://Objetos/puntuacion.tscn" id="4_q4kwa"]
 [ext_resource type="Texture2D" uid="uid://ba175sr16lb16" path="res://Assets/FiguramaUIOverlayBajo.png" id="5_pt8ux"]
 [ext_resource type="AudioStream" uid="uid://djviimavqwuyt" path="res://SFX/RerollSFX.wav" id="6_inulw"]
+[ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="6_m436i"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j5se4"]
 
 [node name="ManoDeCartas" type="Control" unique_id=737516228]
 layout_mode = 3
@@ -43,12 +46,29 @@ alignment = 2
 
 [node name="BotonReroll" type="Button" parent="." unique_id=1120244138]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 148.0
-offset_right = 287.0
-offset_bottom = 179.0
+offset_left = 28.0
+offset_top = 213.0
+offset_right = 283.0
+offset_bottom = 244.0
 theme_override_font_sizes/font_size = 12
 text = "Rerollear Mano de Movimientos"
+
+[node name="TextureRect" type="TextureRect" parent="BotonReroll" unique_id=1746992284]
+layout_mode = 0
+offset_left = 254.0
+offset_top = -4.0
+offset_right = 294.0
+offset_bottom = 36.0
+texture = ExtResource("6_m436i")
+
+[node name="Label" type="Label" parent="BotonReroll/TextureRect" unique_id=1845610178]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 54.0
+offset_bottom = 29.0
+text = "R"
+label_settings = SubResource("LabelSettings_j5se4")
 
 [node name="CartasFiguras" type="HBoxContainer" parent="." unique_id=1845447606]
 propagate_maximum_size = false

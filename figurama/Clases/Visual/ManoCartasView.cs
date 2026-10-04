@@ -10,11 +10,24 @@ public partial class ManoCartasView : Control
 
     [Export] private Control _contenedorMano;
 
+    public List<FiguraAsignada> figurasAsignadas = new List<FiguraAsignada>();
+
     private Jugador _jugador;
 
     private Camera3D _camara;
 
     private int cantidadCartas = 0;
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+        {
+            if (@event.IsActionPressed("reroll"))
+            {
+                OnRerollPresionado();
+            }
+        }
+    }
 
     public void crearMano(Jugador jugador, Camera3D camara)
     {
@@ -50,8 +63,10 @@ public partial class ManoCartasView : Control
         }
 
         // Separo las figuras pendientes (no completadas) y las completadas
+        figurasAsignadas.Clear();
         var pendientes = _jugador.figurasAArmar.FindAll(f => !f.Completada);
         var completadas = _jugador.figurasAArmar.FindAll(f => f.Completada);
+        figurasAsignadas.AddRange(pendientes);
 
         var visibles = new List<FiguraAsignada>();
 
@@ -131,6 +146,7 @@ public partial class ManoCartasView : Control
         {
             contenedor.RemoveChild(hijo);
             hijo.QueueFree();
+            cantidadCartas = 0;
         }
         if (_jugador?.manoCartas == null) return;
 

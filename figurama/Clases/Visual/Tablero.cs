@@ -35,7 +35,9 @@ public partial class Tablero : Node3D
     [Signal] public delegate void DesbloqueadaEventHandler(Ficha ficha);
     [Signal] public delegate void ComodinActivadoEventHandler(Ficha ficha);
     [Signal] public delegate void ComodinDesactivadoEventHandler(Ficha ficha);
-    [Signal] public delegate void CambiarInsigniaEventHandler(string nombreJugador, string texturaInsignia);
+    [Signal] public delegate void CambiarInsigniaEventHandler(string nombreJugador, string texturaInsignia, int indiceJugador);
+    [Signal] public delegate void CambiarInsigniaSecundariaEventHandler(Control manoAsignada, string texturaInsignia, int indiceJugador);
+
 
     private bool _hayFichaSeleccionada = false;
     private Ficha _fichaSeleccionada;
@@ -110,12 +112,29 @@ public partial class Tablero : Node3D
 
         var insigniaView = InsigniaViewScene.Instantiate<InsigniaView>();
         this.Connect(SignalName.CambiarInsignia, new Callable(insigniaView, "SetInsignia"));
-        GetNode<Control>("UITemporal/InsigniaViewContainer").AddChild(insigniaView);
+        var contenedorInsignia = GetNode<Control>("UITemporal/InsigniaViewContainer");
+        contenedorInsignia.AddChild(insigniaView);
+        EmitSignal(
+            SignalName.CambiarInsignia,
+            Controller.GetInstance().NombreJugadorActual(), CargadorAssetsTablero.TexturaInsignia[Controller.GetInstance().Jugadores()[0].PersonajeAsignado.Tipo],
+            Controller.GetInstance().IndiceJugadorActual()
+            );
         insigniaView.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        EmitSignal(SignalName.CambiarInsignia, Controller.GetInstance().NombreJugadorActual(), CargadorAssetsTablero.TexturaInsignia[Controller.GetInstance().Jugadores()[0].PersonajeAsignado.Tipo]);
+        ActualizarInsigniasSecundarias(0);
        
         ActualizarBotonHabilidad();
         ActualizarBotonesAccion();    
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+        {
+            if (@event.IsActionPressed("finalizarTurno"))
+            {
+                OnFinTurnoPresionado();
+            }
+        }
     }
 
 
@@ -161,7 +180,14 @@ public partial class Tablero : Node3D
        
         ActualizarFondoJugador(jugadorActual);
 
-        EmitSignal(SignalName.CambiarInsignia, Controller.GetInstance().NombreJugadorActual(), CargadorAssetsTablero.TexturaInsignia[Controller.GetInstance().Jugadores()[jugadorActual].PersonajeAsignado.Tipo]);
+        EmitSignal(
+            SignalName.CambiarInsignia,
+            Controller.GetInstance().NombreJugadorActual(),
+            CargadorAssetsTablero.TexturaInsignia[Controller.GetInstance().Jugadores()[jugadorActual].PersonajeAsignado.Tipo],
+            Controller.GetInstance().IndiceJugadorActual()
+        );
+        
+        ActualizarInsigniasSecundarias(jugadorActual);
         ActualizarBotonHabilidad();
         ActualizarBotonesAccion();
 
@@ -173,6 +199,31 @@ public partial class Tablero : Node3D
 
             string nombreProximoJugador = Controller.GetInstance().NombreJugadorActual();
             await transicion.ReproducirTransicionAsync(nombreProximoJugador, 1.5f);
+        }
+    }
+
+    private void ActualizarInsigniasSecundarias(int jugadorActual)
+    {
+        var contenedorInsignias = GetNode<Control>("UITemporal/InsigniaViewContainer/InsigniasSecundarias");
+        foreach(Control insignia in contenedorInsignias.GetChildren())
+        {
+            insignia.QueueFree();
+        }
+        var indices = 0;
+        foreach (var jugador in Controller.GetInstance().Jugadores())
+        {
+            if (jugador != Controller.GetInstance().Jugadores()[jugadorActual])
+            {
+                var insigniaSecundaria = InsigniaViewScene.Instantiate<InsigniaView>();
+                contenedorInsignias.AddChild(insigniaSecundaria);
+                insigniaSecundaria.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+                insigniaSecundaria.SetInsigniaSecundaria(
+                    Manos[indices],
+                    CargadorAssetsTablero.TexturaInsignia[jugador.PersonajeAsignado.Tipo],
+                    indices
+                );
+            }
+            indices++;
         }
     }
 
@@ -575,6 +626,15 @@ public partial class Tablero : Node3D
         if (botonReroll != null)
         {
             botonReroll.Disabled = jugador.RealizoAccionEsteTurno || !jugador.RerollDisponible;
+        }
+    }
+
+    private void OnBotonPausaPressed()
+    {
+        var menuPausa = GetNodeOrNull<MenuPausa>("UITemporal/MenuPausa");
+        if (menuPausa != null)
+        {
+            menuPausa.TogglePausa();
         }
     }
 }

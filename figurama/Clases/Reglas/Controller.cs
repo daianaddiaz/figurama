@@ -195,6 +195,8 @@ public partial class Controller
 
     public string NombreJugadorActual() => jugadores != null && jugadores.Length > JugadorActual ? jugadores[JugadorActual].nombre : "";
 
+    public int IndiceJugadorActual() => JugadorActual;
+
     public List<CartaMovimiento> ManoJugadorActual() => jugadores != null && jugadores.Length > JugadorActual ? jugadores[JugadorActual].manoCartas : new List<CartaMovimiento>();
 
     public List<FiguraAsignada> FigurasJugadorActual() => jugadores != null && jugadores.Length > JugadorActual ? jugadores[JugadorActual].figurasAArmar : new List<FiguraAsignada>();

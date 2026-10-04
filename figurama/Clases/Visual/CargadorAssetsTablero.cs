@@ -28,9 +28,9 @@ public static class CargadorAssetsTablero
 
     public static readonly Dictionary<TipoHabilidad, string> TexturaInsignia = new Dictionary<TipoHabilidad, string>
     {
-        { TipoHabilidad.Lobizon, "res://Assets/JugadorOpcionLobizon.png" },
-        { TipoHabilidad.LuzMala, "res://Assets/JugadorOpcionLuzMala.png" },
-        { TipoHabilidad.Pomberito, "res://Assets/JugadorOpcionPomberito.png" },
-        { TipoHabilidad.Mulanima, "res://Assets/JugadorOpcionMulanima.png" }
+        { TipoHabilidad.Lobizon, "res://Assets/IconoLobizon.png" },
+        { TipoHabilidad.LuzMala, "res://Assets/IconoLuzMala.png" },
+        { TipoHabilidad.Pomberito, "res://Assets/IconoPomberito.png" },
+        { TipoHabilidad.Mulanima, "res://Assets/IconoMulanima.png" }
     };
 }

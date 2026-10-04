@@ -23,6 +23,8 @@
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="16_1fyr1"]
 [ext_resource type="Script" uid="uid://bh4lahjti2fp4" path="res://Clases/Visual/IndicadorUltimoColorView.cs" id="16_ohv7o"]
 [ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="17_1fyr1"]
+[ext_resource type="Texture2D" uid="uid://cu6d1qivthtrm" path="res://Assets/TeclaUIEnter.png" id="21_g5jwf"]
+[ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="22_1v1n3"]
 [ext_resource type="PackedScene" uid="uid://buwepwvvigi8t" path="res://Objetos/mesa_modelo.tscn" id="23_t2ppj"]
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
@@ -66,10 +68,17 @@ text = "Turno de:"
 [node name="InsigniaViewContainer" type="Control" parent="UITemporal" unique_id=2002938432]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 805.0
-offset_top = 67.0
-offset_right = 845.0
-offset_bottom = 107.0
+offset_left = 848.0
+offset_top = 36.0
+offset_right = 888.0
+offset_bottom = 76.0
+
+[node name="InsigniasSecundarias" type="VBoxContainer" parent="UITemporal/InsigniaViewContainer" unique_id=1201934164]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 82.0
+offset_right = 61.0
+offset_bottom = 122.0
 
 [node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("4_7uocc")]
 mouse_filter = 2
@@ -125,12 +134,43 @@ theme = ExtResource("16_1fyr1")
 text = "Volver al Menú"
 
 [node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=1558671576]
-offset_left = 28.0
-offset_top = 123.0
-offset_right = 156.0
-offset_bottom = 154.0
+offset_left = 26.0
+offset_top = 164.0
+offset_right = 154.0
+offset_bottom = 195.0
 theme = ExtResource("16_1fyr1")
 text = "Finalizar Turno "
+
+[node name="TextureRect" type="TextureRect" parent="UITemporal/BotonFinTurno" unique_id=1251025841]
+layout_mode = 0
+offset_left = 115.0
+offset_top = -11.0
+offset_right = 165.0
+offset_bottom = 39.0
+texture = ExtResource("21_g5jwf")
+
+[node name="BotonPausa" type="Button" parent="UITemporal" unique_id=882646324]
+offset_left = 26.0
+offset_top = 118.0
+offset_right = 81.0
+offset_bottom = 149.0
+text = "Pausa"
+
+[node name="TextureRect" type="TextureRect" parent="UITemporal/BotonPausa" unique_id=337380378]
+layout_mode = 0
+offset_left = 55.0
+offset_top = -4.0
+offset_right = 95.0
+offset_bottom = 36.0
+texture = ExtResource("22_1v1n3")
+
+[node name="Label" type="Label" parent="UITemporal/BotonPausa/TextureRect" unique_id=1053936732]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 48.0
+offset_bottom = 30.0
+text = "Esc"
 
 [node name="BotonHabilidad" type="TextureButton" parent="UITemporal" unique_id=1585264927]
 custom_minimum_size = Vector2(80, 80)
@@ -173,3 +213,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 1.9152
 transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)
 light_energy = 5.0
 omni_range = 20.0
+
+[connection signal="pressed" from="UITemporal/BotonPausa" to="." method="OnBotonPausaPressed"]
