@@ -1,7 +1,8 @@
+Label
+TextureRect
+Control
 VBoxContainer
 HBoxContainer
-TextureRect
-Label
 Button
 CSGBox3D
 CSGMesh3D
@@ -11,5 +12,3 @@ CSGCylinder3D
 Node3D
 CSGPolygon3D
 ColorRect
-Control
-CanvasLayer

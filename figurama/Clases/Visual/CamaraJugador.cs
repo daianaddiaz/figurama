@@ -9,6 +9,8 @@ public partial class CamaraJugador : Camera3D
 	Vector3 _posicionObjetivo;
 	Vector3 _rotacionObjetivo;
 
+	private Control flechasUI;
+
 	private float velocidadMovimiento = 5.0f;
 	private float velocidadRotacion = 0.04f;
 
@@ -24,6 +26,8 @@ public partial class CamaraJugador : Camera3D
 
 		_posicionObjetivo = new Vector3(2.0f, 5.5f, 3.0f);
 		_rotacionObjetivo = new Vector3(-89.5f, 0.0f, 0.0f);
+
+		flechasUI = GetParent<Node3D>().GetNode<Control>("UITemporal/CambioPerspectiva");
 	}
 
 	public override void _Process(double delta)
@@ -34,12 +38,30 @@ public partial class CamaraJugador : Camera3D
 		RotarAbajo((float)delta);
 	}
 
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+        {
+            if (@event.IsActionPressed("mirarArriba"))
+            {
+                _on_carta_seleccionada();
+            }
+            else if (@event.IsActionPressed("mirarAbajo"))
+            {
+                _on_carta_no_seleccionada();
+            }
+        }
+    }
+
+
 	public void _on_carta_seleccionada()
 	{
 		moviendoArriba = true;
 		rotandoArriba = true;
 		moviendoAbajo = false;
 		rotandoAbajo = false;
+		flechasUI.GetNode<Control>("Bajada").Show();
+		flechasUI.GetNode<Control>("Subida").Hide();
 	}
 
 	public void _on_carta_no_seleccionada()
@@ -48,6 +70,8 @@ public partial class CamaraJugador : Camera3D
 		rotandoAbajo = true;
 		moviendoArriba = false;
 		rotandoArriba = false;
+		flechasUI.GetNode<Control>("Subida").Show();
+		flechasUI.GetNode<Control>("Bajada").Hide();
 	}
 
 	private void MoverArriba(float delta)

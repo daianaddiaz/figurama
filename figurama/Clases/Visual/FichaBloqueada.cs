@@ -11,13 +11,12 @@ public partial class FichaBloqueada : State
 
 	public override void OnEnter()
 	{
-		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<AnimatedSprite3D>("Bloqueada").Visible = true;
+		abuelo.GetNode<FichaModelo>("Modelo").SetearColorFuego();
 		abuelo.GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("FuegoSFX").Play();
 	}
 
 	public override void OnExit()
 	{
-		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<AnimatedSprite3D>("Bloqueada").Visible = false;
 		abuelo.GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("FuegoSFX").Stop();
 	}
 }

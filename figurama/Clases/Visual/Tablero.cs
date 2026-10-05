@@ -134,6 +134,10 @@ public partial class Tablero : Node3D
             {
                 OnFinTurnoPresionado();
             }
+            else if (@event.IsActionPressed("habilidad"))
+            {
+                OnHabilidadPresionada();
+            }
         }
     }
 

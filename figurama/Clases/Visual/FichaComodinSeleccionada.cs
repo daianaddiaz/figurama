@@ -12,13 +12,11 @@ public partial class FichaComodinSeleccionada : State
 	public override void OnEnter()
 	{
 		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Seleccionada").Visible = true;
-		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Comodin").Visible = true;
 		abuelo.GetNode<Node>("Sonidos").GetNode<AudioStreamPlayer>("ClickSFX").Play();
 	}
 
 	public override void OnExit()
 	{
 		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Seleccionada").Visible = false;
-		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Comodin").Visible = false;
 	}
 }

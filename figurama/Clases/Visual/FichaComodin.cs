@@ -11,11 +11,11 @@ public partial class FichaComodin : State
 
 	public override void OnEnter()
 	{
-		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Comodin").Visible = true;
+		abuelo.GetNode<FichaModelo>("Modelo").SetearColorComodin();
 	}
 
 	public override void OnExit()
 	{
-		abuelo.GetNode<CsgCombiner3D>("Modelo").GetNode<Decal>("Comodin").Visible = false;
+		
 	}
 }

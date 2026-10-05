@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://diy51l3yexi5c" path="res://Assets/FichaSimboloDecalVerde.png" id="2_53eyh"]
 [ext_resource type="Texture2D" uid="uid://ljfua4qam2cp" path="res://Assets/FichaSimboloDecalAzul.png" id="4_5vots"]
 [ext_resource type="Texture2D" uid="uid://cybbwbmnmmqw4" path="res://Assets/FichaSimboloDecalAmarillo.png" id="5_qpvds"]
+[ext_resource type="Texture2D" uid="uid://cuyan1vlkl0n3" path="res://Assets/FichaSimboloDecalComodin.png" id="6_5vots"]
+[ext_resource type="Texture2D" uid="uid://7flattcl2uk5" path="res://Assets/FichaSimboloDecalFuego.png" id="7_qpvds"]
 
 [node name="FichaModelo" type="CSGCombiner3D" unique_id=1243413463]
 script = ExtResource("1_t245k")
@@ -13,6 +15,8 @@ _simboloRojo = ExtResource("2_45r5y")
 _simboloVerde = ExtResource("2_53eyh")
 _simboloAzul = ExtResource("4_5vots")
 _simboloAmarillo = ExtResource("5_qpvds")
+_simboloComodin = ExtResource("6_5vots")
+_simboloFuego = ExtResource("7_qpvds")
 
 [node name="Base" type="CSGBox3D" parent="." unique_id=1858835102]
 size = Vector3(0.8, 0.1, 0.8)
