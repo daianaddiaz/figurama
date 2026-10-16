@@ -9,6 +9,8 @@ public partial class CamaraJugador : Camera3D
 	Vector3 _posicionObjetivo;
 	Vector3 _rotacionObjetivo;
 
+	public bool levantada = false;
+
 	private Control flechasUI;
 
 	private float velocidadMovimiento = 5.0f;
@@ -60,6 +62,7 @@ public partial class CamaraJugador : Camera3D
 		rotandoArriba = true;
 		moviendoAbajo = false;
 		rotandoAbajo = false;
+		levantada = true;
 		flechasUI.GetNode<Control>("Bajada").Show();
 		flechasUI.GetNode<Control>("Subida").Hide();
 	}
@@ -70,6 +73,7 @@ public partial class CamaraJugador : Camera3D
 		rotandoAbajo = true;
 		moviendoArriba = false;
 		rotandoArriba = false;
+		levantada = false;
 		flechasUI.GetNode<Control>("Subida").Show();
 		flechasUI.GetNode<Control>("Bajada").Hide();
 	}

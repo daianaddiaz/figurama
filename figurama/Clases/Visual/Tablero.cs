@@ -25,7 +25,7 @@ public partial class Tablero : Node3D
 
     private Node _sonidos = null;
 
-    private Camera3D _camaraJugador;
+    private CamaraJugador _camaraJugador;
 
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
@@ -92,7 +92,7 @@ public partial class Tablero : Node3D
 
         _fondoJugador = GetNodeOrNull<Sprite3D>("Camera3D/Fondo");
 
-        _camaraJugador = GetNodeOrNull<Camera3D>("CamaraJugador");
+        _camaraJugador = GetNodeOrNull<CamaraJugador>("CamaraJugador");
 
 
         if (_fondoJugador == null)
@@ -263,6 +263,11 @@ public partial class Tablero : Node3D
     private void OnFichaClickeada(Ficha ficha)
     {
         GD.Print($"Ficha clickeada. ModoHabilidad activo: {_modoSeleccionHabilidadActivo}");
+
+        if (!_camaraJugador.levantada)
+        {
+            return;
+        }
 
 
         if (_modoSeleccionHabilidadActivo)
