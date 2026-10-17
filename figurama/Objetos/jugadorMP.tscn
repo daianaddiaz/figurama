@@ -4,7 +4,12 @@
 [ext_resource type="Script" uid="uid://chg1lhfvfm5ai" path="res://Clases/Visual/CamaraJugador.cs" id="1_r7kna"]
 [ext_resource type="PackedScene" uid="uid://cv43ii5aqijte" path="res://Objetos/insignia.tscn" id="2_lviml"]
 [ext_resource type="Texture2D" uid="uid://bjgtyqqfkl4yj" path="res://Assets/FondosInGame/FondoJugador1.png" id="2_qglj7"]
+[ext_resource type="PackedScene" uid="uid://fbefl2fqrnlf" path="res://Objetos/cinematica.tscn" id="3_pag1q"]
+[ext_resource type="VideoStream" uid="uid://di5vhwuav514h" path="res://Assets/Cinematicas/LobizonComodin.ogv" id="4_yyjkt"]
+[ext_resource type="VideoStream" uid="uid://ccfrot7v20rxf" path="res://Assets/Cinematicas/LuzMalaElimina.ogv" id="5_d68re"]
+[ext_resource type="VideoStream" uid="uid://dnm4yjmu5feky" path="res://Assets/Cinematicas/MulanimaBloquea.ogv" id="6_cv24x"]
 [ext_resource type="Texture2D" uid="uid://dkliutmca53wi" path="res://Assets/FlechaUI.png" id="6_d68re"]
+[ext_resource type="VideoStream" uid="uid://cppmmyxsby5hb" path="res://Assets/Cinematicas/PomberitoRecargado.ogv" id="7_cbdsw"]
 [ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="7_cv24x"]
 [ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="8_cbdsw"]
 [ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="8_i2nkl"]
@@ -21,6 +26,11 @@ font = ExtResource("8_cbdsw")
 [node name="JugadorMP" type="Node3D" unique_id=1854429381]
 script = ExtResource("1_ksi3k")
 InsigniaViewScene = ExtResource("2_lviml")
+CinematicaScene = ExtResource("3_pag1q")
+CinematicaLobizon = ExtResource("4_yyjkt")
+CinematicaLuzMala = ExtResource("5_d68re")
+CinematicaMulanima = ExtResource("6_cv24x")
+CinematicaPomberito = ExtResource("7_cbdsw")
 
 [node name="CamaraJugador" type="Camera3D" parent="." unique_id=1831649937]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 2, 2.5, 6)
@@ -34,6 +44,7 @@ visible = false
 texture = ExtResource("2_qglj7")
 
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=1669506758]
+follow_viewport_enabled = true
 
 [node name="CambioPerspectiva" type="Control" parent="UITemporal" unique_id=1021596781]
 layout_mode = 3
@@ -133,6 +144,12 @@ offset_right = 165.0
 offset_bottom = 39.0
 texture = ExtResource("11_u56sk")
 
+[node name="PopupLuzMala" type="PopupMenu" parent="UITemporal" unique_id=1861847486]
+oversampling_override = 1.0
+position = Vector2i(10, 370)
+
+[node name="Mano" parent="UITemporal" unique_id=737516228 instance=ExtResource("8_i2nkl")]
+
 [node name="BotonHabilidad" type="TextureButton" parent="UITemporal" unique_id=1339613251]
 custom_minimum_size = Vector2(110, 110)
 offset_left = -18.0
@@ -160,9 +177,3 @@ offset_right = 48.97986
 offset_bottom = 29.53079
 text = "E"
 label_settings = SubResource("LabelSettings_ixbb7")
-
-[node name="PopupLuzMala" type="PopupMenu" parent="UITemporal" unique_id=1861847486]
-oversampling_override = 1.0
-position = Vector2i(10, 370)
-
-[node name="Mano" parent="UITemporal" unique_id=737516228 instance=ExtResource("8_i2nkl")]

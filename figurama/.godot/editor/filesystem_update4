@@ -30,9 +30,10 @@ res://Clases/Visual/FichaSeleccionada.cs
 res://Clases/Visual/FichaNeutral.cs
 res://Clases/Visual/StateMachine.cs
 res://Clases/Visual/Ficha.cs
+res://Clases/Visual/SplashScreen.cs
 res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Clases/Visual/Tutorial.cs
-res://Clases/Visual/SplashScreen.cs
-res://Objetos/menuPrincipal.tscn
+res://Objetos/jugadorMP.tscn
 res://addons/gut/gui/editor_globals.gd
 res://addons/gut/gui/EditorRadioButton.tres
+res://Objetos/mano_de_cartas.tscn

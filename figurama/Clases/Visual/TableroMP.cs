@@ -196,4 +196,10 @@ public partial class TableroMP : Node3D
     {
         Controller.GetInstance().TerminarTurno();
     }
+
+
+    public void SolicitarComodin(int fila, int columna)
+    {
+        //código para convertir una ficha en comodin con RPC
+    }
 }
