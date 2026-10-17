@@ -50,7 +50,6 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="PanelPrincipal" type="VBoxContainer" parent="." unique_id=1122169587]
-visible = false
 custom_minimum_size = Vector2(300, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -68,6 +67,7 @@ theme = ExtResource("3_kxuav")
 alignment = 1
 
 [node name="LabelDificultadActual" type="Label" parent="PanelPrincipal" unique_id=1825126351]
+visible = false
 modulate = Color(0.8627451, 0.15294118, 0.3764706, 1)
 custom_minimum_size = Vector2(150, 60)
 layout_mode = 2
@@ -83,8 +83,7 @@ text = "Jugar"
 
 [node name="MultijugadorButton" type="Button" parent="PanelPrincipal" unique_id=699772680]
 layout_mode = 2
-text = "Multijugador
-"
+text = "Online"
 
 [node name="DificultadButton" type="Button" parent="PanelPrincipal" unique_id=1498739192]
 layout_mode = 2
@@ -193,11 +192,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -150.0
-offset_top = -200.0
+offset_top = -120.0
 offset_right = 150.0
-offset_bottom = 200.0
+offset_bottom = 206.0
 grow_horizontal = 2
 grow_vertical = 2
+offset_transform_position = Vector2(0, 30)
 theme = ExtResource("3_kxuav")
 alignment = 1
 script = ExtResource("6_knkac")
@@ -206,12 +206,14 @@ script = ExtResource("6_knkac")
 modulate = Color(0.8627451, 0.15294118, 0.3764706, 1)
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+offset_transform_position = Vector2(0, 40)
+mouse_filter = 1
 theme = ExtResource("3_7jctf")
-theme_override_font_sizes/font_size = 18
-text = "Multijugador
-"
+theme_override_font_sizes/font_size = 21
+text = "ONLINE"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="BotonHost" type="Button" parent="PanelLobby" unique_id=1440091148]
 layout_mode = 2
