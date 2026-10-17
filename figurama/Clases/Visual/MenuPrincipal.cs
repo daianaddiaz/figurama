@@ -29,6 +29,9 @@ public partial class MenuPrincipal : Control
 
     private Button _startGameBtn;
     private Button _backButtonNames;
+    private VBoxContainer _panelLobby;
+    private Button _multijugadorButton;
+    private Button _backButtonLobby;
 
     private Label _labelDificultadActual;
 
@@ -73,6 +76,9 @@ public partial class MenuPrincipal : Control
 
         _startGameBtn = GetNode<Button>("PanelNombres/StartGameButton");
         _backButtonNames = GetNode<Button>("PanelNombres/BackButtonNames");
+        _panelLobby = GetNode<VBoxContainer>("PanelLobby");
+        _multijugadorButton = GetNode<Button>("PanelPrincipal/MultijugadorButton");
+        _backButtonLobby = GetNode<Button>("PanelLobby/BackButtonLobby");
 
         // Referencia a labels
         _labelDificultadActual = GetNode<Label>("PanelPrincipal/LabelDificultadActual");
@@ -96,6 +102,8 @@ public partial class MenuPrincipal : Control
 
         _startGameBtn.Pressed += OnStartGamePressed;
         _backButtonNames.Pressed += () => ShowPanel(_contadorJugadores);
+        _multijugadorButton.Pressed += () => ShowPanel(_panelLobby);
+        _backButtonLobby.Pressed += OnBackLobbyPressed;
 
         // Restaurar estado según la pantalla guardada
         RestaurarPanelInicial();
@@ -107,6 +115,7 @@ public partial class MenuPrincipal : Control
         _contadorJugadores.Visible = (panelToShow == _contadorJugadores);
         _panelNombres.Visible = (panelToShow == _panelNombres);
         _panelDificultad.Visible = (panelToShow == _panelDificultad);
+        _panelLobby.Visible = (panelToShow == _panelLobby);
 
         // Guardar panel actual para mantener persistencia si viajamos al tutorial
         if (panelToShow == _contadorJugadores) PanelInicial = "ContadorJugadores";
@@ -157,6 +166,12 @@ public partial class MenuPrincipal : Control
     private void OnExitButtonPressed()
     {
         GetTree().Quit();
+    }
+
+    private void OnBackLobbyPressed()
+    {
+        GetNode<LobbyRed>("PanelLobby").Desconectar();
+        ShowPanel(_panelPrincipal);
     }
 
     private void OnPlayerCountSelected(int count)
@@ -224,6 +239,9 @@ public partial class MenuPrincipal : Control
 
         DatosPartida.NombresJugadores = playerNames;
         DatosPartida.PersonajesElegidos = personajesElegidos;
+        DatosPartida.IndiceJugadorLocal = 0;
+        DatosPartida.EsMultijugador = false;
+        Azar.Reiniciar();
         Controller.GetInstance().InicializarJugadores();
 
         // Reiniciar el estado del menú para futuras partidas

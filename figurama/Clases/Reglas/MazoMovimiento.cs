@@ -30,10 +30,9 @@ public partial class MazoMovimiento
         cartas.Add(new MovimientoLateralAlBorde{});
     }
 
-    public List<CartaMovimiento> generarMano()
+        public List<CartaMovimiento> generarMano()
     {
         List<CartaMovimiento> mano = new List<CartaMovimiento>();
-        Random rand = new Random();
 
         int cantidadCartas = 3;
 
@@ -44,7 +43,7 @@ public partial class MazoMovimiento
 
         for (int i = 0; i < cantidadCartas; i++)
         {
-            int indiceAleatorio = rand.Next(cartas.Count);
+            int indiceAleatorio = Azar.Siguiente(cartas.Count);
             CartaMovimiento cartaBase = cartas[indiceAleatorio];
 
             CartaMovimiento nuevaCarta = cartaBase switch
@@ -75,8 +74,7 @@ public partial class MazoMovimiento
     {
         if (cartas.Count == 0) return null;
 
-        Random rand = new Random();
-        CartaMovimiento cartaBase = cartas[rand.Next(cartas.Count)];
+        CartaMovimiento cartaBase = cartas[Azar.Siguiente(cartas.Count)];
 
         return cartaBase switch
         {

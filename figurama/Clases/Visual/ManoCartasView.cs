@@ -200,6 +200,8 @@ public partial class ManoCartasView : Control
 
     private void OnRerollPresionado()
     {
+        if (DatosPartida.EsMultijugador) return;
+
         if (Controller.GetInstance().RerollearManoActual())
         {
             GetNode<AudioStreamPlayer>("Sonidos/RerollSFX").Play();

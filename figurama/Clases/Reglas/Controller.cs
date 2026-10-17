@@ -93,6 +93,7 @@ public partial class Controller
         FichaBloqueadaEvent = null;
         FichaDesbloqueadaEvent = null;
         CartaSeleccionadaCambiada = null;
+        UltimoColorUsado = null;
             
         int cantidad = DatosPartida.NombresJugadores.Count > 0 ? DatosPartida.NombresJugadores.Count : 4;
         jugadores = new Jugador[cantidad];

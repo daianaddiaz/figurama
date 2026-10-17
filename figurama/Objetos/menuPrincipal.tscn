@@ -5,6 +5,7 @@
 [ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="3_7jctf"]
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="3_kxuav"]
 [ext_resource type="Texture2D" uid="uid://credcq1gwreh5" path="res://Assets/LogoFiguramaAzul2.png" id="4_7jctf"]
+[ext_resource type="Script" uid="uid://tubwtc647d65" path="res://Clases/Visual/LobbyRed.cs" id="6_knkac"]
 
 [node name="MenuPrincipal" type="Control" unique_id=797061947]
 layout_mode = 3
@@ -79,6 +80,11 @@ vertical_alignment = 1
 [node name="PlayButton" type="Button" parent="PanelPrincipal" unique_id=653953292]
 layout_mode = 2
 text = "Jugar"
+
+[node name="MultijugadorButton" type="Button" parent="PanelPrincipal" unique_id=699772680]
+layout_mode = 2
+text = "Multijugador
+"
 
 [node name="DificultadButton" type="Button" parent="PanelPrincipal" unique_id=1498739192]
 layout_mode = 2
@@ -177,6 +183,74 @@ text = "Iniciar Juego"
 [node name="BackButtonNames" type="Button" parent="PanelNombres" unique_id=1688326855]
 layout_mode = 2
 text = "Volver"
+
+[node name="PanelLobby" type="VBoxContainer" parent="." unique_id=1680100878]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_kxuav")
+alignment = 1
+script = ExtResource("6_knkac")
+
+[node name="TituloLobby" type="Label" parent="PanelLobby" unique_id=558663171]
+modulate = Color(0.8627451, 0.15294118, 0.3764706, 1)
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme = ExtResource("3_7jctf")
+theme_override_font_sizes/font_size = 18
+text = "Multijugador
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotonHost" type="Button" parent="PanelLobby" unique_id=1440091148]
+layout_mode = 2
+text = "Crear Partida"
+
+[node name="CampoIP" type="LineEdit" parent="PanelLobby" unique_id=91204037]
+layout_mode = 2
+text = "127.0.0.1"
+
+[node name="BotonUnirse" type="Button" parent="PanelLobby" unique_id=674480793]
+layout_mode = 2
+text = "Unirse"
+
+[node name="CampoNombre" type="LineEdit" parent="PanelLobby" unique_id=426353408]
+layout_mode = 2
+text = "Jugador"
+
+[node name="SelectorPersonaje" type="OptionButton" parent="PanelLobby" unique_id=798050331]
+layout_mode = 2
+
+[node name="BotonListo" type="Button" parent="PanelLobby" unique_id=389785640]
+layout_mode = 2
+text = "Listo
+"
+
+[node name="ListaJugadores" type="VBoxContainer" parent="PanelLobby" unique_id=1181286299]
+layout_mode = 2
+
+[node name="SelectorDificultad" type="OptionButton" parent="PanelLobby" unique_id=1114262454]
+layout_mode = 2
+
+[node name="BotonIniciar" type="Button" parent="PanelLobby" unique_id=1311760189]
+layout_mode = 2
+text = "Iniciar Partida"
+
+[node name="BackButtonLobby" type="Button" parent="PanelLobby" unique_id=711276899]
+layout_mode = 2
+text = "Volver
+"
 
 [node name="PanelDificultad" type="VBoxContainer" parent="." unique_id=1723729666]
 visible = false

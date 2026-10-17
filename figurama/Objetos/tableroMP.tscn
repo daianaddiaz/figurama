@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://djawmxo5efbqw"]
+
+[ext_resource type="Script" uid="uid://b5ljcb8aavpgn" path="res://Clases/Visual/TableroMP.cs" id="1_3wiuj"]
+[ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_nri4e"]
+[ext_resource type="PackedScene" uid="uid://cwmdwt0vdcs17" path="res://Objetos/jugadorMP.tscn" id="3_t02y1"]
+[ext_resource type="AudioStream" uid="uid://1rmfw8mtumla" path="res://SFX/CambioFichasSFX.wav" id="26_o6oj4"]
+[ext_resource type="AudioStream" uid="uid://dn43erp4ugnun" path="res://SFX/FiguraFormadaSFX.wav" id="27_f6rma"]
+[ext_resource type="PackedScene" uid="uid://buwepwvvigi8t" path="res://Objetos/mesa_modelo.tscn" id="28_l33cg"]
+
+[node name="Tablero" type="Node3D" unique_id=917501625]
+script = ExtResource("1_3wiuj")
+FichaScene = ExtResource("2_nri4e")
+JugadorScene = ExtResource("3_t02y1")
+
+[node name="Sonidos" type="Node" parent="." unique_id=1349820042]
+
+[node name="CambioSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1923751428]
+stream = ExtResource("26_o6oj4")
+bus = &"SFX"
+
+[node name="FiguraSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=183394550]
+stream = ExtResource("27_f6rma")
+bus = &"SFX"
+
+[node name="LobizonSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1710219506]
+
+[node name="LuzMalaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1286900743]
+
+[node name="MulanimaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=853156723]
+
+[node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
+
+[node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("28_l33cg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 1.9152498)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2013501405]
+transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)
+light_energy = 5.0
+omni_range = 20.0

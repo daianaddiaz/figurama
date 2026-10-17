@@ -22,13 +22,11 @@ public partial class MazoFiguras
     {
         if (cartas.Count == 0)
         {
-            // Si el mazo se vacía, volvemos a generar cartas
             InicializarMazo();
         }
 
-        Random rand = new Random();
-        int indiceAleatorio = rand.Next(cartas.Count);
-        
+        int indiceAleatorio = Azar.Siguiente(cartas.Count);
+
         CartaFigura cartaExtraida = cartas[indiceAleatorio];
         cartas.RemoveAt(indiceAleatorio);
 
@@ -58,11 +56,10 @@ public partial class MazoFiguras
     public List<CartaFigura> generarMano(int cantidad)
     {
         List<CartaFigura> mano = new List<CartaFigura>();
-        Random rand = new Random();
 
         for (int i = 0; i < cantidad; i++)
         {
-            int indiceAleatorio = rand.Next(cartas.Count);
+            int indiceAleatorio = Azar.Siguiente(cartas.Count);
             mano.Add(cartas[indiceAleatorio]);
         }
 
