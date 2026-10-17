@@ -17,6 +17,7 @@ public partial class ManoCartasView : Control
     private Camera3D _camara;
 
     private int cantidadCartas = 0;
+    public event System.Action RerollSolicitado;
 
     public override void _Input(InputEvent @event)
     {
@@ -200,7 +201,14 @@ public partial class ManoCartasView : Control
 
     private void OnRerollPresionado()
     {
-        if (DatosPartida.EsMultijugador) return;
+        if (DatosPartida.EsMultijugador)
+        {
+            var botonRerollMP = GetNodeOrNull<Button>("BotonReroll");
+            if (botonRerollMP != null && botonRerollMP.Disabled) return;
+
+            RerollSolicitado?.Invoke();
+            return;
+        }
 
         if (Controller.GetInstance().RerollearManoActual())
         {

@@ -13,7 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="7_cv24x"]
 [ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="8_cbdsw"]
 [ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="8_i2nkl"]
+[ext_resource type="PackedScene" uid="uid://cybs8v4dh3qtl" path="res://Objetos/PanelTransicion.tscn" id="8_yyjkt"]
+[ext_resource type="Texture2D" uid="uid://c4kj38c143w4d" path="res://Assets/FondosInGame/FondoJugador2.png" id="9_cbdsw"]
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="10_p8701"]
+[ext_resource type="Texture2D" uid="uid://cg8aprise306t" path="res://Assets/FondosInGame/FondoJugador3.png" id="10_v0of7"]
+[ext_resource type="Texture2D" uid="uid://ccqg8qgqs4muq" path="res://Assets/FondosInGame/FondoJugador4.png" id="11_p8701"]
 [ext_resource type="Texture2D" uid="uid://cu6d1qivthtrm" path="res://Assets/TeclaUIEnter.png" id="11_u56sk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7fnpc"]
@@ -31,6 +35,8 @@ CinematicaLobizon = ExtResource("4_yyjkt")
 CinematicaLuzMala = ExtResource("5_d68re")
 CinematicaMulanima = ExtResource("6_cv24x")
 CinematicaPomberito = ExtResource("7_cbdsw")
+TransicionScene = ExtResource("8_yyjkt")
+FondosJugadores = Array[Texture2D]([ExtResource("9_cbdsw"), ExtResource("10_v0of7"), ExtResource("11_p8701"), ExtResource("2_qglj7")])
 
 [node name="CamaraJugador" type="Camera3D" parent="." unique_id=1831649937]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 2, 2.5, 6)

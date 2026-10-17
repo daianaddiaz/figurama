@@ -8,11 +8,12 @@ public partial class JugadorMP : Node3D
     [Export] public VideoStreamTheora CinematicaLuzMala;
     [Export] public VideoStreamTheora CinematicaMulanima;
     [Export] public VideoStreamTheora CinematicaPomberito;
+    [Export] public PackedScene TransicionScene;
+    [Export] public Texture2D[] FondosJugadores;
 
     [Signal] public delegate void SeleccionadaEventHandler(Ficha ficha);
     [Signal] public delegate void DesclickeadaEventHandler(Ficha ficha);
     [Signal] public delegate void DisponibleEventHandler(Ficha ficha);
-    [Signal] public delegate void ComodinActivadoEventHandler(Ficha ficha);
 
     private TableroMP _tablero;
     private Jugador _jugador;
@@ -22,6 +23,8 @@ public partial class JugadorMP : Node3D
     private ManoCartasView _mano;
     private Button _botonFinTurno;
     private Ficha _fichaSeleccionada;
+    private Sprite3D _fondo;
+    private InsigniaView _insigniaPrincipal;
 
     public override void _Ready()
     {
@@ -30,6 +33,12 @@ public partial class JugadorMP : Node3D
         _jugador = Controller.GetInstance().Jugadores()[_indice];
 
         _camara = GetNode<CamaraJugador>("CamaraJugador");
+        _fondo = GetNodeOrNull<Sprite3D>("CamaraJugador/Fondo");
+        if (_fondo == null)
+        {
+            GD.PrintErr("[JugadorMP] No se encontró el nodo 'CamaraJugador/Fondo'.");
+        }
+        ActualizarFondo(Controller.GetInstance().JugadorActual);
 
         _mano = GetNode<ManoCartasView>("UITemporal/Mano");
         _mano.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
@@ -51,14 +60,22 @@ public partial class JugadorMP : Node3D
             Connect(SignalName.Seleccionada, new Callable(ficha, "_on_ficha_seleccionada"));
             Connect(SignalName.Desclickeada, new Callable(ficha, "_on_ficha_desclickeada"));
             Connect(SignalName.Disponible, new Callable(ficha, "_on_ficha_disponible"));
-            Connect(SignalName.ComodinActivado, new Callable(ficha, "_on_ficha_comodin_activado"));
         }
 
         _tablero.AccionAplicada += OnAccionAplicada;
+        _tablero.RerollAplicado += OnRerollAplicado;
+        _tablero.FinTurnoAplicado += ActualizarBotones;
+        _mano.RerollSolicitado += OnRerollSolicitado;
         Controller.GetInstance().TurnoCambiado += OnTurnoCambiado;
 
         CrearInsignia();
         CrearHabilidad();
+        ActualizarInsigniasSecundarias(Controller.GetInstance().JugadorActual);
+        var botonPausa = GetNodeOrNull<BaseButton>("UITemporal/BotonPausa");
+        if (botonPausa != null)
+        {
+            botonPausa.Pressed += OnPausaPresionada;
+        }
         ActualizarBotones();
     }
 
@@ -67,6 +84,8 @@ public partial class JugadorMP : Node3D
         if (_tablero != null)
         {
             _tablero.AccionAplicada -= OnAccionAplicada;
+            _tablero.RerollAplicado -= OnRerollAplicado;
+            _tablero.FinTurnoAplicado -= ActualizarBotones;
         }
         if (Controller._instance != null)
         {
@@ -84,13 +103,19 @@ public partial class JugadorMP : Node3D
 
     private void CrearInsignia()
     {
-        var insignia = InsigniaViewScene.Instantiate<InsigniaView>();
-        GetNode<Control>("UITemporal/InsigniaViewContainer").AddChild(insignia);
-        insignia.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        insignia.SetInsignia(
-            _jugador.nombre,
-            CargadorAssetsTablero.TexturaInsignia[_jugador.PersonajeAsignado.Tipo],
-            _indice
+        _insigniaPrincipal = InsigniaViewScene.Instantiate<InsigniaView>();
+        GetNode<Control>("UITemporal/InsigniaViewContainer").AddChild(_insigniaPrincipal);
+        _insigniaPrincipal.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        ActualizarInsigniaPrincipal(Controller.GetInstance().JugadorActual);
+    }
+
+    private void ActualizarInsigniaPrincipal(int indiceJugadorActual)
+    {
+        Jugador jugadorDeTurno = Controller.GetInstance().Jugadores()[indiceJugadorActual];
+        _insigniaPrincipal.SetInsignia(
+            $"Jugador {indiceJugadorActual + 1}: {jugadorDeTurno.nombre}",
+            CargadorAssetsTablero.TexturaInsignia[jugadorDeTurno.PersonajeAsignado.Tipo],
+            indiceJugadorActual
         );
     }
 
@@ -104,7 +129,53 @@ public partial class JugadorMP : Node3D
         botonHabilidad.TextureNormal = GD.Load<Texture2D>(CargadorAssetsTablero.TexturaDisponibleHabilidad[tipo]);
         botonHabilidad.TextureDisabled = GD.Load<Texture2D>(CargadorAssetsTablero.TexturaNoDisponibleHabilidad[tipo]);
         botonHabilidad.TooltipText = CargadorAssetsTablero.NombreBotonHabilidad[tipo];
-        botonHabilidad.Disabled = !Controller.GetInstance().PuedeUsarHabilidad();
+    }
+
+    private void ActualizarFondo(int indiceJugador)
+    {
+        if (_fondo == null || FondosJugadores == null) return;
+        if (indiceJugador < 0 || indiceJugador >= FondosJugadores.Length) return;
+
+        if (FondosJugadores[indiceJugador] != null)
+        {
+            _fondo.Texture = FondosJugadores[indiceJugador];
+        }
+    }
+
+    private void ActualizarInsigniasSecundarias(int jugadorActual)
+    {
+        var contenedor = GetNodeOrNull<Control>("UITemporal/InsigniaViewContainer/InsigniasSecundarias");
+        if (contenedor == null)
+        {
+            GD.PrintErr("[JugadorMP] No se encontró 'UITemporal/InsigniaViewContainer/InsigniasSecundarias'.");
+            return;
+        }
+
+        foreach (Node hijo in contenedor.GetChildren())
+        {
+            contenedor.RemoveChild(hijo);
+            hijo.QueueFree();
+        }
+
+        var jugadores = Controller.GetInstance().Jugadores();
+        for (int i = 0; i < jugadores.Length; i++)
+        {
+            if (i == jugadorActual) continue;
+
+            var insignia = InsigniaViewScene.Instantiate<InsigniaView>();
+            contenedor.AddChild(insignia);
+            insignia.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+            insignia.SetInsigniaSecundariaJugador(
+                jugadores[i],
+                CargadorAssetsTablero.TexturaInsignia[jugadores[i].PersonajeAsignado.Tipo],
+                i
+            );
+        }
+    }
+
+    private void OnPausaPresionada()
+    {
+        GetNodeOrNull<MenuPausa>("UITemporal/MenuPausa")?.TogglePausa();
     }
 
     private void OnFinTurnoPresionado()
@@ -112,22 +183,49 @@ public partial class JugadorMP : Node3D
         _tablero.SolicitarFinTurno();
     }
 
+    private void OnRerollSolicitado()
+    {
+        _tablero.SolicitarReroll();
+    }
+
+    private void OnRerollAplicado(int indiceJugador)
+    {
+        if (indiceJugador == _indice)
+        {
+            _mano.GetNodeOrNull<AudioStreamPlayer>("Sonidos/RerollSFX")?.Play();
+        }
+    }
+
     private void ActualizarBotones()
     {
         var controller = Controller.GetInstance();
-        bool miTurno = controller.JugadorActual == _indice && !controller.JuegoTerminado;
+        bool miTurno = controller.JugadorActual == _indice && !controller.JuegoTerminado && !controller.TurnoEnTransicion;
 
         _botonFinTurno.Disabled = !(miTurno && _jugador.RealizoAccionEsteTurno);
 
         var botonReroll = _mano.GetNodeOrNull<Button>("BotonReroll");
         if (botonReroll != null)
         {
-            botonReroll.Disabled = true; // el reroll en red llega en el paso 5
+            botonReroll.Disabled = !(miTurno && !_jugador.RealizoAccionEsteTurno && _jugador.RerollDisponible);
+        }
+
+        var botonHabilidad = GetNodeOrNull<TextureButton>("UITemporal/BotonHabilidad");
+        if (botonHabilidad != null)
+        {
+            botonHabilidad.Disabled = !(miTurno && controller.PuedeUsarHabilidad());
         }
     }
 
-    private void OnTurnoCambiado(int jugadorActual)
+    private async void OnTurnoCambiado(int jugadorActual)
     {
+        foreach (Jugador j in Controller.GetInstance().Jugadores())
+        {
+            string mano = string.Join(",", j.manoCartas.ConvertAll(c => c == null ? "-" : c.Nombre));
+            GD.Print($"[Diagnóstico] {j.nombre}: {mano}");
+        }
+
+        _modoSeleccionHabilidadActivo = false;
+
         if (_fichaSeleccionada != null)
         {
             _fichaSeleccionada = null;
@@ -135,12 +233,25 @@ public partial class JugadorMP : Node3D
         }
 
         _mano.ActualizarMano();
+        ActualizarFondo(jugadorActual);
+        ActualizarInsigniaPrincipal(jugadorActual);
+        ActualizarInsigniasSecundarias(jugadorActual);
         ActualizarBotones();
+
+        if (TransicionScene != null)
+        {
+            var transicion = TransicionScene.Instantiate<PanelTransicion>();
+            AddChild(transicion);
+
+            string nombreProximoJugador = Controller.GetInstance().NombreJugadorActual();
+            await transicion.ReproducirTransicionAsync(nombreProximoJugador, 1.5f);
+        }
     }
 
     private void OnAccionAplicada(int indiceJugador)
     {
         _mano.ActualizarMano();
+        ActualizarInsigniasSecundarias(Controller.GetInstance().JugadorActual);
 
         if (indiceJugador == _indice)
         {
@@ -151,8 +262,12 @@ public partial class JugadorMP : Node3D
 
         ActualizarBotones();
     }
+
     private void OnHabilidadPresionada()
     {
+        var controller = Controller.GetInstance();
+        if (controller.JuegoTerminado || controller.TurnoEnTransicion || controller.JugadorActual != _indice || !controller.PuedeUsarHabilidad()) return;
+
         TipoHabilidad tipo = _jugador.PersonajeAsignado.Tipo;
 
         if (tipo == TipoHabilidad.LuzMala)
@@ -161,17 +276,11 @@ public partial class JugadorMP : Node3D
             return;
         }
 
-
         PasarCinematica(tipo);
-
 
         if (tipo == TipoHabilidad.Pomberito)
         {
-            bool activada = Controller.GetInstance().ActivarHabilidad(TipoHabilidad.Pomberito);
-            if (activada)
-            {
-                ActualizarBotones();
-            }
+            _tablero.SolicitarHabilidad(tipo, 0, 0, -1);
             return;
         }
 
@@ -183,38 +292,14 @@ public partial class JugadorMP : Node3D
         var controller = Controller.GetInstance();
 
         if (!_camara.levantada) return;
-        if (controller.JuegoTerminado || controller.JugadorActual != _indice) return;
+        if (controller.JuegoTerminado || controller.TurnoEnTransicion || controller.JugadorActual != _indice) return;
 
         if (ficha.Datos.Bloqueada && _fichaSeleccionada == null) return;
 
         if (_modoSeleccionHabilidadActivo)
         {
-            var jugador = Controller.GetInstance().Jugadores()[Controller.GetInstance().JugadorActual];
-            bool activada = false;
-
-
-            GD.Print($"Tipo de personaje: {jugador.PersonajeAsignado.Tipo}");
-
-
-            if (jugador.PersonajeAsignado.Tipo == TipoHabilidad.Lobizon)
-            {
-                activada = Controller.GetInstance().ActivarHabilidad(TipoHabilidad.Lobizon, ficha.Datos);
-                if (activada)
-                {
-                    _tablero.SolicitarComodin(ficha.Datos.Fila, ficha.Datos.Columna);
-                }
-            }
-            else if (jugador.PersonajeAsignado.Tipo == TipoHabilidad.Mulanima)
-            {
-                activada = Controller.GetInstance().ActivarHabilidad(TipoHabilidad.Mulanima, ficha.Datos);
-            }
-
-
             _modoSeleccionHabilidadActivo = false;
-            if (activada)
-            {
-                ActualizarBotones();
-            }
+            _tablero.SolicitarHabilidad(_jugador.PersonajeAsignado.Tipo, ficha.Datos.Fila, ficha.Datos.Columna, -1);
             return;
         }
 
@@ -330,17 +415,14 @@ public partial class JugadorMP : Node3D
     {
         var jugadores = Controller.GetInstance().Jugadores();
 
-
         var popup = GetNode<PopupMenu>("UITemporal/PopupLuzMala");
         popup.Clear();
-
 
         for (int i = 0; i < jugadores.Length; i++)
         {
             if (i == _indice) continue;
             popup.AddItem(jugadores[i].nombre, i);
         }
-
 
         if (popup.IsConnected(PopupMenu.SignalName.IdPressed, Callable.From<long>(OnJugadorElegidoLuzMala)))
         {
@@ -353,12 +435,7 @@ public partial class JugadorMP : Node3D
     private void OnJugadorElegidoLuzMala(long id)
     {
         PasarCinematica(TipoHabilidad.LuzMala);
-        var jugadores = Controller.GetInstance().Jugadores();
-        bool activada = Controller.GetInstance().ActivarHabilidad(TipoHabilidad.LuzMala, null, jugadores[id]);
-        if (activada)
-        {
-            ActualizarBotones();
-        }
+        _tablero.SolicitarHabilidad(TipoHabilidad.LuzMala, 0, 0, (int)id);
     }
 
     private void PasarCinematica(TipoHabilidad tipo)
@@ -369,5 +446,4 @@ public partial class JugadorMP : Node3D
         player.Stream = cinematica;
         GetNode<CanvasLayer>("UITemporal").AddChild(player);
     }
-
 }

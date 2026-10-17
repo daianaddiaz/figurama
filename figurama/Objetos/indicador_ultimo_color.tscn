@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bnajmnqoq7plh"]
 
-[ext_resource type="Texture2D" uid="uid://woi2t5xy2kye" path="res://Assets/ultimoAzul.png" id="1_n82h0"]
-[ext_resource type="Texture2D" uid="uid://c2t6d0trgyhtu" path="res://Assets/ultimoVerde.png" id="2_p3vsr"]
-[ext_resource type="Texture2D" uid="uid://5t5ae5rs1ghy" path="res://Assets/ultimoAmarillo.png" id="3_oc5it"]
-[ext_resource type="Texture2D" uid="uid://bpgv0n0ar21tc" path="res://Assets/ultimoRojo.png" id="4_unajf"]
+[ext_resource type="Texture2D" uid="uid://k6hsmmhy4okd" path="res://Assets/ultimoAzul.png" id="1_n82h0"]
+[ext_resource type="Texture2D" uid="uid://io62vypxscra" path="res://Assets/ultimoVerde.png" id="2_p3vsr"]
+[ext_resource type="Texture2D" uid="uid://bg8y05vvi5dan" path="res://Assets/ultimoAmarillo.png" id="3_oc5it"]
+[ext_resource type="Texture2D" uid="uid://cum8r42wornfi" path="res://Assets/ultimoRojo.png" id="4_unajf"]
 
 [node name="indicadorUltimoColor" type="Control" unique_id=1226291347]
 layout_mode = 3

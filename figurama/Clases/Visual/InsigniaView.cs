@@ -32,4 +32,25 @@ public partial class InsigniaView : Control
 			contenedor.AddChild(cartaFiguraNode);
 		}
 	}
+
+	public void SetInsigniaSecundariaJugador(Jugador jugador, string texturaInsignia, int indiceJugador)
+	{
+		Scale = new Vector2(0.75f, 0.75f);
+		GetNode<Label>("NombreJugador").Hide();
+		GetNode<TextureRect>("Fondo").Modulate = _coloresDisponibles[indiceJugador % _coloresDisponibles.Count];
+		GetNode<TextureRect>("Decoracion").Hide();
+		GetNode<TextureRect>("Icono").Texture = GD.Load<Texture2D>(texturaInsignia);
+
+		var contenedor = GetNode<HBoxContainer>("ContenedorSecundario");
+		foreach (FiguraAsignada figura in jugador.figurasAArmar.FindAll(f => !f.Completada))
+		{
+			var cartaFiguraNode = new TextureRect
+			{
+				Texture = GD.Load<Texture2D>(figura.Figura.RutaImagen),
+				CustomMinimumSize = new Vector2(36, 50),
+				CustomMaximumSize = new Vector2(36, 50)
+			};
+			contenedor.AddChild(cartaFiguraNode);
+		}
+	}
 }

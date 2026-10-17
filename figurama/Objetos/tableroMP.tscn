@@ -3,6 +3,13 @@
 [ext_resource type="Script" uid="uid://b5ljcb8aavpgn" path="res://Clases/Visual/TableroMP.cs" id="1_3wiuj"]
 [ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_nri4e"]
 [ext_resource type="PackedScene" uid="uid://cwmdwt0vdcs17" path="res://Objetos/jugadorMP.tscn" id="3_t02y1"]
+[ext_resource type="PackedScene" uid="uid://bnajmnqoq7plh" path="res://Objetos/indicador_ultimo_color.tscn" id="7_rihhu"]
+[ext_resource type="Script" uid="uid://bh4lahjti2fp4" path="res://Clases/Visual/IndicadorUltimoColorView.cs" id="8_bkmsl"]
+[ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="9_2gsvg"]
+[ext_resource type="PackedScene" uid="uid://cnoxndsv4hbe3" path="res://Objetos/labeltimer.tscn" id="10_nlrpt"]
+[ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="11_0meei"]
+[ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="12_2gsvg"]
+[ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="13_nlrpt"]
 [ext_resource type="AudioStream" uid="uid://1rmfw8mtumla" path="res://SFX/CambioFichasSFX.wav" id="26_o6oj4"]
 [ext_resource type="AudioStream" uid="uid://dn43erp4ugnun" path="res://SFX/FiguraFormadaSFX.wav" id="27_f6rma"]
 [ext_resource type="PackedScene" uid="uid://buwepwvvigi8t" path="res://Objetos/mesa_modelo.tscn" id="28_l33cg"]
@@ -37,3 +44,87 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 1.9152
 transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)
 light_energy = 5.0
 omni_range = 20.0
+
+[node name="UITemporal" type="CanvasLayer" parent="." unique_id=1263866315]
+
+[node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("7_rihhu")]
+script = ExtResource("8_bkmsl")
+
+[node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1776958305]
+offset_left = 976.0
+offset_top = 35.0
+offset_right = 1096.0
+offset_bottom = 58.0
+theme = ExtResource("9_2gsvg")
+theme_override_font_sizes/font_size = 20
+text = "Turno de:"
+
+[node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("10_nlrpt")]
+mouse_filter = 2
+theme = ExtResource("9_2gsvg")
+metadata/_edit_lock_ = true
+
+[node name="PanelVictoria" type="Panel" parent="UITemporal" unique_id=486793435]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("11_0meei")
+
+[node name="LabelGanador" type="Label" parent="UITemporal/PanelVictoria" unique_id=1304749927]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("9_2gsvg")
+theme_override_font_sizes/font_size = 19
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotonVolverMenu" type="Button" parent="UITemporal/PanelVictoria" unique_id=418572967]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -14.0
+offset_right = 54.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("11_0meei")
+text = "Volver al Menú"
+
+[node name="BotonPausa" type="Button" parent="UITemporal" unique_id=226949926]
+offset_left = 26.0
+offset_top = 118.0
+offset_right = 81.0
+offset_bottom = 149.0
+text = "Pausa"
+
+[node name="TextureRect" type="TextureRect" parent="UITemporal/BotonPausa" unique_id=709774954]
+layout_mode = 0
+offset_left = 55.0
+offset_top = -4.0
+offset_right = 95.0
+offset_bottom = 36.0
+texture = ExtResource("12_2gsvg")
+
+[node name="Label" type="Label" parent="UITemporal/BotonPausa/TextureRect" unique_id=1315001894]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 48.0
+offset_bottom = 30.0
+text = "Esc"
+
+[node name="MenuPausa" parent="UITemporal" unique_id=1412232372 instance=ExtResource("13_nlrpt")]

@@ -10,7 +10,6 @@ public partial class Controller
     public int CantidadFigurasPorJugador { get; set; } = 4;
     public ColorFicha? UltimoColorUsado { get; private set; }
     
-
     private TableroReglas tablero;
     private Jugador[] jugadores;
     private bool condicionDeVictoria = false;
@@ -30,6 +29,8 @@ public partial class Controller
     public event System.Action<CartaMovimiento> CartaSeleccionadaCambiada;
 
     public event System.Action TiempoAgotado; // Aviso a UI
+    public event System.Action FinTurnoPorTiempo;
+    public bool TurnoEnTransicion { get; private set; } = false;
 
     public event System.Action<CartaFigura> FiguraCompletada;
     
@@ -93,6 +94,7 @@ public partial class Controller
         FichaBloqueadaEvent = null;
         FichaDesbloqueadaEvent = null;
         CartaSeleccionadaCambiada = null;
+        FinTurnoPorTiempo = null;
         UltimoColorUsado = null;
             
         int cantidad = DatosPartida.NombresJugadores.Count > 0 ? DatosPartida.NombresJugadores.Count : 4;
@@ -132,6 +134,7 @@ public partial class Controller
         }
 
         JugadorActual = 0;
+        TurnoEnTransicion = false;
         condicionDeVictoria = false;
         enPausa = false; 
         MovimientosUsadosEnTurno = 0;
@@ -153,7 +156,14 @@ public partial class Controller
             if (_tiempoEsperaPausa <= 0.0f)
             {
                 enPausa = false;
-                TerminarTurno();
+                if (FinTurnoPorTiempo != null)
+                {
+                    FinTurnoPorTiempo.Invoke();
+                }
+                else
+                {
+                    TerminarTurno();
+                }
             }
             return;
         }
@@ -278,6 +288,11 @@ public partial class Controller
     {
         CartaSeleccionada = null;
         if (condicionDeVictoria || jugadores == null || jugadores.Length == 0) return;
+        if (TurnoEnTransicion) return;
+
+        TurnoEnTransicion = true;
+        temporizadorActivo = false;
+        enPausa = false;
 
         MovimientosUsadosEnTurno = 0;
         jugadores[JugadorActual].MovimientosExtraEsteTurno = 0;
@@ -286,6 +301,11 @@ public partial class Controller
         jugadorSaliente.VueltasJugadas++;
 
         await Task.Delay(2000);
+        if (condicionDeVictoria)
+        {
+            TurnoEnTransicion = false;
+            return;
+        }
 
         if (jugadorSaliente.FichaComodinActiva != null)
         {
@@ -299,7 +319,7 @@ public partial class Controller
 
         jugadorEntrante.manoCartas = MazoMovimiento.GetInstance().generarMano();
         jugadorEntrante.RerollDisponible = true;
-        jugadorEntrante.RealizoAccionEsteTurno = false; 
+        jugadorEntrante.RealizoAccionEsteTurno = false;
 
         if (jugadorEntrante.CartasMovimientoAQuitar > 0)
         {
@@ -322,6 +342,7 @@ public partial class Controller
             }
         }
 
+        TurnoEnTransicion = false;
         ReiniciarTemporizador();
         TurnoCambiado?.Invoke(JugadorActual);
     }
@@ -368,5 +389,12 @@ public partial class Controller
     public void PausarTemporizador(bool pausar)
     {
         temporizadorActivo = !pausar;
+    }
+
+    public void CortarPartida()
+    {
+        condicionDeVictoria = true;
+        temporizadorActivo = false;
+        enPausa = false;
     }
 }
