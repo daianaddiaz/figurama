@@ -70,7 +70,7 @@ public partial class JugadorMP : Node3D
 
         CrearInsignia();
         CrearHabilidad();
-        ActualizarInsigniasSecundarias(Controller.GetInstance().JugadorActual);
+        ActualizarInsigniasSecundarias();
         var botonPausa = GetNodeOrNull<BaseButton>("UITemporal/BotonPausa");
         if (botonPausa != null)
         {
@@ -106,16 +106,16 @@ public partial class JugadorMP : Node3D
         _insigniaPrincipal = InsigniaViewScene.Instantiate<InsigniaView>();
         GetNode<Control>("UITemporal/InsigniaViewContainer").AddChild(_insigniaPrincipal);
         _insigniaPrincipal.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        ActualizarInsigniaPrincipal(Controller.GetInstance().JugadorActual);
+        SetInsigniaPrincipal();
     }
 
-    private void ActualizarInsigniaPrincipal(int indiceJugadorActual)
+    private void SetInsigniaPrincipal()
     {
-        Jugador jugadorDeTurno = Controller.GetInstance().Jugadores()[indiceJugadorActual];
+        Jugador jugadorDeTurno = Controller.GetInstance().Jugadores()[_indice];
         _insigniaPrincipal.SetInsignia(
-            $"Jugador {indiceJugadorActual + 1}: {jugadorDeTurno.nombre}",
+            jugadorDeTurno.nombre,
             CargadorAssetsTablero.TexturaInsignia[jugadorDeTurno.PersonajeAsignado.Tipo],
-            indiceJugadorActual
+            _indice
         );
     }
 
@@ -142,7 +142,7 @@ public partial class JugadorMP : Node3D
         }
     }
 
-    private void ActualizarInsigniasSecundarias(int jugadorActual)
+    private void ActualizarInsigniasSecundarias()
     {
         var contenedor = GetNodeOrNull<Control>("UITemporal/InsigniaViewContainer/InsigniasSecundarias");
         if (contenedor == null)
@@ -160,7 +160,7 @@ public partial class JugadorMP : Node3D
         var jugadores = Controller.GetInstance().Jugadores();
         for (int i = 0; i < jugadores.Length; i++)
         {
-            if (i == jugadorActual) continue;
+            if (i == _indice) continue;
 
             var insignia = InsigniaViewScene.Instantiate<InsigniaView>();
             contenedor.AddChild(insignia);
@@ -171,6 +171,18 @@ public partial class JugadorMP : Node3D
                 i
             );
         }
+        CambiarTurnoInsignias();
+    }
+
+    private void CambiarTurnoInsignias()
+    {
+        var contenedor = GetNodeOrNull<Control>("UITemporal/InsigniaViewContainer/InsigniasSecundarias");
+        var insigniasSecundarias = contenedor.GetChildren();
+        foreach(InsigniaView insignia in insigniasSecundarias)
+        {
+            insignia.SetDecoracion(Controller.GetInstance().IndiceJugadorActual());
+        }
+        _insigniaPrincipal.SetDecoracion(Controller.GetInstance().IndiceJugadorActual());
     }
 
     private void OnPausaPresionada()
@@ -234,8 +246,7 @@ public partial class JugadorMP : Node3D
 
         _mano.ActualizarMano();
         ActualizarFondo(jugadorActual);
-        ActualizarInsigniaPrincipal(jugadorActual);
-        ActualizarInsigniasSecundarias(jugadorActual);
+        CambiarTurnoInsignias();
         ActualizarBotones();
 
         if (TransicionScene != null)
@@ -251,7 +262,7 @@ public partial class JugadorMP : Node3D
     private void OnAccionAplicada(int indiceJugador)
     {
         _mano.ActualizarMano();
-        ActualizarInsigniasSecundarias(Controller.GetInstance().JugadorActual);
+        ActualizarInsigniasSecundarias();
 
         if (indiceJugador == _indice)
         {
