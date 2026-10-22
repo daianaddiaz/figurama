@@ -125,7 +125,8 @@ public partial class TableroMP : Node3D
 
     private void ActualizarPosicionVisual(Ficha ficha)
     {
-        ficha.Position = new Vector3(ficha.Datos.Columna * SizeCelda, 0, ficha.Datos.Fila * SizeCelda);
+        Vector3 nuevaPosicion = new Vector3(ficha.Datos.Columna * SizeCelda, 0, ficha.Datos.Fila * SizeCelda);
+        ficha.AnimarCambio(nuevaPosicion);
     }
 
     private void OnFiguraCompletada(List<(int fila, int columna)> celdas)

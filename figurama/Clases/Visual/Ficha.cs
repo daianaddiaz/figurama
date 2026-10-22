@@ -8,6 +8,9 @@ public partial class Ficha : Node3D
     public FichaData Datos;
     private Color _colorVisualActual;
     private FichaModelo _modelo;
+    private Vector3 _posicionNueva;
+    private bool _moverse = false;
+    private float velocidadMovimiento = 5.0f;
 
     public override void _Ready()
     {
@@ -15,6 +18,11 @@ public partial class Ficha : Node3D
 
         Area3D areaDeClick = GetNode<Area3D>("Area3D");
         areaDeClick.InputEvent += OnInputEvent;
+    }
+
+    public override void _Process(double delta)
+    {
+        MoverAPosicion((float)delta);
     }
 
     private void OnInputEvent(Node camara, InputEvent evento, Vector3 posicionClick, Vector3 normal, long shapeIdx)
@@ -31,6 +39,26 @@ public partial class Ficha : Node3D
     {
         _colorVisualActual = colorElegido;
         _modelo.SetearColor(colorElegido, colorSecundario, indice);
+    }
+
+    public void AnimarCambio(Vector3 nuevaPosicion)
+    {
+        _posicionNueva = nuevaPosicion;
+        _moverse = true;
+    }
+
+    private void MoverAPosicion(float delta)
+    {
+        if (_moverse)
+        {
+            Vector3 newPosition = GlobalTransform.Origin.Lerp(_posicionNueva, delta * velocidadMovimiento);
+			GlobalTransform = GlobalTransform with { Origin = newPosition };
+			if (GlobalTransform.Origin.DistanceTo(_posicionNueva) < 0.01f)
+			{
+				_moverse = false;
+				GlobalTransform = GlobalTransform with { Origin = _posicionNueva };
+			}
+        }
     }
 
     public void _on_ficha_bloqueada(Ficha ficha)

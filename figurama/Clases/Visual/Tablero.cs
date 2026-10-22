@@ -484,7 +484,8 @@ public partial class Tablero : Node3D
 
     private void ActualizarPosicionVisual(Ficha nodoFicha)
     {
-        nodoFicha.Position = new Vector3(nodoFicha.Datos.Columna * SizeCelda, 0, nodoFicha.Datos.Fila * SizeCelda);
+        Vector3 nuevaPosicion = new Vector3(nodoFicha.Datos.Columna * SizeCelda, 0, nodoFicha.Datos.Fila * SizeCelda);
+        nodoFicha.AnimarCambio(nuevaPosicion);
     }
 
     private void MostrarVictoria(string nombreGanador)

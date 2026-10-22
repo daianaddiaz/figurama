@@ -145,6 +145,7 @@ layout_mode = 2
 text = "Volver"
 
 [node name="PanelNombres" type="VBoxContainer" parent="." unique_id=1385670577]
+visible = false
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 1
 anchors_preset = 8
@@ -184,6 +185,7 @@ layout_mode = 2
 text = "Volver"
 
 [node name="PanelLobby" type="VBoxContainer" parent="." unique_id=1680100878]
+visible = false
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 1
 anchors_preset = 8
