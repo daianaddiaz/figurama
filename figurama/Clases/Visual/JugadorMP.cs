@@ -25,6 +25,8 @@ public partial class JugadorMP : Node3D
     private Ficha _fichaSeleccionada;
     private Sprite3D _fondo;
     private InsigniaView _insigniaPrincipal;
+    private Label _labelMensaje;
+    private int _versionMensaje = 0;
 
     public override void _Ready()
     {
@@ -65,9 +67,11 @@ public partial class JugadorMP : Node3D
         _tablero.AccionAplicada += OnAccionAplicada;
         _tablero.RerollAplicado += OnRerollAplicado;
         _tablero.FinTurnoAplicado += ActualizarBotones;
+        _tablero.RespuestaServidor += OnRespuestaServidor;
         _mano.RerollSolicitado += OnRerollSolicitado;
         Controller.GetInstance().TurnoCambiado += OnTurnoCambiado;
 
+        CrearLabelMensaje();
         CrearInsignia();
         CrearHabilidad();
         ActualizarInsigniasSecundarias();
@@ -86,6 +90,7 @@ public partial class JugadorMP : Node3D
             _tablero.AccionAplicada -= OnAccionAplicada;
             _tablero.RerollAplicado -= OnRerollAplicado;
             _tablero.FinTurnoAplicado -= ActualizarBotones;
+            _tablero.RespuestaServidor -= OnRespuestaServidor;
         }
         if (Controller._instance != null)
         {
@@ -100,6 +105,41 @@ public partial class JugadorMP : Node3D
             OnFinTurnoPresionado();
         }
     }
+
+    // ---------- Mensajes del servidor ----------
+
+    private void CrearLabelMensaje()
+    {
+        _labelMensaje = new Label();
+        _labelMensaje.Visible = false;
+        _labelMensaje.MouseFilter = Control.MouseFilterEnum.Ignore;
+        _labelMensaje.HorizontalAlignment = HorizontalAlignment.Center;
+        _labelMensaje.AddThemeFontSizeOverride("font_size", 28);
+        GetNode<Node>("UITemporal").AddChild(_labelMensaje);
+        _labelMensaje.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.CenterTop);
+        _labelMensaje.GrowHorizontal = Control.GrowDirection.Both;
+        _labelMensaje.OffsetTop = 24;
+        _labelMensaje.OffsetBottom = 24;
+    }
+
+    private async void OnRespuestaServidor(bool ok, string mensaje)
+    {
+        if (_labelMensaje == null || !IsInsideTree()) return;
+
+        int version = ++_versionMensaje;
+        _labelMensaje.Text = mensaje;
+        _labelMensaje.AddThemeColorOverride("font_color", ok ? new Color(0.5f, 1f, 0.5f) : new Color(1f, 0.45f, 0.45f));
+        _labelMensaje.Visible = true;
+
+        await ToSignal(GetTree().CreateTimer(2.5), SceneTreeTimer.SignalName.Timeout);
+
+        if (IsInstanceValid(_labelMensaje) && version == _versionMensaje)
+        {
+            _labelMensaje.Visible = false;
+        }
+    }
+
+    // ---------- Insignias, fondo y habilidad ----------
 
     private void CrearInsignia()
     {
@@ -189,6 +229,8 @@ public partial class JugadorMP : Node3D
     {
         GetNodeOrNull<MenuPausa>("UITemporal/MenuPausa")?.TogglePausa();
     }
+
+    // ---------- Acciones del jugador (todas se piden al servidor) ----------
 
     private void OnFinTurnoPresionado()
     {

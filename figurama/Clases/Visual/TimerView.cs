@@ -33,19 +33,25 @@ public partial class TimerView : Control
     public override void _Process(double delta)
     {
         var controller = Controller.GetInstance();
-        
-        // Verifica que la partida esté activa para descontar el tiempo
-        if (controller != null && controller.Jugadores() != null && controller.Jugadores().Length > 0)
-        {
-            controller.ActualizarTiempo((float)delta);
 
-            // Actualiza frame en el texto
-            if (labelTiempo != null)
-            {
-                int minutos = (int)controller.TiempoRestante / 60;
-                int segundos = (int)controller.TiempoRestante % 60;
-                labelTiempo.Text = $"{minutos:D2}:{segundos:D2}";
-            }
+        if (controller == null || controller.Jugadores() == null || controller.Jugadores().Length == 0) return;
+
+        if (!DatosPartida.EsMultijugador || Multiplayer.IsServer())
+        {
+            // Modo local o servidor: la lógica del reloj corre acá
+            controller.ActualizarTiempo((float)delta);
+        }
+        else
+        {
+            // Cliente: solo muestra el tiempo (el servidor lo corrige cada segundo)
+            controller.DescontarTiempoVisual((float)delta);
+        }
+
+        if (labelTiempo != null)
+        {
+            int minutos = (int)controller.TiempoRestante / 60;
+            int segundos = (int)controller.TiempoRestante % 60;
+            labelTiempo.Text = $"{minutos:D2}:{segundos:D2}";
         }
     }
 

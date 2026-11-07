@@ -224,13 +224,12 @@ public partial class LobbyRed : VBoxContainer
 
         int[] cartasPorDificultad = { 4, 3, 2 };
         int cartasPorMano = cartasPorDificultad[_selectorDificultad.Selected];
-        int semilla = (int)(GD.Randi() % 2147483647u);
 
-        Rpc(MethodName.IniciarPartida, nombres, personajes, ids.ToArray(), semilla, cartasPorMano);
+        Rpc(MethodName.IniciarPartida, nombres, personajes, ids.ToArray(), cartasPorMano);
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-    public void IniciarPartida(string[] nombres, int[] personajes, long[] ids, int semilla, int cartasPorMano)
+    public void IniciarPartida(string[] nombres, int[] personajes, long[] ids, int cartasPorMano)
     {
         DatosPartida.NombresJugadores = new List<string>(nombres);
         DatosPartida.PersonajesElegidos = new List<TipoHabilidad>();
@@ -243,20 +242,31 @@ public partial class LobbyRed : VBoxContainer
         DatosPartida.EsMultijugador = true;
         DatosPartida.IdsJugadores = new List<long>(ids);
 
-        Azar.Iniciar(semilla);
         Controller.GetInstance().CantidadCartasMovimiento = cartasPorMano;
-        Controller.GetInstance().InicializarJugadores();
 
-        foreach (Jugador j in Controller.GetInstance().Jugadores())
+        if (Multiplayer.IsServer())
         {
-            string mano = string.Join(",", j.manoCartas.ConvertAll(c => c.Nombre));
-            string figuras = string.Join(",", j.figurasAArmar.ConvertAll(f => f.Figura.Nombre));
-            string reserva = string.Join(",", j.figurasEnReserva.ConvertAll(f => f.Figura.Nombre));
-            GD.Print($"[{j.nombre}] Mano: {mano} | Figuras: {figuras} | Reserva: {reserva}");
+            // El servidor es el único que sortea y ejecuta las reglas
+            Azar.Reiniciar();
+            Controller.GetInstance().InicializarJugadores();
+
+            foreach (Jugador j in Controller.GetInstance().Jugadores())
+            {
+                string mano = string.Join(",", j.manoCartas.ConvertAll(c => c.Nombre));
+                string figuras = string.Join(",", j.figurasAArmar.ConvertAll(f => f.Figura.Nombre));
+                string reserva = string.Join(",", j.figurasEnReserva.ConvertAll(f => f.Figura.Nombre));
+                GD.Print($"[{j.nombre}] Mano: {mano} | Figuras: {figuras} | Reserva: {reserva}");
+            }
+        }
+        else
+        {
+            // Los clientes no sortean: esperan el estado que manda el servidor
+            Controller.GetInstance().PrepararReplica();
         }
 
         GetTree().ChangeSceneToFile("res://Objetos/tableroMP.tscn");
     }
+
     public void Desconectar()
     {
         if (Multiplayer.MultiplayerPeer != null)

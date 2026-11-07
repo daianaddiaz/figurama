@@ -80,8 +80,9 @@ public partial class Controller
         return true;
     }
 
-    public void InicializarJugadores()
-    {   
+    // Quita todos los suscriptores (evita suscriptores fantasma entre partidas)
+    private void LimpiarEventos()
+    {
         TurnoCambiado = null;
         Victoria = null;
         UltimoColorCambiado = null;
@@ -95,6 +96,11 @@ public partial class Controller
         FichaDesbloqueadaEvent = null;
         CartaSeleccionadaCambiada = null;
         FinTurnoPorTiempo = null;
+    }
+
+    public void InicializarJugadores()
+    {   
+        LimpiarEventos();
         UltimoColorUsado = null;
             
         int cantidad = DatosPartida.NombresJugadores.Count > 0 ? DatosPartida.NombresJugadores.Count : 4;
@@ -346,7 +352,7 @@ public partial class Controller
         ReiniciarTemporizador();
         TurnoCambiado?.Invoke(JugadorActual);
     }
-    
+
     private Habilidad ObtenerHabilidad(TipoHabilidad tipo)
     {
         return tipo switch

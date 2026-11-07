@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Text.Json;
 
 public partial class TableroMP : Node3D
 {
@@ -15,15 +16,19 @@ public partial class TableroMP : Node3D
     public event System.Action<int> AccionAplicada;
     public event System.Action<int> RerollAplicado;
     public event System.Action FinTurnoAplicado;
+    public event System.Action<bool, string> RespuestaServidor;
 
     private const float SizeCelda = 0.8f;
 
     private readonly TableroReglas _reglas = new TableroReglas();
     private readonly GestorFichas _gestorFichas = new GestorFichas();
+    private readonly List<EventoRed> _eventosPendientes = new List<EventoRed>();
     private Node _sonidos;
     private int _clientesListos = 0;
     private bool _tableroEnviado = false;
+    private bool _tableroCreado = false;
     private bool _partidaCortada = false;
+    private float _acumuladorTiempo = 0f;
 
     public List<Ficha> Fichas { get; private set; } = new List<Ficha>();
     public TableroReglas Reglas => _reglas;
@@ -34,8 +39,7 @@ public partial class TableroMP : Node3D
 
         // El reloj arranca recién cuando el tablero está creado
         Controller.GetInstance().PausarTemporizador(true);
-        Controller.GetInstance().Victoria += MostrarVictoria;
-        Controller.GetInstance().FinTurnoPorTiempo += OnFinTurnoPorTiempo;
+
         Multiplayer.PeerDisconnected += OnPeerDesconectado;
         Multiplayer.ServerDisconnected += OnServidorDesconectado;
 
@@ -51,6 +55,22 @@ public partial class TableroMP : Node3D
         }
     }
 
+    public override void _Process(double delta)
+    {
+        // El servidor le manda el tiempo restante a los clientes cada segundo
+        if (!_tableroCreado || !Multiplayer.IsServer() || _partidaCortada) return;
+
+        _acumuladorTiempo += (float)delta;
+        if (_acumuladorTiempo >= 1f)
+        {
+            _acumuladorTiempo = 0f;
+            if (Multiplayer.GetPeers().Length > 0)
+            {
+                Rpc(MethodName.RecibirTiempo, Controller.GetInstance().TiempoRestante);
+            }
+        }
+    }
+
     public override void _ExitTree()
     {
         Multiplayer.PeerDisconnected -= OnPeerDesconectado;
@@ -58,14 +78,20 @@ public partial class TableroMP : Node3D
 
         if (Controller._instance != null)
         {
-            Controller.GetInstance().FiguraEncontrada -= OnFiguraCompletada;
-            Controller.GetInstance().FichaBloqueadaEvent -= OnFichaBloqueada;
-            Controller.GetInstance().FichaDesbloqueadaEvent -= OnFichaDesbloqueada;
-            Controller.GetInstance().FichaComodinDesactivada -= OnFichaComodinDesactivada;
-            Controller.GetInstance().Victoria -= MostrarVictoria;
-            Controller.GetInstance().FinTurnoPorTiempo -= OnFinTurnoPorTiempo;
+            var controller = Controller.GetInstance();
+            controller.FiguraEncontrada -= OnFiguraCompletada;
+            controller.FichaBloqueadaEvent -= OnFichaBloqueada;
+            controller.FichaDesbloqueadaEvent -= OnFichaDesbloqueada;
+            controller.FichaComodinDesactivada -= OnFichaComodinDesactivada;
+            controller.UltimoColorCambiado -= OnUltimoColorCambiado;
+            controller.Victoria -= OnVictoria;
+            controller.TurnoCambiado -= OnTurnoCambiado;
+            controller.TiempoAgotado -= OnTiempoAgotado;
+            controller.FinTurnoPorTiempo -= OnFinTurnoPorTiempo;
         }
     }
+
+    // ---------- Creación del tablero ----------
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
     public void ClienteListo()
@@ -83,19 +109,34 @@ public partial class TableroMP : Node3D
 
         _tableroEnviado = true;
         int[] colores = _gestorFichas.GenerarIndicesColores();
-        Rpc(MethodName.CrearTablero, colores);
+        string estadoJson = JsonSerializer.Serialize(ConstruirSnapshot());
+        Rpc(MethodName.CrearTablero, colores, estadoJson);
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-    public void CrearTablero(int[] colores)
+    public void CrearTablero(int[] colores, string estadoJson)
     {
         Fichas = _gestorFichas.CrearFichasConColores(FichaScene, this, _reglas, SizeCelda, colores);
         GD.Print($"Tablero creado con {Fichas.Count} fichas. Colores: {string.Join(",", colores)}");
 
-        Controller.GetInstance().FiguraEncontrada += OnFiguraCompletada;
-        Controller.GetInstance().FichaBloqueadaEvent += OnFichaBloqueada;
-        Controller.GetInstance().FichaDesbloqueadaEvent += OnFichaDesbloqueada;
-        Controller.GetInstance().FichaComodinDesactivada += OnFichaComodinDesactivada;
+        if (!Multiplayer.IsServer())
+        {
+            // El cliente no calcula nada: carga el estado que mandó el servidor
+            var snap = JsonSerializer.Deserialize<PartidaSnapshot>(estadoJson);
+            Controller.GetInstance().ImportarEstado(snap, FichaPorId);
+            AplicarTablero(snap.Fichas);
+        }
+
+        var controller = Controller.GetInstance();
+        controller.FiguraEncontrada += OnFiguraCompletada;
+        controller.FichaBloqueadaEvent += OnFichaBloqueada;
+        controller.FichaDesbloqueadaEvent += OnFichaDesbloqueada;
+        controller.FichaComodinDesactivada += OnFichaComodinDesactivada;
+        controller.UltimoColorCambiado += OnUltimoColorCambiado;
+        controller.Victoria += OnVictoria;
+        controller.TurnoCambiado += OnTurnoCambiado;
+        controller.TiempoAgotado += OnTiempoAgotado;
+        controller.FinTurnoPorTiempo += OnFinTurnoPorTiempo;
 
         foreach (Ficha ficha in Fichas)
         {
@@ -108,8 +149,14 @@ public partial class TableroMP : Node3D
 
         AddChild(JugadorScene.Instantiate<Node3D>());
 
-        Controller.GetInstance().PausarTemporizador(false);
+        _tableroCreado = true;
+        if (Multiplayer.IsServer())
+        {
+            Controller.GetInstance().PausarTemporizador(false);
+        }
     }
+
+    // ---------- Utilidades ----------
 
     public Ficha GetFichaEnPosicion(int fila, int columna)
     {
@@ -123,52 +170,290 @@ public partial class TableroMP : Node3D
         return null;
     }
 
+    private FichaData FichaPorId(int id)
+    {
+        return (id >= 0 && id < Fichas.Count) ? Fichas[id].Datos : null;
+    }
+
+    private int IdDeFicha(FichaData datos)
+    {
+        return Fichas.FindIndex(f => f.Datos == datos);
+    }
+
+    private bool EnTablero(int fila, int columna)
+    {
+        return fila >= 0 && fila < TableroReglas.Filas && columna >= 0 && columna < TableroReglas.Columnas;
+    }
+
     private void ActualizarPosicionVisual(Ficha ficha)
     {
         Vector3 nuevaPosicion = new Vector3(ficha.Datos.Columna * SizeCelda, 0, ficha.Datos.Fila * SizeCelda);
         ficha.AnimarCambio(nuevaPosicion);
     }
 
+    private long EmisorActual()
+    {
+        long emisor = Multiplayer.GetRemoteSenderId();
+        return emisor == 0 ? 1 : emisor; // 0 = llamada local del host
+    }
+
+    // ---------- Snapshot y eventos (servidor -> clientes) ----------
+
+    private PartidaSnapshot ConstruirSnapshot()
+    {
+        var snap = Controller.GetInstance().ExportarEstado(IdDeFicha);
+
+        if (Fichas.Count == 0)
+        {
+            // Tablero todavía no creado: posiciones iniciales
+            for (int i = 0; i < TableroReglas.Filas * TableroReglas.Columnas; i++)
+            {
+                snap.Fichas.Add(new FichaSnapshot { Posicion = i });
+            }
+        }
+        else
+        {
+            foreach (Ficha ficha in Fichas)
+            {
+                snap.Fichas.Add(new FichaSnapshot
+                {
+                    Posicion = ficha.Datos.Fila * TableroReglas.Columnas + ficha.Datos.Columna,
+                    EsComodin = ficha.Datos.EsComodin,
+                    Bloqueada = ficha.Datos.Bloqueada
+                });
+            }
+        }
+
+        return snap;
+    }
+
+    private void RegistrarEvento(TipoEventoRed tipo, int[] datos = null, string texto = "")
+    {
+        if (!Multiplayer.IsServer()) return;
+
+        _eventosPendientes.Add(new EventoRed
+        {
+            Tipo = (int)tipo,
+            Datos = datos != null ? new List<int>(datos) : new List<int>(),
+            Texto = texto
+        });
+    }
+
+    // Manda a los clientes el estado actual y los eventos acumulados desde el último envío
+    private void EnviarResultado(int indiceActor, bool fueReroll)
+    {
+        if (!Multiplayer.IsServer()) return;
+
+        string snapshotJson = JsonSerializer.Serialize(ConstruirSnapshot());
+        string eventosJson = JsonSerializer.Serialize(_eventosPendientes);
+        _eventosPendientes.Clear();
+
+        if (Multiplayer.GetPeers().Length == 0) return;
+
+        Rpc(MethodName.RecibirResultado, snapshotJson, eventosJson, indiceActor, fueReroll);
+    }
+
+    // Solo la reciben los clientes. No calculan nada: aplican lo que decidió el servidor.
+    [Rpc(MultiplayerApi.RpcMode.Authority)]
+    public void RecibirResultado(string snapshotJson, string eventosJson, int indiceActor, bool fueReroll)
+    {
+        if (Multiplayer.IsServer() || !_tableroCreado) return;
+
+        var snap = JsonSerializer.Deserialize<PartidaSnapshot>(snapshotJson);
+        var eventos = JsonSerializer.Deserialize<List<EventoRed>>(eventosJson);
+
+        Controller.GetInstance().ImportarEstado(snap, FichaPorId);
+
+        bool huboMovimiento = AplicarTablero(snap.Fichas);
+        if (huboMovimiento)
+        {
+            _sonidos.GetNode<AudioStreamPlayer>("CambioSFX").Play();
+        }
+
+        foreach (EventoRed evento in eventos)
+        {
+            AplicarEvento(evento);
+        }
+
+        if (fueReroll) RerollAplicado?.Invoke(indiceActor);
+        AccionAplicada?.Invoke(indiceActor);
+    }
+
+    private bool AplicarTablero(List<FichaSnapshot> snaps)
+    {
+        var movidas = new List<Ficha>();
+
+        for (int i = 0; i < Fichas.Count && i < snaps.Count; i++)
+        {
+            FichaData datos = Fichas[i].Datos;
+            int fila = snaps[i].Posicion / TableroReglas.Columnas;
+            int columna = snaps[i].Posicion % TableroReglas.Columnas;
+
+            if (datos.Fila != fila || datos.Columna != columna)
+            {
+                movidas.Add(Fichas[i]);
+            }
+
+            datos.EsComodin = snaps[i].EsComodin;
+            datos.Bloqueada = snaps[i].Bloqueada;
+            _reglas.ColocarFicha(datos, fila, columna);
+        }
+
+        foreach (Ficha ficha in movidas)
+        {
+            ActualizarPosicionVisual(ficha);
+        }
+
+        return movidas.Count > 0;
+    }
+
+    // Vuelve a disparar, en el cliente, los eventos que emitió la lógica del servidor
+    private void AplicarEvento(EventoRed evento)
+    {
+        var controller = Controller.GetInstance();
+
+        switch ((TipoEventoRed)evento.Tipo)
+        {
+            case TipoEventoRed.FiguraEncontrada:
+                var celdas = new List<(int fila, int columna)>();
+                for (int i = 0; i + 1 < evento.Datos.Count; i += 2)
+                {
+                    celdas.Add((evento.Datos[i], evento.Datos[i + 1]));
+                }
+                controller.DispararFiguraEncontrada(celdas);
+                break;
+
+            case TipoEventoRed.FichaBloqueada:
+                controller.DispararFichaBloqueada(FichaPorId(evento.Datos[0]));
+                break;
+
+            case TipoEventoRed.FichaDesbloqueada:
+                controller.DispararFichaDesbloqueada(FichaPorId(evento.Datos[0]));
+                break;
+
+            case TipoEventoRed.ComodinActivado:
+                EmitSignal(SignalName.ComodinActivado, Fichas[evento.Datos[0]]);
+                break;
+
+            case TipoEventoRed.ComodinDesactivado:
+                controller.DispararFichaComodinDesactivada(FichaPorId(evento.Datos[0]));
+                break;
+
+            case TipoEventoRed.UltimoColor:
+                controller.DispararUltimoColor((ColorFicha)evento.Datos[0]);
+                break;
+
+            case TipoEventoRed.Victoria:
+                controller.DispararVictoria(evento.Texto);
+                break;
+
+            case TipoEventoRed.TurnoCambiado:
+                controller.DispararTurnoCambiado(evento.Datos[0]);
+                break;
+
+            case TipoEventoRed.TiempoAgotado:
+                controller.DispararTiempoAgotado();
+                break;
+        }
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.Authority)]
+    public void RecibirTiempo(float tiempo)
+    {
+        if (Multiplayer.IsServer() || !_tableroCreado) return;
+        Controller.GetInstance().AplicarTiempoRemoto(tiempo);
+    }
+
+    // Respuesta del servidor al jugador que mandó una acción (válida o inválida)
+    private void Responder(long emisor, bool ok, string mensaje)
+    {
+        RpcId(emisor, MethodName.RecibirRespuesta, ok, mensaje);
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+    public void RecibirRespuesta(bool ok, string mensaje)
+    {
+        RespuestaServidor?.Invoke(ok, mensaje);
+    }
+
+    // ---------- Reacción a los eventos de la lógica (en servidor y en clientes) ----------
+
     private void OnFiguraCompletada(List<(int fila, int columna)> celdas)
     {
         _sonidos.GetNode<AudioStreamPlayer>("FiguraSFX").Play();
+
+        var datos = new List<int>();
         foreach (var celda in celdas)
         {
+            datos.Add(celda.fila);
+            datos.Add(celda.columna);
+
             Ficha ficha = GetFichaEnPosicion(celda.fila, celda.columna);
             if (ficha != null)
             {
                 EmitSignal(SignalName.FiguraCompletada, ficha);
             }
         }
+
+        RegistrarEvento(TipoEventoRed.FiguraEncontrada, datos.ToArray());
     }
 
     private void OnFichaBloqueada(FichaData datos)
     {
         Ficha ficha = GetFichaEnPosicion(datos.Fila, datos.Columna);
         if (ficha != null) EmitSignal(SignalName.Bloqueada, ficha);
+
+        RegistrarEvento(TipoEventoRed.FichaBloqueada, new[] { IdDeFicha(datos) });
     }
 
     private void OnFichaDesbloqueada(FichaData datos)
     {
         Ficha ficha = GetFichaEnPosicion(datos.Fila, datos.Columna);
         if (ficha != null) EmitSignal(SignalName.Desbloqueada, ficha);
+
+        RegistrarEvento(TipoEventoRed.FichaDesbloqueada, new[] { IdDeFicha(datos) });
     }
 
     private void OnFichaComodinDesactivada(FichaData datos)
     {
         Ficha ficha = GetFichaEnPosicion(datos.Fila, datos.Columna);
         if (ficha != null) EmitSignal(SignalName.ComodinDesactivado, ficha);
+
+        RegistrarEvento(TipoEventoRed.ComodinDesactivado, new[] { IdDeFicha(datos) });
+    }
+
+    private void OnUltimoColorCambiado(ColorFicha color)
+    {
+        RegistrarEvento(TipoEventoRed.UltimoColor, new[] { (int)color });
+    }
+
+    private void OnVictoria(string nombreGanador)
+    {
+        MostrarVictoria(nombreGanador);
+        RegistrarEvento(TipoEventoRed.Victoria, null, nombreGanador);
+    }
+
+    private void OnTurnoCambiado(int jugadorActual)
+    {
+        RegistrarEvento(TipoEventoRed.TurnoCambiado, new[] { jugadorActual });
+        EnviarResultado(-1, false);
+    }
+
+    private void OnTiempoAgotado()
+    {
+        RegistrarEvento(TipoEventoRed.TiempoAgotado);
+        EnviarResultado(-1, false);
     }
 
     // ---------- Tiempo y victoria ----------
 
     private void OnFinTurnoPorTiempo()
     {
-        // Solo el host decide cuándo termina el turno por tiempo
-        if (Multiplayer.IsServer())
-        {
-            Rpc(MethodName.AplicarFinTurno);
-        }
+        // Solo el servidor decide cuándo termina el turno por tiempo
+        if (!Multiplayer.IsServer()) return;
+
+        Controller.GetInstance().TerminarTurno();
+        EnviarResultado(-1, false);
     }
 
     private void MostrarVictoria(string nombreGanador)
@@ -212,6 +497,71 @@ public partial class TableroMP : Node3D
         AccionAplicada?.Invoke(-1);
     }
 
+    // ---------- Validación (servidor) ----------
+
+    private string ValidarTurno(long emisor, out int indiceEmisor)
+    {
+        var controller = Controller.GetInstance();
+        indiceEmisor = DatosPartida.IdsJugadores.IndexOf(emisor);
+
+        if (indiceEmisor < 0) return "No sos parte de esta partida.";
+        if (controller.JuegoTerminado) return "La partida ya terminó.";
+        if (controller.TurnoEnTransicion) return "El turno está cambiando, esperá un momento.";
+        if (indiceEmisor != controller.JugadorActual) return "No es tu turno.";
+        return null;
+    }
+
+    private string ValidarMovimiento(int indiceJugador, int indiceCarta, int filaA, int colA, int filaB, int colB)
+    {
+        var jugador = Controller.GetInstance().Jugadores()[indiceJugador];
+
+        if (indiceCarta < 0 || indiceCarta >= jugador.manoCartas.Count) return "Carta inválida.";
+
+        CartaMovimiento carta = jugador.manoCartas[indiceCarta];
+        if (carta == null) return "Esa carta ya fue usada.";
+
+        if (!EnTablero(filaA, colA) || !EnTablero(filaB, colB)) return "Posición fuera del tablero.";
+
+        FichaData fichaA = _reglas.ObtenerFicha(filaA, colA);
+        FichaData fichaB = _reglas.ObtenerFicha(filaB, colB);
+        if (fichaA == null || fichaB == null) return "Ficha inexistente.";
+        if (fichaA.Bloqueada || fichaB.Bloqueada) return "No podés mover una ficha bloqueada.";
+
+        if (!carta.EsValido(_reglas, filaA, colA, filaB, colB)) return "Ese movimiento no es válido para la carta elegida.";
+        return null;
+    }
+
+    private string ValidarHabilidad(int indiceJugador, int tipo, int fila, int columna, int indiceObjetivo)
+    {
+        var controller = Controller.GetInstance();
+
+        if (!controller.PuedeUsarHabilidad()) return "La habilidad todavía se está recargando.";
+
+        var jugador = controller.Jugadores()[indiceJugador];
+        if ((int)jugador.PersonajeAsignado.Tipo != tipo) return "Esa no es tu habilidad.";
+
+        var tipoHabilidad = (TipoHabilidad)tipo;
+
+        if (tipoHabilidad == TipoHabilidad.Lobizon || tipoHabilidad == TipoHabilidad.Mulanima)
+        {
+            if (!EnTablero(fila, columna)) return "Posición fuera del tablero.";
+
+            FichaData ficha = _reglas.ObtenerFicha(fila, columna);
+            if (ficha == null) return "Ficha inexistente.";
+            if (ficha.Bloqueada) return "No podés usar la habilidad sobre una ficha bloqueada.";
+        }
+
+        if (tipoHabilidad == TipoHabilidad.LuzMala)
+        {
+            if (indiceObjetivo < 0 || indiceObjetivo >= controller.Jugadores().Length || indiceObjetivo == indiceJugador)
+            {
+                return "Jugador objetivo inválido.";
+            }
+        }
+
+        return null;
+    }
+
     // ---------- Mover una ficha ----------
 
     public void SolicitarMovimiento(int indiceCarta, int filaA, int colA, int filaB, int colB)
@@ -224,33 +574,22 @@ public partial class TableroMP : Node3D
     {
         if (!Multiplayer.IsServer()) return;
 
-        long emisor = Multiplayer.GetRemoteSenderId();
-        if (emisor == 0) emisor = 1;
+        long emisor = EmisorActual();
+        string error = ValidarTurno(emisor, out int indice);
+        if (error == null) error = ValidarMovimiento(indice, indiceCarta, filaA, colA, filaB, colB);
 
-        var controller = Controller.GetInstance();
-        int indiceEmisor = DatosPartida.IdsJugadores.IndexOf(emisor);
-        if (controller.JuegoTerminado || controller.TurnoEnTransicion || indiceEmisor != controller.JugadorActual) return;
+        if (error != null)
+        {
+            Responder(emisor, false, error);
+            return;
+        }
 
-        var jugador = controller.Jugadores()[indiceEmisor];
-        if (indiceCarta < 0 || indiceCarta >= jugador.manoCartas.Count) return;
-
-        CartaMovimiento carta = jugador.manoCartas[indiceCarta];
-        if (carta == null) return;
-
-        if (filaA < 0 || filaA >= TableroReglas.Filas || colA < 0 || colA >= TableroReglas.Columnas) return;
-        if (filaB < 0 || filaB >= TableroReglas.Filas || colB < 0 || colB >= TableroReglas.Columnas) return;
-
-        FichaData fichaA = _reglas.ObtenerFicha(filaA, colA);
-        FichaData fichaB = _reglas.ObtenerFicha(filaB, colB);
-        if (fichaA == null || fichaB == null || fichaA.Bloqueada || fichaB.Bloqueada) return;
-
-        if (!carta.EsValido(_reglas, filaA, colA, filaB, colB)) return;
-
-        Rpc(MethodName.AplicarMovimiento, indiceEmisor, indiceCarta, filaA, colA, filaB, colB);
+        EjecutarMovimiento(indice, indiceCarta, filaA, colA, filaB, colB);
+        Responder(emisor, true, "Movimiento realizado.");
+        EnviarResultado(indice, false);
     }
 
-    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-    public void AplicarMovimiento(int indiceJugador, int indiceCarta, int filaA, int colA, int filaB, int colB)
+    private void EjecutarMovimiento(int indiceJugador, int indiceCarta, int filaA, int colA, int filaB, int colB)
     {
         var controller = Controller.GetInstance();
         CartaMovimiento carta = controller.Jugadores()[indiceJugador].manoCartas[indiceCarta];
@@ -289,23 +628,25 @@ public partial class TableroMP : Node3D
     {
         if (!Multiplayer.IsServer()) return;
 
-        long emisor = Multiplayer.GetRemoteSenderId();
-        if (emisor == 0) emisor = 1;
+        long emisor = EmisorActual();
+        string error = ValidarTurno(emisor, out int indice);
+        if (error == null && !Controller.GetInstance().Jugadores()[indice].RealizoAccionEsteTurno)
+        {
+            error = "Tenés que realizar al menos una acción antes de terminar el turno.";
+        }
 
-        var controller = Controller.GetInstance();
-        int indiceEmisor = DatosPartida.IdsJugadores.IndexOf(emisor);
-        if (controller.JuegoTerminado || controller.TurnoEnTransicion || indiceEmisor != controller.JugadorActual) return;
-        if (!controller.Jugadores()[indiceEmisor].RealizoAccionEsteTurno) return;
+        if (error != null)
+        {
+            Responder(emisor, false, error);
+            return;
+        }
 
-        Rpc(MethodName.AplicarFinTurno);
-    }
-
-    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-    public void AplicarFinTurno()
-    {
         Controller.GetInstance().TerminarTurno();
         FinTurnoAplicado?.Invoke();
+        Responder(emisor, true, "Turno finalizado.");
+        EnviarResultado(-1, false);
     }
+
     // ---------- Habilidades ----------
 
     public void SolicitarHabilidad(TipoHabilidad tipo, int fila, int columna, int indiceObjetivo)
@@ -318,37 +659,22 @@ public partial class TableroMP : Node3D
     {
         if (!Multiplayer.IsServer()) return;
 
-        long emisor = Multiplayer.GetRemoteSenderId();
-        if (emisor == 0) emisor = 1;
+        long emisor = EmisorActual();
+        string error = ValidarTurno(emisor, out int indice);
+        if (error == null) error = ValidarHabilidad(indice, tipo, fila, columna, indiceObjetivo);
+        if (error == null) error = EjecutarHabilidad(indice, tipo, fila, columna, indiceObjetivo);
 
-        var controller = Controller.GetInstance();
-        int indiceEmisor = DatosPartida.IdsJugadores.IndexOf(emisor);
-        if (controller.JuegoTerminado || controller.TurnoEnTransicion || indiceEmisor != controller.JugadorActual) return;
-        if (!controller.PuedeUsarHabilidad()) return;
-
-        var jugador = controller.Jugadores()[indiceEmisor];
-        if ((int)jugador.PersonajeAsignado.Tipo != tipo) return;
-
-        var tipoHabilidad = (TipoHabilidad)tipo;
-
-        if (tipoHabilidad == TipoHabilidad.Lobizon || tipoHabilidad == TipoHabilidad.Mulanima)
+        if (error != null)
         {
-            if (fila < 0 || fila >= TableroReglas.Filas || columna < 0 || columna >= TableroReglas.Columnas) return;
-
-            FichaData ficha = _reglas.ObtenerFicha(fila, columna);
-            if (ficha == null || ficha.Bloqueada) return;
+            Responder(emisor, false, error);
+            return;
         }
 
-        if (tipoHabilidad == TipoHabilidad.LuzMala)
-        {
-            if (indiceObjetivo < 0 || indiceObjetivo >= controller.Jugadores().Length || indiceObjetivo == indiceEmisor) return;
-        }
-
-        Rpc(MethodName.AplicarHabilidad, indiceEmisor, tipo, fila, columna, indiceObjetivo);
+        Responder(emisor, true, "Habilidad activada.");
+        EnviarResultado(indice, false);
     }
 
-    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-    public void AplicarHabilidad(int indiceJugador, int tipo, int fila, int columna, int indiceObjetivo)
+    private string EjecutarHabilidad(int indiceJugador, int tipo, int fila, int columna, int indiceObjetivo)
     {
         var controller = Controller.GetInstance();
         var tipoHabilidad = (TipoHabilidad)tipo;
@@ -367,16 +693,15 @@ public partial class TableroMP : Node3D
             objetivo = controller.Jugadores()[indiceObjetivo];
         }
 
-        bool activada = controller.ActivarHabilidad(tipoHabilidad, ficha, objetivo);
-        if (!activada)
+        if (!controller.ActivarHabilidad(tipoHabilidad, ficha, objetivo))
         {
-            GD.PrintErr($"La habilidad {tipoHabilidad} no se pudo activar en esta PC.");
-            return;
+            return "No se pudo activar la habilidad.";
         }
 
         if (tipoHabilidad == TipoHabilidad.Lobizon)
         {
             EmitSignal(SignalName.ComodinActivado, nodoFicha);
+            RegistrarEvento(TipoEventoRed.ComodinActivado, new[] { IdDeFicha(ficha) });
 
             var celdaComodin = new HashSet<(int fila, int columna)>
             {
@@ -387,6 +712,7 @@ public partial class TableroMP : Node3D
 
         GD.Print($"Habilidad aplicada: jugador {indiceJugador}, {tipoHabilidad}");
         AccionAplicada?.Invoke(indiceJugador);
+        return null;
     }
 
     // ---------- Reroll ----------
@@ -401,26 +727,26 @@ public partial class TableroMP : Node3D
     {
         if (!Multiplayer.IsServer()) return;
 
-        long emisor = Multiplayer.GetRemoteSenderId();
-        if (emisor == 0) emisor = 1;
+        long emisor = EmisorActual();
+        string error = ValidarTurno(emisor, out int indice);
+        if (error == null)
+        {
+            var jugador = Controller.GetInstance().Jugadores()[indice];
+            if (jugador.RealizoAccionEsteTurno) error = "Solo podés rerollear antes de realizar una acción.";
+            else if (!jugador.RerollDisponible) error = "Ya usaste el reroll este turno.";
+        }
 
-        var controller = Controller.GetInstance();
-        int indiceEmisor = DatosPartida.IdsJugadores.IndexOf(emisor);
-        if (controller.JuegoTerminado || controller.TurnoEnTransicion || indiceEmisor != controller.JugadorActual) return;
+        if (error != null)
+        {
+            Responder(emisor, false, error);
+            return;
+        }
 
-        var jugador = controller.Jugadores()[indiceEmisor];
-        if (jugador.RealizoAccionEsteTurno || !jugador.RerollDisponible) return;
-
-        Rpc(MethodName.AplicarReroll, indiceEmisor);
-    }
-
-    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-    public void AplicarReroll(int indiceJugador)
-    {
         Controller.GetInstance().RerollearManoActual();
+        RerollAplicado?.Invoke(indice);
+        AccionAplicada?.Invoke(indice);
 
-        GD.Print($"Reroll aplicado: jugador {indiceJugador}");
-        RerollAplicado?.Invoke(indiceJugador);
-        AccionAplicada?.Invoke(indiceJugador);
+        Responder(emisor, true, "Mano rerolleada.");
+        EnviarResultado(indice, true);
     }
 }
