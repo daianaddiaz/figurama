@@ -221,13 +221,20 @@ autowrap_mode = 3
 layout_mode = 2
 text = "Crear Partida"
 
+[node name="LabelSala" type="Label" parent="PanelLobby" unique_id=1985052811]
+layout_mode = 2
+text = "Buscando sala..."
+
+[node name="ListaSalas" type="VBoxContainer" parent="PanelLobby" unique_id=5557785]
+layout_mode = 2
+
 [node name="CampoIP" type="LineEdit" parent="PanelLobby" unique_id=91204037]
 layout_mode = 2
 text = "127.0.0.1"
 
 [node name="BotonUnirse" type="Button" parent="PanelLobby" unique_id=674480793]
 layout_mode = 2
-text = "Unirse"
+text = "Unirse por IP"
 
 [node name="CampoNombre" type="LineEdit" parent="PanelLobby" unique_id=426353408]
 layout_mode = 2

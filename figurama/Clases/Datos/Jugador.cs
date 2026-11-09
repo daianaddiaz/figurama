@@ -16,6 +16,7 @@ public partial class Jugador
     public int CartasMovimientoAQuitar { get; set; } = 0;
     public FichaData FichaComodinActiva { get; set; }
     public int MovimientosExtraEsteTurno { get; set; } = 0;
+    public bool Eliminado { get; set; } = false;
 
     public Jugador() { }
 }

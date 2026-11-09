@@ -1,8 +1,8 @@
+VBoxContainer
+Label
 OptionButton
 Camera3D
 Button
-Label
-VBoxContainer
 Control
 LineEdit
 TextureRect

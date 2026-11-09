@@ -320,7 +320,14 @@ public partial class Controller
             jugadorSaliente.FichaComodinActiva = null;
         }
 
-        JugadorActual = (JugadorActual + 1) % jugadores.Length;
+        // Los jugadores eliminados se saltean
+        int intentos = 0;
+        do
+        {
+            JugadorActual = (JugadorActual + 1) % jugadores.Length;
+            intentos++;
+        }
+        while (jugadores[JugadorActual].Eliminado && intentos <= jugadores.Length);
         Jugador jugadorEntrante = jugadores[JugadorActual];
 
         jugadorEntrante.manoCartas = MazoMovimiento.GetInstance().generarMano();
@@ -402,5 +409,45 @@ public partial class Controller
         condicionDeVictoria = true;
         temporizadorActivo = false;
         enPausa = false;
+    }
+    
+    // El reloj está frenado (pausa, cambio de turno o tiempo agotado)
+    public bool TemporizadorDetenido => !temporizadorActivo;
+
+    public int JugadoresActivos()
+    {
+        if (jugadores == null) return 0;
+
+        int cantidad = 0;
+        foreach (Jugador j in jugadores)
+        {
+            if (!j.Eliminado) cantidad++;
+        }
+        return cantidad;
+    }
+
+    // Saca a un jugador de la partida y libera lo que dejó activo en el tablero
+    public void EliminarJugador(int indice)
+    {
+        if (jugadores == null || indice < 0 || indice >= jugadores.Length) return;
+
+        Jugador jugador = jugadores[indice];
+        if (jugador.Eliminado) return;
+
+        jugador.Eliminado = true;
+
+        if (jugador.FichaComodinActiva != null)
+        {
+            jugador.FichaComodinActiva.EsComodin = false;
+            FichaComodinDesactivada?.Invoke(jugador.FichaComodinActiva);
+            jugador.FichaComodinActiva = null;
+        }
+
+        var bloqueadas = new List<FichaData>(jugador.FichasBloqueadas);
+        new HabilidadMulanima().LiberarTodas(jugador);
+        foreach (FichaData ficha in bloqueadas)
+        {
+            FichaDesbloqueadaEvent?.Invoke(ficha);
+        }
     }
 }

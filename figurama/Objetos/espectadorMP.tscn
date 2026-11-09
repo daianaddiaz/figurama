@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ctfql20733q1f"]
+
+[ext_resource type="Script" uid="uid://bppx134xyob0p" path="res://Clases/Visual/EspectadorMP.cs" id="1_xvv0d"]
+
+[node name="EspectadorMP" type="Node3D" unique_id=1949430365]
+script = ExtResource("1_xvv0d")

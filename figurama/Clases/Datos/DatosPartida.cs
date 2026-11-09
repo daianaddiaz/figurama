@@ -7,4 +7,9 @@ public static class DatosPartida
     public static int IndiceJugadorLocal = 0;
     public static bool EsMultijugador = false;
     public static List<long> IdsJugadores = new List<long>();
+    public static bool EsEspectador = false;
+    public static string NombreSala = "";
+    public static string TokenLocal = System.Guid.NewGuid().ToString();
+    public static List<string> TokensJugadores = new List<string>();
+    public static string SalaReconexionId = "";
 }

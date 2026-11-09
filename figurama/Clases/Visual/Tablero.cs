@@ -491,6 +491,7 @@ public partial class Tablero : Node3D
     private void MostrarVictoria(string nombreGanador)
     {
         GetNode<Label>("UITemporal/PanelVictoria/LabelGanador").Text = $"¡{nombreGanador} ganó la partida!";
+        Estadisticas.Mostrar(GetNodeOrNull<Label>("UITemporal/PanelVictoria/LabelEstadisticas"));
         GetNode<Control>("UITemporal/PanelVictoria").Show();
     }
 

@@ -1,11 +1,13 @@
 using Godot;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
 
 public partial class TableroMP : Node3D
 {
     [Export] public PackedScene FichaScene;
     [Export] public PackedScene JugadorScene;
+    [Export] public PackedScene EspectadorScene;
 
     [Signal] public delegate void FiguraCompletadaEventHandler(Ficha ficha);
     [Signal] public delegate void BloqueadaEventHandler(Ficha ficha);
@@ -23,11 +25,15 @@ public partial class TableroMP : Node3D
     private readonly TableroReglas _reglas = new TableroReglas();
     private readonly GestorFichas _gestorFichas = new GestorFichas();
     private readonly List<EventoRed> _eventosPendientes = new List<EventoRed>();
+    private readonly List<long> _espectadoresEsperando = new List<long>();
     private Node _sonidos;
+    private Label _labelAviso;
+    private int[] _coloresIniciales;
     private int _clientesListos = 0;
     private bool _tableroEnviado = false;
     private bool _tableroCreado = false;
     private bool _partidaCortada = false;
+    private bool _pausadoPorAusencia = false;
     private float _acumuladorTiempo = 0f;
 
     public List<Ficha> Fichas { get; private set; } = new List<Ficha>();
@@ -36,17 +42,19 @@ public partial class TableroMP : Node3D
     public override void _Ready()
     {
         _sonidos = GetNode<Node>("Sonidos");
+        CrearLabelAviso();
 
         // El reloj arranca recién cuando el tablero está creado
         Controller.GetInstance().PausarTemporizador(true);
 
-        Multiplayer.PeerDisconnected += OnPeerDesconectado;
         Multiplayer.ServerDisconnected += OnServidorDesconectado;
-
         GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
 
         if (Multiplayer.IsServer())
         {
+            GestorSala.Instancia.JugadorAusente += OnJugadorAusente;
+            GestorSala.Instancia.JugadorVolvio += OnJugadorVolvio;
+            GestorSala.Instancia.JugadorExpulsado += OnJugadorExpulsado;
             IntentarEnviarTablero();
         }
         else
@@ -55,26 +63,16 @@ public partial class TableroMP : Node3D
         }
     }
 
-    public override void _Process(double delta)
-    {
-        // El servidor le manda el tiempo restante a los clientes cada segundo
-        if (!_tableroCreado || !Multiplayer.IsServer() || _partidaCortada) return;
-
-        _acumuladorTiempo += (float)delta;
-        if (_acumuladorTiempo >= 1f)
-        {
-            _acumuladorTiempo = 0f;
-            if (Multiplayer.GetPeers().Length > 0)
-            {
-                Rpc(MethodName.RecibirTiempo, Controller.GetInstance().TiempoRestante);
-            }
-        }
-    }
-
     public override void _ExitTree()
     {
-        Multiplayer.PeerDisconnected -= OnPeerDesconectado;
         Multiplayer.ServerDisconnected -= OnServidorDesconectado;
+
+        if (GestorSala.Instancia != null)
+        {
+            GestorSala.Instancia.JugadorAusente -= OnJugadorAusente;
+            GestorSala.Instancia.JugadorVolvio -= OnJugadorVolvio;
+            GestorSala.Instancia.JugadorExpulsado -= OnJugadorExpulsado;
+        }
 
         if (Controller._instance != null)
         {
@@ -91,6 +89,83 @@ public partial class TableroMP : Node3D
         }
     }
 
+    public override void _Process(double delta)
+    {
+        // El servidor manda el tiempo restante y el aviso de ausencias cada segundo
+        if (!_tableroCreado || !Multiplayer.IsServer() || _partidaCortada) return;
+
+        _acumuladorTiempo += (float)delta;
+        if (_acumuladorTiempo < 1f) return;
+        _acumuladorTiempo = 0f;
+
+        var controller = Controller.GetInstance();
+        string aviso = ConstruirAviso();
+        MostrarAviso(aviso);
+
+        if (Multiplayer.GetPeers().Length > 0)
+        {
+            Rpc(MethodName.RecibirTiempo, controller.TiempoRestante, controller.TemporizadorDetenido, aviso);
+        }
+    }
+
+    // ---------- Aviso de jugadores ausentes ----------
+
+    private void CrearLabelAviso()
+    {
+        _labelAviso = new Label
+        {
+            Visible = false,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        _labelAviso.AddThemeFontSizeOverride("font_size", 24);
+        _labelAviso.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.3f));
+        _labelAviso.AddThemeColorOverride("font_outline_color", Colors.Black);
+        _labelAviso.AddThemeConstantOverride("outline_size", 6);
+
+        GetNode<Node>("UITemporal").AddChild(_labelAviso);
+        _labelAviso.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.CenterTop);
+        _labelAviso.GrowHorizontal = Control.GrowDirection.Both;
+        _labelAviso.OffsetTop = 90;
+    }
+
+    private void MostrarAviso(string texto)
+    {
+        if (_labelAviso == null) return;
+
+        _labelAviso.Text = texto;
+        _labelAviso.Visible = !string.IsNullOrEmpty(texto);
+    }
+
+    // Solo en el servidor: arma el texto con los jugadores ausentes y el tiempo que les queda
+    private string ConstruirAviso()
+    {
+        var controller = Controller.GetInstance();
+        if (controller.JuegoTerminado || controller.Jugadores() == null) return "";
+
+        GestorSala.Instancia.ObtenerAusencias(out int[] indices, out int[] segundos);
+        if (indices.Length == 0) return "";
+
+        Jugador[] jugadores = controller.Jugadores();
+        var texto = new StringBuilder();
+        for (int i = 0; i < indices.Length; i++)
+        {
+            texto.Append($"{jugadores[indices[i]].nombre} se desconectó: {segundos[i]} s para volver");
+            if (indices[i] == controller.JugadorActual) texto.Append(" (partida en pausa)");
+            if (i < indices.Length - 1) texto.AppendLine();
+        }
+        return texto.ToString();
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.Authority)]
+    public void RecibirTiempo(float tiempo, bool detenido, string aviso)
+    {
+        if (Multiplayer.IsServer() || !_tableroCreado) return;
+
+        Controller.GetInstance().AplicarTiempoRemoto(tiempo, detenido);
+        MostrarAviso(aviso);
+    }
+
     // ---------- Creación del tablero ----------
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
@@ -98,19 +173,54 @@ public partial class TableroMP : Node3D
     {
         if (!Multiplayer.IsServer()) return;
 
-        _clientesListos++;
-        IntentarEnviarTablero();
+        long emisor = EmisorActual();
+
+        // Entrada tardía (espectador o jugador que vuelve): se le manda el estado actual
+        if (_tableroCreado)
+        {
+            EnviarTableroA(emisor);
+            return;
+        }
+
+        if (DatosPartida.IdsJugadores.Contains(emisor))
+        {
+            _clientesListos++;
+            IntentarEnviarTablero();
+        }
+        else
+        {
+            _espectadoresEsperando.Add(emisor);
+        }
     }
 
     private void IntentarEnviarTablero()
     {
         if (_tableroEnviado) return;
-        if (_clientesListos < Multiplayer.GetPeers().Length) return;
+        if (_clientesListos < DatosPartida.IdsJugadores.Count - 1) return;
 
         _tableroEnviado = true;
-        int[] colores = _gestorFichas.GenerarIndicesColores();
+        _coloresIniciales = _gestorFichas.GenerarIndicesColores();
         string estadoJson = JsonSerializer.Serialize(ConstruirSnapshot());
-        Rpc(MethodName.CrearTablero, colores, estadoJson);
+
+        // Solo los jugadores reciben el tablero inicial; los demás lo piden al entrar
+        foreach (long id in DatosPartida.IdsJugadores)
+        {
+            if (id > 1) RpcId(id, MethodName.CrearTablero, _coloresIniciales, estadoJson);
+        }
+        CrearTablero(_coloresIniciales, estadoJson);
+
+        foreach (long espectador in _espectadoresEsperando)
+        {
+            EnviarTableroA(espectador);
+        }
+        _espectadoresEsperando.Clear();
+    }
+
+    // Servidor: manda el tablero con su estado actual a quien entra a mitad de partida
+    private void EnviarTableroA(long id)
+    {
+        string estadoJson = JsonSerializer.Serialize(ConstruirSnapshot());
+        RpcId(id, MethodName.CrearTablero, _coloresIniciales, estadoJson);
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
@@ -125,6 +235,11 @@ public partial class TableroMP : Node3D
             var snap = JsonSerializer.Deserialize<PartidaSnapshot>(estadoJson);
             Controller.GetInstance().ImportarEstado(snap, FichaPorId);
             AplicarTablero(snap.Fichas);
+
+            if (snap.UltimoColor >= 0)
+            {
+                Controller.GetInstance().DispararUltimoColor((ColorFicha)snap.UltimoColor);
+            }
         }
 
         var controller = Controller.GetInstance();
@@ -147,7 +262,15 @@ public partial class TableroMP : Node3D
             Connect(SignalName.ComodinDesactivado, new Callable(ficha, "_on_ficha_comodin_desactivado"));
         }
 
-        AddChild(JugadorScene.Instantiate<Node3D>());
+        // Si entré con la partida avanzada, muestro los efectos que ya estaban activos
+        foreach (Ficha ficha in Fichas)
+        {
+            if (ficha.Datos.EsComodin) EmitSignal(SignalName.ComodinActivado, ficha);
+            if (ficha.Datos.Bloqueada) EmitSignal(SignalName.Bloqueada, ficha);
+        }
+
+        PackedScene escenaLocal = DatosPartida.EsEspectador ? EspectadorScene : JugadorScene;
+        AddChild(escenaLocal.Instantiate<Node3D>());
 
         _tableroCreado = true;
         if (Multiplayer.IsServer())
@@ -357,13 +480,6 @@ public partial class TableroMP : Node3D
         }
     }
 
-    [Rpc(MultiplayerApi.RpcMode.Authority)]
-    public void RecibirTiempo(float tiempo)
-    {
-        if (Multiplayer.IsServer() || !_tableroCreado) return;
-        Controller.GetInstance().AplicarTiempoRemoto(tiempo);
-    }
-
     // Respuesta del servidor al jugador que mandó una acción (válida o inválida)
     private void Responder(long emisor, bool ok, string mensaje)
     {
@@ -435,6 +551,16 @@ public partial class TableroMP : Node3D
 
     private void OnTurnoCambiado(int jugadorActual)
     {
+        if (Multiplayer.IsServer())
+        {
+            // El reloj se reinició con el turno: si le toca a un ausente, se vuelve a frenar
+            _pausadoPorAusencia = false;
+            if (GestorSala.Instancia.EstaAusente(jugadorActual))
+            {
+                PausarPorAusencia();
+            }
+        }
+
         RegistrarEvento(TipoEventoRed.TurnoCambiado, new[] { jugadorActual });
         EnviarResultado(-1, false);
     }
@@ -459,6 +585,7 @@ public partial class TableroMP : Node3D
     private void MostrarVictoria(string nombreGanador)
     {
         GetNode<Label>("UITemporal/PanelVictoria/LabelGanador").Text = $"¡{nombreGanador} ganó la partida!";
+        Estadisticas.Mostrar(GetNodeOrNull<Label>("UITemporal/PanelVictoria/LabelEstadisticas"));
         GetNode<Control>("UITemporal/PanelVictoria").Show();
     }
 
@@ -472,17 +599,81 @@ public partial class TableroMP : Node3D
         GetTree().ChangeSceneToFile("res://Objetos/menuPrincipal.tscn");
     }
 
-    private void OnPeerDesconectado(long id)
+    // ---------- Ausencias, eliminación y fin de partida ----------
+
+    private void PausarPorAusencia()
     {
-        TerminarPorDesconexion("Un jugador se desconectó.");
+        _pausadoPorAusencia = true;
+        Controller.GetInstance().PausarTemporizador(true);
+    }
+
+    private void OnJugadorAusente(int indice)
+    {
+        var controller = Controller.GetInstance();
+        if (controller.JuegoTerminado) return;
+
+        // Si el que se fue está en su turno, el juego espera a que vuelva
+        if (indice == controller.JugadorActual && !controller.TurnoEnTransicion)
+        {
+            PausarPorAusencia();
+        }
+    }
+
+    private void OnJugadorVolvio(int indice)
+    {
+        var controller = Controller.GetInstance();
+        if (controller.JuegoTerminado) return;
+
+        if (_pausadoPorAusencia && indice == controller.JugadorActual)
+        {
+            _pausadoPorAusencia = false;
+            controller.PausarTemporizador(false);
+        }
+    }
+
+    private void OnJugadorExpulsado(int indice)
+    {
+        var controller = Controller.GetInstance();
+        if (controller.JuegoTerminado) return;
+
+        bool eraSuTurno = indice == controller.JugadorActual;
+
+        // Libera su comodín y sus bloqueos, y lo marca como eliminado
+        controller.EliminarJugador(indice);
+
+        if (controller.JugadoresActivos() < 2)
+        {
+            string motivo = "Quedan menos de 2 jugadores.\nLa partida terminó sin ganador.";
+            if (Multiplayer.GetPeers().Length > 0)
+            {
+                Rpc(MethodName.RecibirFinPartida, motivo);
+            }
+            FinalizarPartida(motivo);
+            return;
+        }
+
+        if (eraSuTurno && !controller.TurnoEnTransicion)
+        {
+            _pausadoPorAusencia = false;
+            controller.TerminarTurno();
+        }
+
+        EnviarResultado(-1, false);
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.Authority)]
+    public void RecibirFinPartida(string motivo)
+    {
+        if (Multiplayer.IsServer()) return;
+        FinalizarPartida(motivo);
     }
 
     private void OnServidorDesconectado()
     {
-        TerminarPorDesconexion("Se perdió la conexión con el host.");
+        FinalizarPartida("Se perdió la conexión con el host.\nLa partida terminó.");
     }
 
-    private void TerminarPorDesconexion(string motivo)
+    private void FinalizarPartida(string motivo)
     {
         if (_partidaCortada) return;
         if (Controller.GetInstance().JuegoTerminado) return;
@@ -490,7 +681,9 @@ public partial class TableroMP : Node3D
         _partidaCortada = true;
         Controller.GetInstance().CortarPartida();
 
-        GetNode<Label>("UITemporal/PanelVictoria/LabelGanador").Text = $"{motivo}\nLa partida terminó.";
+        MostrarAviso("");
+        GetNode<Label>("UITemporal/PanelVictoria/LabelGanador").Text = motivo;
+        Estadisticas.Mostrar(GetNodeOrNull<Label>("UITemporal/PanelVictoria/LabelEstadisticas"));
         GetNode<Control>("UITemporal/PanelVictoria").Show();
 
         // Refresca los botones del jugador (quedan deshabilitados)
@@ -505,6 +698,7 @@ public partial class TableroMP : Node3D
         indiceEmisor = DatosPartida.IdsJugadores.IndexOf(emisor);
 
         if (indiceEmisor < 0) return "No sos parte de esta partida.";
+        if (controller.Jugadores()[indiceEmisor].Eliminado) return "Fuiste eliminado de la partida.";
         if (controller.JuegoTerminado) return "La partida ya terminó.";
         if (controller.TurnoEnTransicion) return "El turno está cambiando, esperá un momento.";
         if (indiceEmisor != controller.JugadorActual) return "No es tu turno.";
@@ -557,6 +751,7 @@ public partial class TableroMP : Node3D
             {
                 return "Jugador objetivo inválido.";
             }
+            if (controller.Jugadores()[indiceObjetivo].Eliminado) return "Ese jugador ya fue eliminado.";
         }
 
         return null;

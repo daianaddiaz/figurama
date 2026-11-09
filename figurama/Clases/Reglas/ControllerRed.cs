@@ -36,6 +36,7 @@ public partial class Controller
             TurnoUltimoUso = j.PersonajeAsignado.TurnoUltimoUso ?? -1,
             RerollDisponible = j.RerollDisponible,
             RealizoAccionEsteTurno = j.RealizoAccionEsteTurno,
+            Eliminado = j.Eliminado,
             Puntuacion = j.Puntuacion,
             VueltasJugadas = j.VueltasJugadas,
             CartasMovimientoAQuitar = j.CartasMovimientoAQuitar,
@@ -81,6 +82,7 @@ public partial class Controller
         MovimientosUsadosEnTurno = 0;
         UltimoColorUsado = null;
         CartaSeleccionada = null;
+        _tiempoRemotoDetenido = false;
     }
 
     public void ImportarEstado(PartidaSnapshot snap, Func<int, FichaData> fichaPorId)
@@ -124,6 +126,7 @@ public partial class Controller
 
         j.RerollDisponible = s.RerollDisponible;
         j.RealizoAccionEsteTurno = s.RealizoAccionEsteTurno;
+        j.Eliminado = s.Eliminado;
         j.Puntuacion = s.Puntuacion;
         j.VueltasJugadas = s.VueltasJugadas;
         j.CartasMovimientoAQuitar = s.CartasMovimientoAQuitar;
@@ -170,15 +173,23 @@ public partial class Controller
 
     // ---------- Cliente: reloj (solo visual) ----------
 
+    private bool _tiempoRemotoDetenido = false;
+
     public void AplicarTiempoRemoto(float tiempo)
     {
+        AplicarTiempoRemoto(tiempo, false);
+    }
+
+    public void AplicarTiempoRemoto(float tiempo, bool detenido)
+    {
         TiempoRestante = tiempo;
+        _tiempoRemotoDetenido = detenido;
         TemporizadorActualizado?.Invoke(TiempoRestante);
     }
 
     public void DescontarTiempoVisual(float delta)
     {
-        if (condicionDeVictoria || TurnoEnTransicion || jugadores == null) return;
+        if (condicionDeVictoria || TurnoEnTransicion || _tiempoRemotoDetenido || jugadores == null) return;
         if (TiempoRestante <= 0.0f) return;
 
         TiempoRestante -= delta;

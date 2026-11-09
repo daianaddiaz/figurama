@@ -241,6 +241,7 @@ public partial class MenuPrincipal : Control
         DatosPartida.PersonajesElegidos = personajesElegidos;
         DatosPartida.IndiceJugadorLocal = 0;
         DatosPartida.EsMultijugador = false;
+        DatosPartida.EsEspectador = false;
         Azar.Reiniciar();
         Controller.GetInstance().InicializarJugadores();
 

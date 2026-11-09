@@ -40,6 +40,7 @@ public class JugadorSnapshot
     public int TurnoUltimoUso { get; set; } = -1;
     public bool RerollDisponible { get; set; }
     public bool RealizoAccionEsteTurno { get; set; }
+    public bool Eliminado { get; set; }
     public int Puntuacion { get; set; }
     public int VueltasJugadas { get; set; }
     public int CartasMovimientoAQuitar { get; set; }

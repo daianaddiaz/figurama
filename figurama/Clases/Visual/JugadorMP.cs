@@ -72,6 +72,7 @@ public partial class JugadorMP : Node3D
         Controller.GetInstance().TurnoCambiado += OnTurnoCambiado;
 
         CrearLabelMensaje();
+        InfoConexion.Agregar(GetNode("UITemporal"), this);
         CrearInsignia();
         CrearHabilidad();
         ActualizarInsigniasSecundarias();
@@ -200,7 +201,7 @@ public partial class JugadorMP : Node3D
         var jugadores = Controller.GetInstance().Jugadores();
         for (int i = 0; i < jugadores.Length; i++)
         {
-            if (i == _indice) continue;
+            if (i == _indice || jugadores[i].Eliminado) continue;
 
             var insignia = InsigniaViewScene.Instantiate<InsigniaView>();
             contenedor.AddChild(insignia);
@@ -378,8 +379,7 @@ public partial class JugadorMP : Node3D
 
         CartaMovimiento carta = controller.CartaSeleccionada;
 
-        if (carta != null && !ficha.Datos.Bloqueada &&
-            carta.EsValido(_tablero.Reglas, _fichaSeleccionada.Datos.Fila, _fichaSeleccionada.Datos.Columna, ficha.Datos.Fila, ficha.Datos.Columna))
+        if (carta != null)
         {
             int indiceCarta = _jugador.manoCartas.IndexOf(carta);
             if (indiceCarta >= 0)
@@ -473,7 +473,7 @@ public partial class JugadorMP : Node3D
 
         for (int i = 0; i < jugadores.Length; i++)
         {
-            if (i == _indice) continue;
+            if (i == _indice || jugadores[i].Eliminado) continue;
             popup.AddItem(jugadores[i].nombre, i);
         }
 

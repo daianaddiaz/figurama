@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b5ljcb8aavpgn" path="res://Clases/Visual/TableroMP.cs" id="1_3wiuj"]
 [ext_resource type="PackedScene" uid="uid://dkmnblo603ilc" path="res://Objetos/ficha.tscn" id="2_nri4e"]
 [ext_resource type="PackedScene" uid="uid://cwmdwt0vdcs17" path="res://Objetos/jugadorMP.tscn" id="3_t02y1"]
+[ext_resource type="PackedScene" uid="uid://ctfql20733q1f" path="res://Objetos/espectadorMP.tscn" id="4_nlrpt"]
 [ext_resource type="PackedScene" uid="uid://bnajmnqoq7plh" path="res://Objetos/indicador_ultimo_color.tscn" id="7_rihhu"]
 [ext_resource type="Script" uid="uid://bh4lahjti2fp4" path="res://Clases/Visual/IndicadorUltimoColorView.cs" id="8_bkmsl"]
 [ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="9_2gsvg"]
@@ -18,6 +19,7 @@
 script = ExtResource("1_3wiuj")
 FichaScene = ExtResource("2_nri4e")
 JugadorScene = ExtResource("3_t02y1")
+EspectadorScene = ExtResource("4_nlrpt")
 
 [node name="Sonidos" type="Node" parent="." unique_id=1349820042]
 

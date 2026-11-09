@@ -1,4 +1,9 @@
+res://Objetos/menuPrincipal.tscn
+res://addons/gut/gui/editor_globals.gd
+res://addons/gut/gui/EditorRadioButton.tres
+res://Clases/Visual/DescubrimientoSalas.cs
 res://Clases/Visual/LobbyRed.cs
+res://Clases/Visual/GestorSala.cs
 res://Clases/Visual/MenuPrincipal.cs
 res://Clases/Visual/MenuPausa.cs
 res://Clases/Visual/TimerView.cs
@@ -30,9 +35,14 @@ res://Clases/Visual/Ficha.cs
 res://Clases/Visual/TableroMP.cs
 res://Clases/Visual/PartidaMPPrueba.cs
 res://Clases/Visual/SplashScreen.cs
+res://Clases/Visual/Tablero.cs
 res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Clases/Visual/Tutorial.cs
-res://Clases/Visual/Tablero.cs
+res://Clases/Datos/DatosPartida.cs
+res://Clases/Visual/EspectadorMP.cs
+res://Objetos/tableroMP.tscn
+res://Clases/Datos/Jugador.cs
 res://Clases/Datos/PartidaSnapshot.cs
-res://Clases/Reglas/ControllerRed.cs
 res://Clases/Reglas/Controller.cs
+res://Clases/Visual/Estadisticas.cs
+res://Clases/Visual/InfoConexion.cs
