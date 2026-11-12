@@ -156,6 +156,8 @@ offset_right = 61.0
 offset_bottom = 122.0
 
 [node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("4_7uocc")]
+offset_top = 4.0
+offset_bottom = 4.0
 mouse_filter = 2
 theme = ExtResource("14_vkud5")
 
@@ -177,9 +179,14 @@ grow_vertical = 2
 theme = ExtResource("16_1fyr1")
 
 [node name="LabelGanador" type="Label" parent="UITemporal/PanelVictoria" unique_id=798286767]
-layout_mode = 0
-offset_right = 40.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
 offset_bottom = 23.0
+grow_horizontal = 2
 theme = ExtResource("14_vkud5")
 theme_override_font_sizes/font_size = 19
 horizontal_alignment = 1
@@ -202,10 +209,10 @@ theme = ExtResource("16_1fyr1")
 text = "Volver al Menú"
 
 [node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=1558671576]
-offset_left = 26.0
-offset_top = 164.0
-offset_right = 154.0
-offset_bottom = 195.0
+offset_left = 931.0
+offset_top = 296.0
+offset_right = 1059.0
+offset_bottom = 327.0
 theme = ExtResource("16_1fyr1")
 text = "Finalizar Turno "
 
@@ -218,10 +225,10 @@ offset_bottom = 34.0
 texture = ExtResource("21_g5jwf")
 
 [node name="BotonPausa" type="Button" parent="UITemporal" unique_id=882646324]
-offset_left = 31.0
-offset_top = 204.0
-offset_right = 86.0
-offset_bottom = 235.0
+offset_left = 936.0
+offset_top = 336.0
+offset_right = 991.0
+offset_bottom = 367.0
 theme = ExtResource("16_1fyr1")
 text = "Pausa"
 

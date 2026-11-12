@@ -18,6 +18,7 @@ theme = ExtResource("1_38krp")
 script = ExtResource("1_eavyo")
 CartaDeMovimientoScene = ExtResource("2_jj060")
 CartaDeFiguraScene = ExtResource("3_jj060")
+metadata/_edit_horizontal_guides_ = [-54.0]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=948701039]
 layout_mode = 0
@@ -27,6 +28,7 @@ offset_bottom = 649.0
 texture = ExtResource("5_pt8ux")
 
 [node name="TextoIndicativo" type="Label" parent="." unique_id=47432419]
+visible = false
 layout_mode = 0
 offset_left = 886.0
 offset_top = 78.0
@@ -37,11 +39,11 @@ horizontal_alignment = 1
 [node name="BotonesMovimientos" type="HBoxContainer" parent="." unique_id=246760735]
 propagate_maximum_size = false
 layout_mode = 0
-offset_left = 136.0
-offset_top = 446.0
-offset_right = 136.0
-offset_bottom = 446.0
-scale = Vector2(1.45, 1.45)
+offset_left = 145.00002
+offset_top = 460.00003
+offset_right = 145.00002
+offset_bottom = 460.00003
+scale = Vector2(1.3, 1.3)
 alignment = 2
 
 [node name="BotonReroll" type="Button" parent="." unique_id=1120244138]
@@ -73,11 +75,11 @@ label_settings = SubResource("LabelSettings_j5se4")
 [node name="CartasFiguras" type="HBoxContainer" parent="." unique_id=1845447606]
 propagate_maximum_size = false
 layout_mode = 0
-offset_left = 769.00006
-offset_top = 446.0
-offset_right = 769.00006
-offset_bottom = 446.0
-scale = Vector2(1.45, 1.45)
+offset_left = 760.0
+offset_top = 460.0
+offset_right = 760.0
+offset_bottom = 460.0
+scale = Vector2(1.3, 1.3)
 
 [node name="TextoIndicativo2" type="Label" parent="." unique_id=476807306]
 visible = false
@@ -90,10 +92,11 @@ text = "Figuras a Armar:"
 
 [node name="Puntuacion" parent="." unique_id=1664323275 instance=ExtResource("4_q4kwa")]
 layout_mode = 0
-offset_left = 699.0
-offset_top = 418.0
-offset_right = 1134.0
-offset_bottom = 460.0
+offset_left = 783.0
+offset_top = 440.0
+offset_right = 1218.0
+offset_bottom = 482.0
+scale = Vector2(0.8, 0.8)
 horizontal_alignment = 2
 
 [node name="Sonidos" type="Node" parent="." unique_id=673407697]

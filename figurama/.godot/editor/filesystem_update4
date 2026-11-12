@@ -1,3 +1,8 @@
+res://Objetos/mano_de_cartas.tscn
+res://addons/gut/gui/editor_globals.gd
+res://addons/gut/gui/EditorRadioButton.tres
+res://Objetos/indicador_ultimo_color.tscn
+res://Clases/Visual/Tablero.cs
 res://Clases/Visual/LobbyRed.cs
 res://Clases/Visual/MenuPrincipal.cs
 res://Clases/Visual/MenuPausa.cs
@@ -33,16 +38,6 @@ res://Clases/Visual/PartidaMPPrueba.cs
 res://Clases/Visual/GestorSala.cs
 res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Clases/Visual/Tutorial.cs
-res://Clases/Visual/Tablero.cs
 res://Clases/Visual/SplashScreen.cs
-res://Objetos/puntuacion.tscn
-res://addons/gut/gui/editor_globals.gd
-res://addons/gut/gui/EditorRadioButton.tres
-res://Objetos/jugadorMP.tscn
-res://Objetos/mano_de_cartas.tscn
-res://Objetos/indicador_ultimo_color.tscn
-res://Objetos/tableroMP.tscn
-res://Objetos/ficha.tscn
 res://Objetos/labeltimer.tscn
 res://Objetos/tablero.tscn
-res://Objetos/MenuPausa.tscn
