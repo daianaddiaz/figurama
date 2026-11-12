@@ -55,7 +55,6 @@ script = ExtResource("8_bkmsl")
 [node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("10_nlrpt")]
 mouse_filter = 2
 theme = ExtResource("9_2gsvg")
-metadata/_edit_lock_ = true
 
 [node name="PanelVictoria" type="Panel" parent="UITemporal" unique_id=486793435]
 visible = false
@@ -98,10 +97,10 @@ theme = ExtResource("11_0meei")
 text = "Volver al Menú"
 
 [node name="BotonPausa" type="Button" parent="UITemporal" unique_id=226949926]
-offset_left = 26.0
-offset_top = 118.0
-offset_right = 81.0
-offset_bottom = 149.0
+offset_left = 996.0
+offset_top = 192.0
+offset_right = 1051.0
+offset_bottom = 223.0
 text = "Pausa"
 
 [node name="TextureRect" type="TextureRect" parent="UITemporal/BotonPausa" unique_id=709774954]

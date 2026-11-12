@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://drwoyxnw03e2o" path="res://Clases/Visual/TimerView.cs" id="1_hbl0h"]
 [ext_resource type="Texture2D" uid="uid://dpfvp3yrv1e0l" path="res://Assets/TimerFondo.png" id="2_mp83l"]
+[ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="3_fxbiy"]
 
 [node name="Timer" type="Control" unique_id=1216704269]
 layout_mode = 3
@@ -17,10 +18,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -1142.0
-offset_top = -63.0
-offset_right = -976.0
-offset_bottom = 105.0
+offset_left = -276.0
+offset_top = -29.0
+offset_right = -110.0
+offset_bottom = 139.0
 grow_horizontal = 0
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_mp83l")
@@ -33,10 +34,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -1093.0
-offset_top = 47.0
-offset_right = -993.0
-offset_bottom = 147.0
+offset_left = -227.0
+offset_top = 81.0
+offset_right = -127.0
+offset_bottom = 181.0
 grow_horizontal = 0
 scale = Vector2(1.5, 1.5)
 theme_override_font_sizes/font_size = 30
@@ -45,7 +46,6 @@ horizontal_alignment = 1
 uppercase = true
 
 [node name="LabelAlerta" type="Label" parent="." unique_id=1106429036]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -58,5 +58,6 @@ offset_right = 77.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_fxbiy")
 theme_override_font_sizes/font_size = 27
 text = "TURNO FINALIZADO"

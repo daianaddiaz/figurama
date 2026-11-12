@@ -46,27 +46,27 @@ alignment = 2
 
 [node name="BotonReroll" type="Button" parent="." unique_id=1120244138]
 layout_mode = 0
-offset_left = 28.0
-offset_top = 213.0
-offset_right = 283.0
-offset_bottom = 244.0
+offset_left = 832.0
+offset_top = 221.0
+offset_right = 1087.0
+offset_bottom = 252.0
 theme_override_font_sizes/font_size = 12
 text = "Rerollear Mano de Movimientos"
 
 [node name="TextureRect" type="TextureRect" parent="BotonReroll" unique_id=1746992284]
 layout_mode = 0
-offset_left = 254.0
-offset_top = -4.0
-offset_right = 294.0
-offset_bottom = 36.0
+offset_left = 256.0
+offset_top = 1.0
+offset_right = 286.0
+offset_bottom = 31.0
 texture = ExtResource("6_m436i")
 
 [node name="Label" type="Label" parent="BotonReroll/TextureRect" unique_id=1845610178]
 layout_mode = 0
-offset_left = 14.0
-offset_top = 12.0
-offset_right = 54.0
-offset_bottom = 29.0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 48.0
+offset_bottom = 24.0
 text = "R"
 label_settings = SubResource("LabelSettings_j5se4")
 

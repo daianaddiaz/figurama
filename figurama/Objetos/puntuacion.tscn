@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cgbc3fvjhln8y"]
 
+[ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="1_qhqny"]
 [ext_resource type="Script" uid="uid://meuyoandnn0y" path="res://Clases/Visual/PuntuacionView.cs" id="1_vfoc4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j5se4"]
@@ -8,6 +9,8 @@ font_size = 30
 [node name="Puntuacion" type="Label" unique_id=1664323275]
 offset_right = 89.0
 offset_bottom = 42.0
+theme = ExtResource("1_qhqny")
+theme_override_font_sizes/font_size = 14
 text = "Texto"
 label_settings = SubResource("LabelSettings_j5se4")
 script = ExtResource("1_vfoc4")
