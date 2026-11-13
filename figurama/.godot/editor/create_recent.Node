@@ -1,11 +1,11 @@
+Control
+TextureRect
 VBoxContainer
 Label
 OptionButton
 Camera3D
 Button
-Control
 LineEdit
-TextureRect
 HBoxContainer
 CSGBox3D
 CSGMesh3D

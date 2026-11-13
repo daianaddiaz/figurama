@@ -28,10 +28,15 @@
 [ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="22_1v1n3"]
 [ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="23_32po8"]
 [ext_resource type="PackedScene" uid="uid://buwepwvvigi8t" path="res://Objetos/mesa_modelo.tscn" id="23_t2ppj"]
+[ext_resource type="Texture2D" uid="uid://oehwgg88tjma" path="res://Assets/UIBotonFondo.png" id="24_wul25"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j5se4"]
 font = ExtResource("23_32po8")
 font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_igc3w"]
+font = ExtResource("23_32po8")
+font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_u716c"]
 font = ExtResource("23_32po8")
@@ -143,23 +148,24 @@ label_settings = SubResource("LabelSettings_j5se4")
 [node name="InsigniaViewContainer" type="Control" parent="UITemporal" unique_id=2002938432]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 50.0
-offset_top = 64.0
-offset_right = 90.0
-offset_bottom = 104.0
+offset_left = 67.0
+offset_top = 27.0
+offset_right = 107.0
+offset_bottom = 67.0
 
 [node name="InsigniasSecundarias" type="VBoxContainer" parent="UITemporal/InsigniaViewContainer" unique_id=1201934164]
 layout_mode = 0
-offset_left = 21.0
-offset_top = 82.0
-offset_right = 61.0
-offset_bottom = 122.0
+offset_left = -33.0
+offset_top = 85.0
+offset_right = 7.0
+offset_bottom = 125.0
 
 [node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("4_7uocc")]
 offset_top = 4.0
 offset_bottom = 4.0
 mouse_filter = 2
 theme = ExtResource("14_vkud5")
+metadata/_edit_lock_ = true
 
 [node name="Manos" type="Node" parent="UITemporal" unique_id=510582804]
 
@@ -209,51 +215,60 @@ theme = ExtResource("16_1fyr1")
 text = "Volver al Menú"
 
 [node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=1558671576]
-offset_left = 931.0
-offset_top = 296.0
-offset_right = 1059.0
-offset_bottom = 327.0
+offset_left = 900.0
+offset_top = 610.0
+offset_right = 1100.0
+offset_bottom = 643.0
 theme = ExtResource("16_1fyr1")
 text = "Finalizar Turno "
+icon = ExtResource("24_wul25")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="UITemporal/BotonFinTurno" unique_id=1251025841]
 layout_mode = 0
-offset_left = 129.0
-offset_top = -16.0
-offset_right = 179.0
-offset_bottom = 34.0
+offset_left = 181.0
+offset_top = 2.0
+offset_right = 231.0
+offset_bottom = 30.0
 texture = ExtResource("21_g5jwf")
 
 [node name="BotonPausa" type="Button" parent="UITemporal" unique_id=882646324]
-offset_left = 936.0
-offset_top = 336.0
-offset_right = 991.0
-offset_bottom = 367.0
+offset_left = 690.0
+offset_top = 614.0
+offset_right = 870.0
+offset_bottom = 639.0
 theme = ExtResource("16_1fyr1")
-text = "Pausa"
+text = "Pausar juego"
+icon = ExtResource("24_wul25")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="UITemporal/BotonPausa" unique_id=337380378]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 1.0
-offset_right = 85.0
-offset_bottom = 31.0
+offset_left = 167.0
+offset_top = -4.0
+offset_right = 197.0
+offset_bottom = 26.0
 texture = ExtResource("22_1v1n3")
 
 [node name="Label" type="Label" parent="UITemporal/BotonPausa/TextureRect" unique_id=1053936732]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 6.0
-offset_right = 44.0
-offset_bottom = 29.0
+offset_left = 3.0
+offset_top = 10.0
+offset_right = 43.0
+offset_bottom = 33.0
 text = "Esc"
+label_settings = SubResource("LabelSettings_igc3w")
 
 [node name="BotonHabilidad" type="TextureButton" parent="UITemporal" unique_id=1585264927]
 custom_minimum_size = Vector2(110, 110)
-offset_left = -18.0
-offset_top = 453.0
-offset_right = 92.0
-offset_bottom = 563.0
+offset_left = 499.0
+offset_top = 450.0
+offset_right = 609.0
+offset_bottom = 560.0
 scale = Vector2(1.5, 1.5)
 ignore_texture_size = true
 stretch_mode = 5
@@ -278,7 +293,7 @@ label_settings = SubResource("LabelSettings_u716c")
 
 [node name="PopupLuzMala" type="PopupMenu" parent="UITemporal" unique_id=629803135]
 oversampling_override = 1.0
-position = Vector2i(10, 370)
+position = Vector2i(535, 370)
 
 [node name="MenuPausa" parent="UITemporal" unique_id=1830944728 instance=ExtResource("17_1fyr1")]
 
@@ -301,7 +316,7 @@ bus = &"SFX"
 [node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
 
 [node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("23_t2ppj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 1.9152498)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 2.0610666)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2013501405]
 transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)

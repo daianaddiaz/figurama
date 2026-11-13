@@ -74,14 +74,14 @@ stretch_mode = 5
 [node name="Tecla" type="TextureRect" parent="." unique_id=1671732712]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -14.0
-offset_top = -14.0
-offset_right = 14.0
-offset_bottom = 14.0
+anchor_left = 0.49100003
+anchor_top = 0.054
+anchor_right = 0.49100003
+anchor_bottom = 0.054
+offset_left = -13.956001
+offset_top = -14.018001
+offset_right = 14.043999
+offset_bottom = 13.981999
 texture = ExtResource("5_b2mp4")
 
 [node name="TeclaTexto" type="Label" parent="Tecla" unique_id=666439556]

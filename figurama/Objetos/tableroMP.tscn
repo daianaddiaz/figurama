@@ -11,9 +11,15 @@
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="11_0meei"]
 [ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="12_2gsvg"]
 [ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="13_nlrpt"]
+[ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="13_vldg6"]
+[ext_resource type="Texture2D" uid="uid://oehwgg88tjma" path="res://Assets/UIBotonFondo.png" id="14_iaqx2"]
 [ext_resource type="AudioStream" uid="uid://1rmfw8mtumla" path="res://SFX/CambioFichasSFX.wav" id="26_o6oj4"]
 [ext_resource type="AudioStream" uid="uid://dn43erp4ugnun" path="res://SFX/FiguraFormadaSFX.wav" id="27_f6rma"]
 [ext_resource type="PackedScene" uid="uid://buwepwvvigi8t" path="res://Objetos/mesa_modelo.tscn" id="28_l33cg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fxbiy"]
+font = ExtResource("13_vldg6")
+font_size = 12
 
 [node name="Tablero" type="Node3D" unique_id=917501625]
 script = ExtResource("1_3wiuj")
@@ -40,7 +46,7 @@ bus = &"SFX"
 [node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
 
 [node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("28_l33cg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 1.9152498)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 2.1639323)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2013501405]
 transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)
@@ -97,26 +103,32 @@ theme = ExtResource("11_0meei")
 text = "Volver al Menú"
 
 [node name="BotonPausa" type="Button" parent="UITemporal" unique_id=226949926]
-offset_left = 996.0
-offset_top = 192.0
-offset_right = 1051.0
-offset_bottom = 223.0
-text = "Pausa"
+offset_left = 690.0
+offset_top = 614.0
+offset_right = 870.0
+offset_bottom = 639.0
+theme_override_fonts/font = ExtResource("13_vldg6")
+text = "Pausar juego"
+icon = ExtResource("14_iaqx2")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="UITemporal/BotonPausa" unique_id=709774954]
 layout_mode = 0
-offset_left = 55.0
-offset_top = -4.0
-offset_right = 95.0
-offset_bottom = 36.0
+offset_left = 170.0
+offset_top = -1.0
+offset_right = 199.0
+offset_bottom = 27.0
 texture = ExtResource("12_2gsvg")
 
 [node name="Label" type="Label" parent="UITemporal/BotonPausa/TextureRect" unique_id=1315001894]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 7.0
-offset_right = 48.0
-offset_bottom = 30.0
+offset_left = 2.0
+offset_top = 8.0
+offset_right = 42.0
+offset_bottom = 31.0
 text = "Esc"
+label_settings = SubResource("LabelSettings_fxbiy")
 
 [node name="MenuPausa" parent="UITemporal" unique_id=1412232372 instance=ExtResource("13_nlrpt")]
