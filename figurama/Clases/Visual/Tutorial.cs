@@ -3,9 +3,14 @@ using System.Collections.Generic;
 
 public partial class Tutorial : Control
 {
+    private const string RutaEscena = "res://Objetos/tutorial.tscn";
+
     [Export] public Godot.Collections.Array<Texture2D> PaginasTutorial = new Godot.Collections.Array<Texture2D>();
     [Export] public string RutaMenuPrincipal = "res://Objetos/menuPrincipal.tscn";
     [Export] public float DuracionTransicion = 0.4f;
+
+    // true cuando el tutorial se abre sobre una partida: no cambia de escena, solo se cierra
+    public bool Superpuesto = false;
 
     private TextureRect _visualizadorActual;
     private TextureRect _visualizadorSiguiente;
@@ -14,6 +19,37 @@ public partial class Tutorial : Control
 
     private int _paginaActual = 0;
     private bool _animando = false;
+
+    // Abre el tutorial encima de la escena actual, sin sacar al jugador de la partida
+    public static void AbrirSuperpuesto(SceneTree tree)
+    {
+        Node escenaActual = tree.CurrentScene;
+        if (escenaActual == null) return;
+        if (escenaActual.GetNodeOrNull("TutorialSuperpuesto") != null) return; // ya está abierto
+
+        PackedScene escena = GD.Load<PackedScene>(RutaEscena);
+        if (escena == null)
+        {
+            GD.PrintErr($"[Tutorial] No se pudo cargar la escena: {RutaEscena}");
+            return;
+        }
+
+        // Capa alta (tapa todo el HUD) y activa aunque el juego esté pausado
+        var capa = new CanvasLayer
+        {
+            Name = "TutorialSuperpuesto",
+            Layer = 128,
+            ProcessMode = ProcessModeEnum.Always
+        };
+
+        var tutorial = escena.Instantiate<Tutorial>();
+        tutorial.Superpuesto = true;
+        capa.AddChild(tutorial);
+
+        // Último hijo de la escena: recibe el teclado antes que el resto del juego
+        escenaActual.AddChild(capa);
+        tutorial.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+    }
 
     public override void _Ready()
     {
@@ -31,6 +67,28 @@ public partial class Tutorial : Control
         }
 
         ActualizarTextoBotones();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (!Superpuesto) return;
+
+        // Con el tutorial abierto, el teclado no llega al juego. ESC lo cierra.
+        if (@event is InputEventKey)
+        {
+            if (@event.IsActionPressed("ui_cancel"))
+            {
+                Cerrar();
+            }
+            GetViewport().SetInputAsHandled();
+        }
+    }
+
+    private void Cerrar()
+    {
+        Node padre = GetParent();
+        if (padre != null) padre.QueueFree();
+        else QueueFree();
     }
 
     private void CambiarPaginaConPaneo(int nuevaPagina, bool haciaIzquierda = false)
@@ -79,7 +137,7 @@ public partial class Tutorial : Control
     {
         if (_paginaActual == PaginasTutorial.Count - 1)
         {
-            _botonSiguiente.Text = "¡Jugar!";
+            _botonSiguiente.Text = Superpuesto ? "Cerrar" : "¡Jugar!";
         }
         else
         {
@@ -87,21 +145,26 @@ public partial class Tutorial : Control
         }
     }
 
-   private void OnSiguientePresionado()
-{
-    if (_animando) return;
+    private void OnSiguientePresionado()
+    {
+        if (_animando) return;
 
-    if (_paginaActual < PaginasTutorial.Count - 1)
-    {
-        CambiarPaginaConPaneo(_paginaActual + 1, haciaIzquierda: false);
+        if (_paginaActual < PaginasTutorial.Count - 1)
+        {
+            CambiarPaginaConPaneo(_paginaActual + 1, haciaIzquierda: false);
+        }
+        else if (Superpuesto)
+        {
+            // Dentro de una partida, el último botón solo cierra el tutorial
+            Cerrar();
+        }
+        else
+        {
+            // Al tocar "¡Jugar!" en la última página, indicamos que abra el contador de jugadores
+            MenuPrincipal.PanelInicial = "ContadorJugadores";
+            NavegadorEscenas.CambiarEscenaConPaneo(GetTree(), RutaMenuPrincipal, this);
+        }
     }
-    else
-    {
-        // Al tocar "¡Jugar!" en la última página, indicamos que abra el contador de jugadores
-        MenuPrincipal.PanelInicial = "ContadorJugadores";
-        NavegadorEscenas.CambiarEscenaConPaneo(GetTree(), RutaMenuPrincipal, this);
-    }
-}
 
     private void OnVolverPresionado()
     {
@@ -111,6 +174,11 @@ public partial class Tutorial : Control
         if (_paginaActual > 0)
         {
             CambiarPaginaConPaneo(_paginaActual - 1, haciaIzquierda: true);
+        }
+        else if (Superpuesto)
+        {
+            // En la primera página, dentro de una partida, "Volver" cierra el tutorial
+            Cerrar();
         }
         else
         {

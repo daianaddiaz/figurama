@@ -140,7 +140,7 @@ public partial class GestorSala : Node
 
     private SalaInfo ConstruirInfo()
     {
-        return new SalaInfo
+        var info = new SalaInfo
         {
             Id = _idSala,
             Nombre = _nombreSala,
@@ -151,6 +151,17 @@ public partial class GestorSala : Node
             Puerto = _puerto,
             Estado = Estado == EstadoSala.Esperando ? "esperando" : "en curso"
         };
+
+        // Huellas de los jugadores que todavía pueden volver
+        foreach (int indice in _ausentes.Keys)
+        {
+            if (indice >= 0 && indice < DatosPartida.TokensJugadores.Count)
+            {
+                info.Ausentes.Add(DescubrimientoSalas.Huella(DatosPartida.TokensJugadores[indice]));
+            }
+        }
+
+        return info;
     }
 
     // ---------- Servidor: tiempo de gracia de los jugadores ausentes ----------

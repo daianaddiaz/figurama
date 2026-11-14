@@ -10,8 +10,6 @@ public partial class LobbyRed : VBoxContainer
     private Label _labelSala;
     private Label _labelMensaje;
     private VBoxContainer _listaSalas;
-    private LineEdit _campoIP;
-    private Button _botonUnirse;
     private LineEdit _campoNombre;
     private OptionButton _selectorPersonaje;
     private OptionButton _selectorDificultad;
@@ -41,8 +39,6 @@ public partial class LobbyRed : VBoxContainer
         _botonHost = GetNode<Button>("BotonHost");
         _labelSala = GetNode<Label>("LabelSala");
         _listaSalas = GetNode<VBoxContainer>("ListaSalas");
-        _campoIP = GetNode<LineEdit>("CampoIP");
-        _botonUnirse = GetNode<Button>("BotonUnirse");
         _campoNombre = GetNode<LineEdit>("CampoNombre");
         _selectorPersonaje = GetNode<OptionButton>("SelectorPersonaje");
         _botonListo = GetNode<Button>("BotonListo");
@@ -70,7 +66,6 @@ public partial class LobbyRed : VBoxContainer
         EstadoInicial();
 
         _botonHost.Pressed += CrearHost;
-        _botonUnirse.Pressed += OnUnirsePorIpPresionado;
         _botonListo.Pressed += OnListoPresionado;
         _botonIniciar.Pressed += OnIniciarPresionado;
 
@@ -160,7 +155,8 @@ public partial class LobbyRed : VBoxContainer
         var firma = new System.Text.StringBuilder();
         foreach (SalaVista s in salas)
         {
-            firma.Append($"{s.Info.Id}|{s.Info.Nombre}|{s.Info.Jugadores}|{s.Info.Espectadores}|{s.Info.Estado}|{s.Ip}|{s.Info.Puerto};");
+            string ausentes = s.Info.Ausentes != null ? string.Join(",", s.Info.Ausentes) : "";
+            firma.Append($"{s.Info.Id}|{s.Info.Nombre}|{s.Info.Jugadores}|{s.Info.Espectadores}|{s.Info.Estado}|{s.Ip}|{s.Info.Puerto}|{ausentes};");
         }
 
         string nuevaFirma = firma.ToString();
@@ -170,6 +166,8 @@ public partial class LobbyRed : VBoxContainer
         _firmaSalas = nuevaFirma;
 
         _labelSala.Text = salas.Count == 0 ? "Buscando salas..." : "Salas disponibles:";
+
+        string miHuella = DescubrimientoSalas.Huella(DatosPartida.TokenLocal);
 
         foreach (SalaVista sala in salas)
         {
@@ -191,9 +189,9 @@ public partial class LobbyRed : VBoxContainer
             {
                 texto += $"  |  Espectadores {sala.Info.Espectadores}/{sala.Info.MaxEspectadores}";
 
-                if (sala.Info.Id == DatosPartida.SalaReconexionId)
+                if (sala.Info.Ausentes != null && sala.Info.Ausentes.Contains(miHuella))
                 {
-                    // Era mi partida: el servidor decide si todavía llego a tiempo
+                    // Soy un jugador de esta partida y todavía llego a tiempo
                     textoBoton = "Reconectar";
                     deshabilitado = false;
                 }
@@ -214,22 +212,6 @@ public partial class LobbyRed : VBoxContainer
 
             _listaSalas.AddChild(fila);
         }
-    }
-
-    private void OnUnirsePorIpPresionado()
-    {
-        // Respaldo manual: "ip" (puerto 7777) o "ip:puerto"
-        string texto = _campoIP.Text.Trim();
-        int puerto = DescubrimientoSalas.PuertoJuegoBase;
-
-        int separador = texto.LastIndexOf(':');
-        if (separador > 0 && int.TryParse(texto.Substring(separador + 1), out int puertoEscrito))
-        {
-            puerto = puertoEscrito;
-            texto = texto.Substring(0, separador);
-        }
-
-        ConectarA(texto, puerto);
     }
 
     // ---------- Spawner de la lista de jugadores ----------
@@ -261,8 +243,6 @@ public partial class LobbyRed : VBoxContainer
         LimpiarListaSalas();
         _listaSalas.Visible = true;
         _labelSala.Text = "Buscando salas...";
-        _campoIP.Editable = true;
-        _botonUnirse.Disabled = false;
         _campoNombre.Editable = true;
         _selectorPersonaje.Disabled = false;
         _botonListo.Disabled = true;
@@ -275,8 +255,6 @@ public partial class LobbyRed : VBoxContainer
     {
         _botonHost.Disabled = true;
         _listaSalas.Visible = false;
-        _botonUnirse.Disabled = true;
-        _campoIP.Editable = false;
     }
 
     // ---------- Crear sala y conectarse ----------

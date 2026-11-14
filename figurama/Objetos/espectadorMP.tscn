@@ -1,6 +1,180 @@
 [gd_scene format=3 uid="uid://ctfql20733q1f"]
 
 [ext_resource type="Script" uid="uid://bppx134xyob0p" path="res://Clases/Visual/EspectadorMP.cs" id="1_xvv0d"]
+[ext_resource type="PackedScene" uid="uid://cv43ii5aqijte" path="res://Objetos/insignia.tscn" id="2_3ecqe"]
+[ext_resource type="PackedScene" uid="uid://cybs8v4dh3qtl" path="res://Objetos/PanelTransicion.tscn" id="8_hhdy1"]
+[ext_resource type="Texture2D" uid="uid://bjgtyqqfkl4yj" path="res://Assets/FondosInGame/FondoJugador1.png" id="12_v0whu"]
+[ext_resource type="Script" uid="uid://chg1lhfvfm5ai" path="res://Clases/Visual/CamaraJugador.cs" id="13_18o2q"]
+[ext_resource type="Texture2D" uid="uid://dkliutmca53wi" path="res://Assets/FlechaUI.png" id="14_s4vqj"]
+[ext_resource type="Texture2D" uid="uid://b6vcub6cclpgm" path="res://Assets/TeclaUI.png" id="15_ci4nc"]
+[ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="16_xtwm0"]
+[ext_resource type="PackedScene" uid="uid://0ohgom08bvdi" path="res://Objetos/mano_de_cartas.tscn" id="17_djf66"]
+[ext_resource type="Theme" uid="uid://dlgvfi3xxspar" path="res://Clases/Visual/FuentePrincipal.tres" id="18_kemvh"]
+[ext_resource type="Texture2D" uid="uid://oehwgg88tjma" path="res://Assets/UIBotonFondo.png" id="19_crg0v"]
+[ext_resource type="Texture2D" uid="uid://cu6d1qivthtrm" path="res://Assets/TeclaUIEnter.png" id="20_aq552"]
 
-[node name="EspectadorMP" type="Node3D" unique_id=1949430365]
+[sub_resource type="LabelSettings" id="LabelSettings_7fnpc"]
+font = ExtResource("16_xtwm0")
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_ixbb7"]
+font = ExtResource("16_xtwm0")
+
+[node name="JugadorMP" type="Node3D" unique_id=1854429381]
 script = ExtResource("1_xvv0d")
+InsigniaViewScene = ExtResource("2_3ecqe")
+TransicionScene = ExtResource("8_hhdy1")
+
+[node name="CamaraJugador" type="Camera3D" parent="." unique_id=1831649937]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 2, 2.5, 6)
+current = true
+size = 7.0
+script = ExtResource("13_18o2q")
+
+[node name="Fondo" type="Sprite3D" parent="CamaraJugador" unique_id=1849796983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4371166, -0.085167766, -7.024351)
+visible = false
+texture = ExtResource("12_v0whu")
+
+[node name="UITemporal" type="CanvasLayer" parent="." unique_id=1669506758]
+follow_viewport_enabled = true
+
+[node name="CambioPerspectiva" type="Control" parent="UITemporal" unique_id=1021596781]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 540.0
+offset_top = 10.0
+offset_right = 580.0
+offset_bottom = 50.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Bajada" type="Control" parent="UITemporal/CambioPerspectiva" unique_id=1196234255]
+visible = false
+anchors_preset = 0
+offset_right = 30.0
+offset_bottom = 30.0
+
+[node name="Flecha" type="TextureRect" parent="UITemporal/CambioPerspectiva/Bajada" unique_id=1340684439]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 31.0
+offset_right = 67.0
+offset_bottom = 61.0
+rotation = 3.1415927
+texture = ExtResource("14_s4vqj")
+
+[node name="Tecla" type="TextureRect" parent="UITemporal/CambioPerspectiva/Bajada" unique_id=2119767188]
+layout_mode = 0
+offset_left = 37.0
+offset_right = 67.0
+offset_bottom = 30.0
+texture = ExtResource("15_ci4nc")
+
+[node name="Label" type="Label" parent="UITemporal/CambioPerspectiva/Bajada/Tecla" unique_id=866026156]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 48.0
+offset_bottom = 30.0
+text = "S"
+label_settings = SubResource("LabelSettings_7fnpc")
+
+[node name="Subida" type="Control" parent="UITemporal/CambioPerspectiva" unique_id=982727783]
+anchors_preset = 0
+offset_left = 4.0
+offset_right = 44.0
+offset_bottom = 40.0
+
+[node name="Flecha" type="TextureRect" parent="UITemporal/CambioPerspectiva/Subida" unique_id=1288714389]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 34.0
+offset_bottom = 30.0
+texture = ExtResource("14_s4vqj")
+
+[node name="Tecla" type="TextureRect" parent="UITemporal/CambioPerspectiva/Subida" unique_id=1166882809]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 1.0
+offset_right = 63.0
+offset_bottom = 31.0
+texture = ExtResource("15_ci4nc")
+
+[node name="Label" type="Label" parent="UITemporal/CambioPerspectiva/Subida/Tecla" unique_id=1378645951]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 45.0
+offset_bottom = 30.0
+text = "W"
+label_settings = SubResource("LabelSettings_7fnpc")
+
+[node name="Mano" parent="UITemporal" unique_id=737516228 instance=ExtResource("17_djf66")]
+
+[node name="InsigniaViewContainer" type="Control" parent="UITemporal" unique_id=849822567]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 66.0
+offset_top = 38.0
+offset_right = 106.0
+offset_bottom = 78.0
+
+[node name="InsigniasSecundarias" type="VBoxContainer" parent="UITemporal/InsigniaViewContainer" unique_id=1916406831]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 82.0
+offset_right = 61.0
+offset_bottom = 122.0
+
+[node name="BotonFinTurno" type="Button" parent="UITemporal" unique_id=2099800749]
+offset_left = 900.0
+offset_top = 610.0
+offset_right = 1100.0
+offset_bottom = 643.0
+theme = ExtResource("18_kemvh")
+text = "Finalizar Turno "
+icon = ExtResource("19_crg0v")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="UITemporal/BotonFinTurno" unique_id=908951572]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 231.0
+offset_bottom = 33.0
+texture = ExtResource("20_aq552")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PopupLuzMala" type="PopupMenu" parent="UITemporal" unique_id=1861847486]
+oversampling_override = 1.0
+position = Vector2i(535, 370)
+
+[node name="BotonHabilidad" type="TextureButton" parent="UITemporal" unique_id=1339613251]
+custom_minimum_size = Vector2(110, 110)
+offset_left = 499.0
+offset_top = 450.0
+offset_right = 609.0
+offset_bottom = 560.0
+scale = Vector2(1.5, 1.5)
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="UITemporal/BotonHabilidad" unique_id=1108306886]
+layout_mode = 0
+offset_left = 45.33333
+offset_top = 98.0
+offset_right = 73.33334
+offset_bottom = 126.000015
+scale = Vector2(0.9200767, 0.9200767)
+texture = ExtResource("15_ci4nc")
+
+[node name="Label" type="Label" parent="UITemporal/BotonHabilidad/TextureRect" unique_id=336637056]
+layout_mode = 0
+offset_left = 8.979858
+offset_top = 6.530791
+offset_right = 48.97986
+offset_bottom = 29.53079
+text = "E"
+label_settings = SubResource("LabelSettings_ixbb7")

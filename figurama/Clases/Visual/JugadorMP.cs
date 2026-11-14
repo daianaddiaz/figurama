@@ -31,6 +31,8 @@ public partial class JugadorMP : Node3D
     public override void _Ready()
     {
         _tablero = GetParent<TableroMP>();
+        // La interfaz del jugador queda por debajo de la del tablero (pausa, reloj, victoria), así no le tapa los clics
+        GetNode<CanvasLayer>("UITemporal").Layer = 0;
         _indice = DatosPartida.IndiceJugadorLocal;
         _jugador = Controller.GetInstance().Jugadores()[_indice];
 
@@ -497,6 +499,16 @@ public partial class JugadorMP : Node3D
         VideoStreamTheora cinematica = cinematicas[(int)tipo];
         var player = CinematicaScene.Instantiate<Cinematica>();
         player.Stream = cinematica;
-        GetNode<CanvasLayer>("UITemporal").AddChild(player);
+
+        // Capa propia por encima de toda la interfaz, así la cinemática tapa todo
+        var capa = new CanvasLayer { Layer = 100 };
+        AddChild(capa);
+        capa.AddChild(player);
+
+        // Al terminar el video, la capa también se libera
+        player.TreeExited += () =>
+        {
+            if (GodotObject.IsInstanceValid(capa)) capa.QueueFree();
+        };
     }
 }

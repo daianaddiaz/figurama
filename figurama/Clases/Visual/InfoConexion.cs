@@ -3,7 +3,7 @@ using Godot;
 public static class InfoConexion
 {
     // Agrega un texto con el ID de red y la sala, arriba a la derecha de la interfaz
-    public static void Agregar(Node interfaz, Node contexto)
+    public static Label Agregar(Node interfaz, Node contexto)
     {
         var label = new Label
         {
@@ -19,5 +19,6 @@ public static class InfoConexion
         label.GrowHorizontal = Control.GrowDirection.Begin;
         label.OffsetTop = 8;
         label.OffsetRight = -16;
+        return label;
     }
 }

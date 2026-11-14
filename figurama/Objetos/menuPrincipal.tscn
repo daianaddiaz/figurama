@@ -230,10 +230,12 @@ text = "Buscando sala..."
 layout_mode = 2
 
 [node name="CampoIP" type="LineEdit" parent="PanelLobby" unique_id=91204037]
+visible = false
 layout_mode = 2
 text = "127.0.0.1"
 
 [node name="BotonUnirse" type="Button" parent="PanelLobby" unique_id=674480793]
+visible = false
 layout_mode = 2
 text = "Unirse por IP"
 

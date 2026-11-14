@@ -13,6 +13,7 @@ public class SalaInfo
     public int MaxJugadores { get; set; } = 4;
     public int Espectadores { get; set; }
     public int MaxEspectadores { get; set; } = 2;
+    public List<string> Ausentes { get; set; } = new List<string>();
     public int Puerto { get; set; } = 7777;
     public string Estado { get; set; } = "esperando";
 }
@@ -30,6 +31,13 @@ public static class DescubrimientoSalas
     // Puertos de las partidas: cada host usa el primero que encuentre libre
     public const int PuertoJuegoBase = 7777;
     public const int CantidadPuertosJuego = 10;
+
+    // Identificador no reversible del código de un jugador (el código en sí nunca se anuncia)
+    public static string Huella(string token)
+    {
+        byte[] hash = System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(token ?? ""));
+        return System.Convert.ToHexString(hash).Substring(0, 16);
+    }
 
     // Puertos de escucha de los anuncios: cada ventana cliente usa el primero libre
     public const int PuertoBase = 7800;

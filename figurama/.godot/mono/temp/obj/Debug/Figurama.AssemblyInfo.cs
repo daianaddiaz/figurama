@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Figurama")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2c3e8edc7050e79e61dcf8b7de80adf3ea8cbf5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14cc47bac24f85967cdfa932257286ed7d8b65c7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Figurama")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Figurama")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

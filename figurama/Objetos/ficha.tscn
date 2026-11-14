@@ -145,6 +145,7 @@ script = ExtResource("15_gqwj7")
 script = ExtResource("16_gqwj7")
 
 [node name="TimerEfectoCompletada" type="Timer" parent="." unique_id=420328073]
+wait_time = 2.0
 one_shot = true
 
 [node name="Sonidos" type="Node" parent="." unique_id=1751909027]

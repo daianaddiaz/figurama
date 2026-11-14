@@ -1,39 +1,60 @@
 using Godot;
-using System.Text;
 
+// Pantalla del espectador: la misma interfaz que la de los jugadores, pero con una vista
+// general de la partida (no depende de quién tiene el turno) y sin acciones.
 public partial class EspectadorMP : Node3D
 {
-    // Misma vista cenital que usan los jugadores al elegir una carta
-    [Export] public Vector3 PosicionCamara = new Vector3(2.0f, 5.5f, 3.0f);
-    [Export] public Vector3 RotacionCamara = new Vector3(-89.5f, 0.0f, 0.0f);
+    [Export] public PackedScene InsigniaViewScene;
+    [Export] public PackedScene TransicionScene;
 
+    // Distancia entre el botón de pausa y el borde derecho de la pantalla
+    private const float MargenDerechoPausa = 24f;
     private TableroMP _tablero;
-    private Label _labelEncabezado;
-    private Label _labelTurno;
-    private Label _labelJugadores;
 
     public override void _Ready()
     {
+        if (GetNodeOrNull("UITemporal") == null)
+        {
+            GD.PrintErr("[EspectadorMP] Esta escena no tiene 'UITemporal': hay que usar la copia de jugadorMP.tscn.");
+            return;
+        }
+
         _tablero = GetParent<TableroMP>();
 
-        var camara = new Camera3D
+        // Lo que es propio de un jugador no existe para el espectador:
+        // cartas de movimiento, figuras a formar, reroll, pasar turno y habilidad
+        string[] propios =
         {
-            Position = PosicionCamara,
-            RotationDegrees = RotacionCamara
+            "UITemporal/Mano",
+            "UITemporal/BotonFinTurno",
+            "UITemporal/BotonHabilidad",
+            "UITemporal/PopupLuzMala"
         };
-        AddChild(camara);
-        camara.MakeCurrent();
+        foreach (string ruta in propios)
+        {
+            GetNodeOrNull(ruta)?.QueueFree();
+        }
 
-        CrearInterfaz();
+        Label info = InfoConexion.Agregar(GetNode("UITemporal"), this);
+        info.Text = "ESPECTADOR  |  " + info.Text;
+
+        var botonPausa = GetNodeOrNull<BaseButton>("UITemporal/BotonPausa");
+        if (botonPausa != null)
+        {
+            botonPausa.Pressed += OnPausaPresionada;
+        }
 
         _tablero.AccionAplicada += OnAccionAplicada;
         Controller.GetInstance().TurnoCambiado += OnTurnoCambiado;
 
-        Actualizar();
+        ActualizarInsignias();
+        Callable.From(ColocarBotonPausa).CallDeferred();
+        GetViewport().SizeChanged += ColocarBotonPausa;
     }
 
     public override void _ExitTree()
     {
+        GetViewport().SizeChanged -= ColocarBotonPausa;
         if (_tablero != null)
         {
             _tablero.AccionAplicada -= OnAccionAplicada;
@@ -44,85 +65,143 @@ public partial class EspectadorMP : Node3D
         }
     }
 
-    // ---------- Interfaz ----------
-
-    private void CrearInterfaz()
+    private void OnPausaPresionada()
     {
-        var capa = new CanvasLayer();
-        AddChild(capa);
-
-        var contenedor = new VBoxContainer { Position = new Vector2(24, 20) };
-        capa.AddChild(contenedor);
-
-        _labelEncabezado = CrearLabel(contenedor, 24);
-        _labelTurno = CrearLabel(contenedor, 22);
-        _labelJugadores = CrearLabel(contenedor, 20);
-
-        var botonSalir = new Button { Text = "Salir de la partida" };
-        botonSalir.Pressed += Salir;
-        contenedor.AddChild(botonSalir);
+        GetNodeOrNull<MenuPausa>("UITemporal/MenuPausa")?.TogglePausa();
     }
 
-    private Label CrearLabel(Control padre, int tamano)
+    // El botón de pausa es del tablero compartido: solo en esta pantalla se lleva hacia la derecha
+    private void ColocarBotonPausa()
     {
-        var label = new Label();
-        label.AddThemeFontSizeOverride("font_size", tamano);
-        label.AddThemeColorOverride("font_outline_color", Colors.Black);
-        label.AddThemeConstantOverride("outline_size", 6);
-        padre.AddChild(label);
-        return label;
+        var boton = _tablero?.GetNodeOrNull<Control>("UITemporal/BotonPausa");
+        if (boton == null)
+        {
+            GD.PrintErr("[EspectadorMP] No se encontró 'UITemporal/BotonPausa' en el tablero.");
+            return;
+        }
+
+        Vector2 pantalla = GetViewport().GetVisibleRect().Size;
+        float ancho = boton.Size.X * boton.Scale.X;
+        boton.GlobalPosition = new Vector2(pantalla.X - ancho - MargenDerechoPausa, boton.GlobalPosition.Y);
     }
 
-    private void Actualizar()
+    // ---------- Insignias de todos los jugadores ----------
+
+    private void ActualizarInsignias()
     {
-        var controller = Controller.GetInstance();
-        Jugador[] jugadores = controller.Jugadores();
-        if (jugadores == null || jugadores.Length == 0) return;
+        var contenedor = GetNodeOrNull<Control>("UITemporal/InsigniaViewContainer/InsigniasSecundarias");
+        if (contenedor == null)
+        {
+            GD.PrintErr("[EspectadorMP] No se encontró 'UITemporal/InsigniaViewContainer/InsigniasSecundarias'.");
+            return;
+        }
 
-        _labelEncabezado.Text = $"ESPECTADOR  |  ID {Multiplayer.GetUniqueId()}  |  {DatosPartida.NombreSala}";
+        // Lugar entre insignias para que entre el nombre arriba de cada una
+        if (contenedor is BoxContainer caja)
+        {
+            caja.AddThemeConstantOverride("separation", 44);
+        }
 
-        int actual = controller.JugadorActual;
-        _labelTurno.Text = controller.JuegoTerminado
-            ? "La partida terminó"
-            : $"Turno de: Jugador {actual + 1}: {jugadores[actual].nombre}";
+        foreach (Node hijo in contenedor.GetChildren())
+        {
+            contenedor.RemoveChild(hijo);
+            hijo.QueueFree();
+        }
 
-        var texto = new StringBuilder();
+        Jugador[] jugadores = Controller.GetInstance().Jugadores();
+        if (jugadores == null) return;
+
         for (int i = 0; i < jugadores.Length; i++)
         {
-            Jugador j = jugadores[i];
-            int completadas = j.figurasAArmar.FindAll(f => f.Completada).Count;
-            int total = j.figurasAArmar.Count + j.figurasEnReserva.Count;
-            var pendientes = j.figurasAArmar.FindAll(f => !f.Completada).ConvertAll(f => f.Figura.Nombre);
+            if (jugadores[i].Eliminado) continue;
 
-            string marca = (i == actual && !controller.JuegoTerminado && !j.Eliminado) ? "► " : "    ";
-            string estado = j.Eliminado ? "  [ELIMINADO]" : "";
+            var insignia = InsigniaViewScene.Instantiate<InsigniaView>();
+            contenedor.AddChild(insignia);
+            insignia.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+            insignia.SetInsigniaSecundariaJugador(
+                jugadores[i],
+                CargadorAssetsTablero.TexturaInsignia[jugadores[i].PersonajeAsignado.Tipo],
+                i
+            );
 
-            texto.AppendLine($"{marca}Jugador {i + 1}: {j.nombre} ({j.PersonajeAsignado.Tipo})  -  figuras {completadas}/{total}{estado}");
-            if (!j.Eliminado)
+            PonerNombre(insignia, jugadores[i].nombre);
+        }
+
+        MarcarTurno(contenedor);
+    }
+
+    // El nombre va arriba de la insignia, con su propio label (el de la insignia queda tapado por las cartas)
+    private async void PonerNombre(InsigniaView insignia, string nombre)
+    {
+        // Se espera un frame para que el contenedor termine de acomodar la insignia
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!IsInstanceValid(insignia)) return;
+
+        var etiqueta = new Label
+        {
+            Text = nombre.ToUpper(),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+
+        // Misma fuente que el resto de los textos: se copia del label de nombre de la propia insignia
+        var original = insignia.GetNodeOrNull<Label>("NombreJugador");
+        if (original != null && original.LabelSettings != null)
+        {
+            etiqueta.LabelSettings = (LabelSettings)original.LabelSettings.Duplicate();
+        }
+        else
+        {
+            if (original != null)
             {
-                texto.AppendLine($"        Pendientes: {(pendientes.Count > 0 ? string.Join(", ", pendientes) : "ninguna")}");
+                etiqueta.AddThemeFontOverride("font", original.GetThemeFont("font"));
+                etiqueta.AddThemeFontSizeOverride("font_size", original.GetThemeFontSize("font_size"));
+                etiqueta.AddThemeColorOverride("font_color", original.GetThemeColor("font_color"));
+            }
+            else
+            {
+                etiqueta.AddThemeFontSizeOverride("font_size", 22);
+            }
+            etiqueta.AddThemeColorOverride("font_outline_color", Colors.Black);
+            etiqueta.AddThemeConstantOverride("outline_size", 6);
+        }
+
+        insignia.AddChild(etiqueta);
+
+        var fondo = insignia.GetNodeOrNull<TextureRect>("Fondo");
+        float x = fondo != null ? fondo.Position.X : 0f;
+        float alto = etiqueta.GetCombinedMinimumSize().Y;
+        float y = fondo != null ? fondo.Position.Y - alto : -alto;
+        etiqueta.Position = new Vector2(x, y);
+    }
+
+    private void MarcarTurno(Control contenedor)
+    {
+        int actual = Controller.GetInstance().IndiceJugadorActual();
+        foreach (Node hijo in contenedor.GetChildren())
+        {
+            if (hijo is InsigniaView insignia)
+            {
+                insignia.SetDecoracion(actual);
             }
         }
-        _labelJugadores.Text = texto.ToString();
     }
 
     private void OnAccionAplicada(int indiceJugador)
     {
-        Actualizar();
+        ActualizarInsignias();
     }
 
-    private void OnTurnoCambiado(int jugadorActual)
+    private async void OnTurnoCambiado(int jugadorActual)
     {
-        Actualizar();
-    }
+        ActualizarInsignias();
 
-    private void Salir()
-    {
-        if (Multiplayer.MultiplayerPeer != null)
+        if (TransicionScene != null)
         {
-            Multiplayer.MultiplayerPeer.Close();
+            var transicion = TransicionScene.Instantiate<PanelTransicion>();
+            AddChild(transicion);
+
+            string nombreProximoJugador = Controller.GetInstance().NombreJugadorActual();
+            await transicion.ReproducirTransicionAsync(nombreProximoJugador, 1.5f);
         }
-        Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
-        GetTree().ChangeSceneToFile("res://Objetos/menuPrincipal.tscn");
     }
 }

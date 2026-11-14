@@ -49,6 +49,14 @@ public partial class TableroMP : Node3D
 
         Multiplayer.ServerDisconnected += OnServidorDesconectado;
         GetNode<Button>("UITemporal/PanelVictoria/BotonVolverMenu").Pressed += OnVolverMenuPresionado;
+        
+        // El botón de pausa es del tablero: se conecta una sola vez (si ya tenía una conexión del editor, se respeta)
+        var botonPausa = GetNodeOrNull<BaseButton>("UITemporal/BotonPausa");
+
+        if (botonPausa != null && botonPausa.GetSignalConnectionList(BaseButton.SignalName.Pressed).Count == 0)
+        {
+            botonPausa.Pressed += OnPausaPresionada;
+        }
 
         if (Multiplayer.IsServer())
         {
@@ -92,7 +100,8 @@ public partial class TableroMP : Node3D
     public override void _Process(double delta)
     {
         // El servidor manda el tiempo restante y el aviso de ausencias cada segundo
-        if (!_tableroCreado || !Multiplayer.IsServer() || _partidaCortada) return;
+        if (!_tableroCreado || _partidaCortada) return;
+        if (!Red.EsServidor(Multiplayer)) return;
 
         _acumuladorTiempo += (float)delta;
         if (_acumuladorTiempo < 1f) return;
@@ -597,6 +606,22 @@ public partial class TableroMP : Node3D
         }
         Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
         GetTree().ChangeSceneToFile("res://Objetos/menuPrincipal.tscn");
+    }
+
+    private void OnPausaPresionada()
+    {
+        GD.Print("[Pausa] clic recibido en el botón");
+        // MenuPausa puede estar en esta interfaz o en otra capa: si no está acá, se busca por nombre
+        MenuPausa menu = GetNodeOrNull<MenuPausa>("UITemporal/MenuPausa")
+                         ?? GetTree().Root.FindChild("MenuPausa", true, false) as MenuPausa;
+
+        if (menu == null)
+        {
+            GD.PrintErr("[TableroMP] No se encontró el nodo 'MenuPausa'.");
+            return;
+        }
+
+        menu.TogglePausa();
     }
 
     // ---------- Ausencias, eliminación y fin de partida ----------

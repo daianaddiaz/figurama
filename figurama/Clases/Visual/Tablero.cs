@@ -544,7 +544,17 @@ public partial class Tablero : Node3D
         VideoStreamTheora cinematica = cinematicas[(int)tipo];
         var player = CinematicaScene.Instantiate<Cinematica>();
         player.Stream = cinematica;
-        GetNode<CanvasLayer>("UITemporal").AddChild(player);
+
+        // Capa propia por encima de toda la interfaz, así la cinemática tapa todo
+        var capa = new CanvasLayer { Layer = 100 };
+        AddChild(capa);
+        capa.AddChild(player);
+
+        // Al terminar el video, la capa también se libera
+        player.TreeExited += () =>
+        {
+            if (GodotObject.IsInstanceValid(capa)) capa.QueueFree();
+        };
     }
 
     private void ActualizarBotonHabilidad()

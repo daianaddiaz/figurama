@@ -36,7 +36,7 @@ public partial class TimerView : Control
 
         if (controller == null || controller.Jugadores() == null || controller.Jugadores().Length == 0) return;
 
-        if (!DatosPartida.EsMultijugador || Multiplayer.IsServer())
+        if (!DatosPartida.EsMultijugador || Red.EsServidor(Multiplayer))
         {
             // Modo local o servidor: la lógica del reloj corre acá
             controller.ActualizarTiempo((float)delta);
