@@ -67,13 +67,6 @@ texture = ExtResource("9_vexnf")
 
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=392753933]
 
-[node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("4_13hl8")]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 10.0
-offset_bottom = 10.0
-script = ExtResource("16_ohv7o")
-
 [node name="LabelTurno" type="Label" parent="UITemporal" unique_id=1059607732]
 offset_left = 40.0
 offset_top = 20.0
@@ -315,6 +308,13 @@ oversampling_override = 1.0
 position = Vector2i(535, 370)
 
 [node name="MenuPausa" parent="UITemporal" unique_id=1830944728 instance=ExtResource("17_1fyr1")]
+
+[node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("4_13hl8")]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 10.0
+offset_bottom = 10.0
+script = ExtResource("16_ohv7o")
 
 [node name="Sonidos" type="Node" parent="." unique_id=1349820042]
 

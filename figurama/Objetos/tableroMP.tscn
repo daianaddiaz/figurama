@@ -27,36 +27,7 @@ FichaScene = ExtResource("2_nri4e")
 JugadorScene = ExtResource("3_t02y1")
 EspectadorScene = ExtResource("4_nlrpt")
 
-[node name="Sonidos" type="Node" parent="." unique_id=1349820042]
-
-[node name="CambioSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1923751428]
-stream = ExtResource("26_o6oj4")
-bus = &"SFX"
-
-[node name="FiguraSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=183394550]
-stream = ExtResource("27_f6rma")
-bus = &"SFX"
-
-[node name="LobizonSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1710219506]
-
-[node name="LuzMalaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1286900743]
-
-[node name="MulanimaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=853156723]
-
-[node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
-
-[node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("28_l33cg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 2.1639323)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2013501405]
-transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)
-light_energy = 5.0
-omni_range = 20.0
-
 [node name="UITemporal" type="CanvasLayer" parent="." unique_id=1263866315]
-
-[node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("7_rihhu")]
-script = ExtResource("8_bkmsl")
 
 [node name="Timer" parent="UITemporal" unique_id=1216704269 instance=ExtResource("10_nlrpt")]
 mouse_filter = 2
@@ -142,3 +113,33 @@ text = "Esc"
 label_settings = SubResource("LabelSettings_fxbiy")
 
 [node name="MenuPausa" parent="UITemporal" unique_id=1412232372 instance=ExtResource("13_nlrpt")]
+
+[node name="indicadorUltimoColor" parent="UITemporal" unique_id=1226291347 instance=ExtResource("7_rihhu")]
+z_as_relative = false
+script = ExtResource("8_bkmsl")
+
+[node name="Sonidos" type="Node" parent="." unique_id=1349820042]
+
+[node name="CambioSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1923751428]
+stream = ExtResource("26_o6oj4")
+bus = &"SFX"
+
+[node name="FiguraSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=183394550]
+stream = ExtResource("27_f6rma")
+bus = &"SFX"
+
+[node name="LobizonSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1710219506]
+
+[node name="LuzMalaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1286900743]
+
+[node name="MulanimaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=853156723]
+
+[node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
+
+[node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("28_l33cg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 2.1639323)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2013501405]
+transform = Transform3D(1, 0, 0, 0, 0.72586405, 0.6878382, 0, -0.6878382, 0.72586405, 1.997051, 5.097588, 2.8472037)
+light_energy = 5.0
+omni_range = 20.0
