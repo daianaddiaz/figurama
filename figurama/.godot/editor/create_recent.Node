@@ -1,3 +1,6 @@
+HSlider
+AudioStreamPlayer
+Node
 Control
 TextureRect
 VBoxContainer
@@ -10,5 +13,3 @@ HBoxContainer
 CSGBox3D
 CSGMesh3D
 CSGCombiner3D
-Decal
-CSGCylinder3D

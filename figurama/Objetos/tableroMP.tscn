@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b1xkyoodt0vp4" path="res://Objetos/MenuPausa.tscn" id="13_nlrpt"]
 [ext_resource type="FontFile" uid="uid://dgnae1x6eeg64" path="res://Tipografia/Designer.otf" id="13_vldg6"]
 [ext_resource type="Texture2D" uid="uid://oehwgg88tjma" path="res://Assets/UIBotonFondo.png" id="14_iaqx2"]
+[ext_resource type="AudioStream" uid="uid://dhu8iqppcm6y3" path="res://OST/Partida OST.mp3" id="14_o1n6m"]
 [ext_resource type="AudioStream" uid="uid://1rmfw8mtumla" path="res://SFX/CambioFichasSFX.wav" id="26_o6oj4"]
 [ext_resource type="AudioStream" uid="uid://dn43erp4ugnun" path="res://SFX/FiguraFormadaSFX.wav" id="27_f6rma"]
 [ext_resource type="PackedScene" uid="uid://buwepwvvigi8t" path="res://Objetos/mesa_modelo.tscn" id="28_l33cg"]
@@ -118,23 +119,25 @@ label_settings = SubResource("LabelSettings_fxbiy")
 z_as_relative = false
 script = ExtResource("8_bkmsl")
 
+[node name="Musica" type="Node" parent="." unique_id=468917003]
+
+[node name="MusicaPrincipal" type="AudioStreamPlayer" parent="Musica" unique_id=416163607]
+stream = ExtResource("14_o1n6m")
+volume_db = -15.0
+autoplay = true
+bus = &"Musica"
+
 [node name="Sonidos" type="Node" parent="." unique_id=1349820042]
 
 [node name="CambioSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1923751428]
 stream = ExtResource("26_o6oj4")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="FiguraSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=183394550]
 stream = ExtResource("27_f6rma")
+volume_db = -10.0
 bus = &"SFX"
-
-[node name="LobizonSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1710219506]
-
-[node name="LuzMalaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=1286900743]
-
-[node name="MulanimaSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=853156723]
-
-[node name="PomberitoSFX" type="AudioStreamPlayer" parent="Sonidos" unique_id=2003487473]
 
 [node name="MesaModelo" parent="." unique_id=551660265 instance=ExtResource("28_l33cg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0385842, -0.5423274, 2.1639323)

@@ -9,6 +9,8 @@ public partial class MenuPrincipal : Control
     private VBoxContainer _panelNombres;
     private VBoxContainer _panelDificultad;
     private VBoxContainer _inputContainer;
+    private VBoxContainer _panelLobby;
+    private VBoxContainer _panelOpciones;
 
     // Botones
     private Button _playButton;
@@ -29,9 +31,13 @@ public partial class MenuPrincipal : Control
 
     private Button _startGameBtn;
     private Button _backButtonNames;
-    private VBoxContainer _panelLobby;
     private Button _multijugadorButton;
     private Button _backButtonLobby;
+
+    private HSlider _sliderGeneral;
+    private HSlider _sliderMusica;
+    private HSlider _sliderSFX;
+    private Button _backButtonOpciones;
 
     private Label _labelDificultadActual;
 
@@ -56,6 +62,8 @@ public partial class MenuPrincipal : Control
         _panelDificultad = GetNode<VBoxContainer>("PanelDificultad");
         _panelNombres = GetNode<VBoxContainer>("PanelNombres");
         _inputContainer = GetNode<VBoxContainer>("PanelNombres/InputContainer");
+        _panelLobby = GetNode<VBoxContainer>("PanelLobby");
+        _panelOpciones = GetNode<VBoxContainer>("PanelOpciones");
 
         // Referencias a botones
         _playButton = GetNode<Button>("PanelPrincipal/PlayButton");
@@ -76,10 +84,9 @@ public partial class MenuPrincipal : Control
 
         _startGameBtn = GetNode<Button>("PanelNombres/StartGameButton");
         _backButtonNames = GetNode<Button>("PanelNombres/BackButtonNames");
-        _panelLobby = GetNode<VBoxContainer>("PanelLobby");
         _multijugadorButton = GetNode<Button>("PanelPrincipal/MultijugadorButton");
         _backButtonLobby = GetNode<Button>("PanelLobby/BackButtonLobby");
-
+        _backButtonOpciones = GetNode<Button>("PanelOpciones/BackButtonOpciones");
         // Referencia a labels
         _labelDificultadActual = GetNode<Label>("PanelPrincipal/LabelDificultadActual");
 
@@ -105,6 +112,13 @@ public partial class MenuPrincipal : Control
         _multijugadorButton.Pressed += () => ShowPanel(_panelLobby);
         _backButtonLobby.Pressed += OnBackLobbyPressed;
 
+        _sliderGeneral = GetNode<HSlider>("PanelOpciones/SliderGeneral");
+        _sliderMusica = GetNode<HSlider>("PanelOpciones/SliderMusica");
+        _sliderSFX = GetNode<HSlider>("PanelOpciones/SliderSFX");
+        _sliderGeneral.Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")));
+        _sliderMusica.Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Musica")));
+        _sliderSFX.Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("SFX")));
+        _backButtonOpciones.Pressed += OnBackOpcionesPressed;
         // Restaurar estado según la pantalla guardada
         RestaurarPanelInicial();
     }
@@ -116,11 +130,12 @@ public partial class MenuPrincipal : Control
         _panelNombres.Visible = (panelToShow == _panelNombres);
         _panelDificultad.Visible = (panelToShow == _panelDificultad);
         _panelLobby.Visible = (panelToShow == _panelLobby);
-
+        _panelOpciones.Visible = (panelToShow == _panelOpciones);
         // Guardar panel actual para mantener persistencia si viajamos al tutorial
         if (panelToShow == _contadorJugadores) PanelInicial = "ContadorJugadores";
         else if (panelToShow == _panelNombres) PanelInicial = "Nombres";
         else if (panelToShow == _panelDificultad) PanelInicial = "Dificultad";
+        else if (panelToShow == _panelOpciones) PanelInicial = "Opciones";
         else PanelInicial = "Principal";
     }
 
@@ -136,6 +151,9 @@ public partial class MenuPrincipal : Control
                 break;
             case "Dificultad":
                 ShowPanel(_panelDificultad);
+                break;
+            case "Opciones":
+                ShowPanel(_panelOpciones);
                 break;
             default:
                 ShowPanel(_panelPrincipal);
@@ -155,7 +173,7 @@ public partial class MenuPrincipal : Control
 
     private void OnOptionsButtonPressed()
     {
-        GD.Print("Configuración seleccionada (vacío por ahora)");
+        ShowPanel(_panelOpciones);
     }
 
     private void OnTutorialButtonPressed()
@@ -171,6 +189,11 @@ public partial class MenuPrincipal : Control
     private void OnBackLobbyPressed()
     {
         GetNode<LobbyRed>("PanelLobby").Desconectar();
+        ShowPanel(_panelPrincipal);
+    }
+
+    private void OnBackOpcionesPressed()
+    {
         ShowPanel(_panelPrincipal);
     }
 
@@ -276,4 +299,21 @@ public partial class MenuPrincipal : Control
 
         ShowPanel(_contadorJugadores);
     }
+
+    private void _on_slider_general_value_changed(float value)
+    {
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), Mathf.LinearToDb(value));
+    }
+
+    private void _on_slider_musica_value_changed(float value)
+    {
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Musica"), Mathf.LinearToDb(value));
+    }
+
+    private void _on_slider_sfx_value_changed(float value)
+    {
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX"), Mathf.LinearToDb(value));
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("UI SFX"), Mathf.LinearToDb(value));
+    }
+
 }

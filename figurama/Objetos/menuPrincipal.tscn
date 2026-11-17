@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://cin8dqjltbblr" path="res://Clases/Visual/FuenteChocolate.tres" id="3_kxuav"]
 [ext_resource type="Texture2D" uid="uid://credcq1gwreh5" path="res://Assets/LogoFiguramaAzul2.png" id="4_7jctf"]
 [ext_resource type="Script" uid="uid://tubwtc647d65" path="res://Clases/Visual/LobbyRed.cs" id="6_knkac"]
+[ext_resource type="AudioStream" uid="uid://clmgkfkrtbkyg" path="res://OST/Menu OST.mp3" id="7_j5kpa"]
 
 [node name="MenuPrincipal" type="Control" unique_id=797061947]
 layout_mode = 3
@@ -90,7 +91,6 @@ layout_mode = 2
 text = "Modo de Juego"
 
 [node name="OptionButton" type="Button" parent="PanelPrincipal" unique_id=242750258]
-visible = false
 layout_mode = 2
 text = "Opciones"
 
@@ -311,3 +311,79 @@ text = "Dificil"
 [node name="BackButtonDificultad" type="Button" parent="PanelDificultad" unique_id=1053002511]
 layout_mode = 2
 text = "Volver"
+
+[node name="PanelOpciones" type="VBoxContainer" parent="." unique_id=214738511]
+visible = false
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+theme = ExtResource("3_kxuav")
+alignment = 1
+
+[node name="Eleccion" type="Label" parent="PanelOpciones" unique_id=1647741221]
+modulate = Color(0.8627451, 0.15294118, 0.3764706, 1)
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("3_7jctf")
+theme_override_font_sizes/font_size = 20
+text = "Opciones"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="General" type="Label" parent="PanelOpciones" unique_id=1993615689]
+layout_mode = 2
+text = "General"
+
+[node name="SliderGeneral" type="HSlider" parent="PanelOpciones" unique_id=2079671615]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[node name="Musica" type="Label" parent="PanelOpciones" unique_id=1973160931]
+layout_mode = 2
+text = "Música"
+
+[node name="SliderMusica" type="HSlider" parent="PanelOpciones" unique_id=1187633684]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[node name="SFX" type="Label" parent="PanelOpciones" unique_id=651965780]
+layout_mode = 2
+text = "Efectos de sonido"
+
+[node name="SliderSFX" type="HSlider" parent="PanelOpciones" unique_id=509152742]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[node name="BackButtonOpciones" type="Button" parent="PanelOpciones" unique_id=470527392]
+layout_mode = 2
+text = "Volver"
+
+[node name="Musica" type="Node" parent="." unique_id=1708281334]
+
+[node name="MusicaPrincipal" type="AudioStreamPlayer" parent="Musica" unique_id=1973698054]
+stream = ExtResource("7_j5kpa")
+volume_db = -15.0
+autoplay = true
+bus = &"Musica"
+
+[connection signal="value_changed" from="PanelOpciones/SliderGeneral" to="." method="_on_slider_general_value_changed"]
+[connection signal="value_changed" from="PanelOpciones/SliderMusica" to="." method="_on_slider_musica_value_changed"]
+[connection signal="value_changed" from="PanelOpciones/SliderSFX" to="." method="_on_slider_sfx_value_changed"]

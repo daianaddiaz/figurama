@@ -1,3 +1,6 @@
+res://Objetos/menuPrincipal.tscn
+res://addons/gut/gui/editor_globals.gd
+res://addons/gut/gui/EditorRadioButton.tres
 res://Clases/Visual/Tutorial.cs
 res://Clases/Visual/Tablero.cs
 res://Clases/Visual/LobbyRed.cs
@@ -32,11 +35,9 @@ res://Clases/Visual/StateMachine.cs
 res://Clases/Visual/Ficha.cs
 res://Clases/Visual/TableroMP.cs
 res://Clases/Visual/GestorSala.cs
-res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Clases/Visual/PartidaMPPrueba.cs
 res://Clases/Visual/SplashScreen.cs
-res://Objetos/tablero.tscn
-res://addons/gut/gui/editor_globals.gd
-res://addons/gut/gui/EditorRadioButton.tres
-res://Objetos/MenuPausa.tscn
+res://addons/gdUnit4/src/dotnet/GdUnit4CSharpApi.cs
 res://Objetos/tableroMP.tscn
+res://Objetos/tablero.tscn
+res://default_bus_layout.tres
