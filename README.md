@@ -122,5 +122,5 @@ Para el desarrollo de **Figurama** (basado en la mecánica del juego *Switcher*)
 ## 📄 Documentación Técnica
 
 - [Documento Técnico Figurama Local/HotSeat](https://docs.google.com/document/d/1bJNM056d6-P9cfpTCB3ImmbCYZXrp_qQbvZtp-u7Ojg/edit?tab=t.0)
-- [Documento Técnico Figurama Online Multiplayer](https://docs.google.com/document/d/1bJNM056d6-P9cfpTCB3ImmbCYZXrp_qQbvZtp-u7Ojg/edit?tab=t.0)
+- [Documento Técnico Figurama Online Multiplayer](https://docs.google.com/document/d/1yJmSALQqZLjjRyVTpwl0uw-HkVjt78YE1Sf84rco9dc/edit?usp=sharing)
 - [Backlog del Team - Solicitar Acceso](https://trello.com/b/4fImJX05/figurama-backlog)
