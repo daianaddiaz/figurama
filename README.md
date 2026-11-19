@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="figurama/Assets/LogoFiguramaAzul.png" alt="Descripción de la imagen" width="300" />
+  <img src="figurama/Assets/LogoFiguramaAzul2Largo.png" alt="Descripción de la imagen" width="300" />
 </p>
 
 <h3 align="center">
