@@ -1,6 +1,10 @@
-# Figurama
+<p align="center">
+  <img src="figurama/Assets/LogoFiguramaAzul.png" alt="Descripción de la imagen" width="300" />
+</p>
 
-**Autores:** Kevin Alemanno, Alejandro Decurgez, Daiana Diaz
+<h3 align="center">
+  <b>Autores: Kevin Alemanno, Alejandro Decurgez, Daiana Diaz</b>
+</h3>
 
 ¡Bienvenido a **Figurama**! Un juego de tablero digital donde la astucia, los patrones geométricos y los mitos clásicos se cruzan. Tu objetivo principal es formar en el tablero las figuras geométricas exactas que indican tus **Cartas de Figura** (usando 4 o 5 fichas) mediante el movimiento de fichas en la grilla. ¡Usa tus **Cartas de Movimiento**, aprovecha la habilidad única de tu personaje legendario y completa todas tus figuras antes que tus rivales para consagrarte con la victoria!
 
