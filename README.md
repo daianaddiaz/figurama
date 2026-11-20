@@ -8,6 +8,7 @@
 
 ¡Bienvenido a **Figurama**! Un juego de tablero digital donde la astucia, los patrones geométricos y los mitos clásicos se cruzan. Tu objetivo principal es formar en el tablero las figuras geométricas exactas que indican tus **Cartas de Figura** (usando 4 o 5 fichas) mediante el movimiento de fichas en la grilla. ¡Usa tus **Cartas de Movimiento**, aprovecha la habilidad única de tu personaje legendario y completa todas tus figuras antes que tus rivales para consagrarte con la victoria!
 
+[Landing Page de Figurama](https://daianaddiaz.github.io/figurama-landing-page/)
 ---
 
 ## 🎮 Mecánicas Principales y Reglas de Juego
@@ -106,7 +107,7 @@ Para el desarrollo de **Figurama** (basado en la mecánica del juego *Switcher*)
 
 ---
 
-## 🌐 Adaptación a Red (Resumen)
+## 🌐 Adaptación a Red
 
 | Eje | Detalles Clave |
 | :--- | :--- |
